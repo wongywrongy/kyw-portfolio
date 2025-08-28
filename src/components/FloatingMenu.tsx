@@ -34,8 +34,8 @@ export default function FloatingMenu() {
               <motion.button
                 onClick={() => navigate('/')}
                 className={`p-2 ${theme === 'light' ? 'text-slate-600 hover:text-c3' : 'text-slate-400 hover:text-c3'} transition-colors duration-200`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 aria-label="Go to home page"
               >
                 <Home className="w-5 h-5" />
@@ -45,8 +45,8 @@ export default function FloatingMenu() {
               <motion.button
                 onClick={toggleTheme}
                 className={`p-2 ${theme === 'light' ? 'text-slate-600 hover:text-c3' : 'text-slate-400 hover:text-c3'} transition-colors duration-200`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 aria-label={themeAriaLabel}
               >
                 {theme === 'light' ? (
@@ -60,8 +60,8 @@ export default function FloatingMenu() {
               <motion.button
                 onClick={() => navigate('/menu')}
                 className={`p-2 ${theme === 'light' ? 'text-slate-600 hover:text-c3' : 'text-slate-400 hover:text-c3'} transition-colors duration-200`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 aria-label="Open menu"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,8 +76,8 @@ export default function FloatingMenu() {
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           className={`p-2 ${theme === 'light' ? 'text-slate-600 hover:text-c3' : 'text-slate-400 hover:text-c3'} transition-colors duration-200`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
         >
           <motion.div

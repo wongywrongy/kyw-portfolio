@@ -95,7 +95,7 @@ export default function BlogIndex() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
             {filteredPosts.map((post, index) => (
               <motion.article
@@ -106,7 +106,7 @@ export default function BlogIndex() {
                 } rounded-xl p-6 transition-all duration-300 hover:scale-105 shadow-lg`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
               >
                 {/* Category badge */}
                 <div className="flex items-center justify-between mb-4">

@@ -11,7 +11,7 @@ export default function Home() {
           className="text-5xl md:text-6xl font-bold mb-2 bg-gradient-to-r from-c1 via-c2 to-c3 bg-clip-text text-transparent py-8 drop-shadow-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
           Kyle Wong
         </motion.h1>
@@ -21,7 +21,7 @@ export default function Home() {
           className="text-lg md:text-xl text-fg-1/80 mb-8 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         >
           CS @ SJSU · AI @ SKKU
         </motion.p>
@@ -31,14 +31,14 @@ export default function Home() {
           className="relative inline-block group"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
         >
           {/* Main button */}
           <Link to="/menu">
             <motion.button
               className="px-8 py-4 bg-gradient-to-r from-c1 to-c2 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <span className="flex items-center gap-2">
                 Explore

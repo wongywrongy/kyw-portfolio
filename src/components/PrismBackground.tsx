@@ -29,7 +29,7 @@ export default function PrismBackground() {
     bloom: 1.2,
     suspendWhenOffscreen: false,
     timeScale: 0.4,
-    targetFPS: 30,
+    targetFPS: 24,
   }), [])
 
   const cleanup = useCallback(() => {
@@ -76,12 +76,13 @@ export default function PrismBackground() {
     const INERT = Math.max(0, Math.min(1, inertia || 0.12))
     const frameInterval = 1000 / targetFPS
 
-    const dpr = Math.min(1.2, window.devicePixelRatio || 1)
+    const dpr = Math.min(1.0, window.devicePixelRatio || 1)
     const renderer = new Renderer({
       dpr,
       alpha: transparent,
       antialias: false,
       powerPreference: 'high-performance',
+      premultipliedAlpha: false,
     })
     rendererRef.current = renderer
     
