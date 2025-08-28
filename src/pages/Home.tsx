@@ -23,7 +23,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
         >
-          CS @ SJSU · Applied AI @ SKKU · R&D @ Spartan Racing · Debian Apprentice
+          CS @ SJSU · AI @ SKKU
         </motion.p>
 
         {/* Expandable button container */}
