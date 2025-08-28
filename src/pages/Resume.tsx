@@ -39,7 +39,7 @@ export default function Resume() {
             <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
               <div className="aspect-[8.5/11] w-full">
                 <iframe 
-                  src="/portfolio/src/content/assets/Resume.pdf#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&view=FitH"
+                  src="/kyw-portfolio/assets/Resume.pdf#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&view=FitH"
                   className="w-full h-full border-0"
                   title="Resume PDF Viewer"
                   style={{
