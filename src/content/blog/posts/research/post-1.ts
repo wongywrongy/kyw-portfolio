@@ -1,28 +1,34 @@
 export const post = {
   id: 1,
-  title: "Machine Learning in Autonomous Vehicles",
-  excerpt: "Exploring the latest developments in ML algorithms for self-driving cars and their real-world applications.",
+  title: "Placeholder Research Post",
+  excerpt: "This is a placeholder research post. Replace this content with your actual research.",
   category: "research",
   date: "2024-01-15",
-  readTime: "8 min read",
-  tags: ["AI", "Autonomous Vehicles", "Machine Learning"],
+  readTime: "5 min read",
+  tags: ["Placeholder", "Research", "Example"],
   content: `
-# Machine Learning in Autonomous Vehicles
+# Placeholder Research Post
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+This is a placeholder research post. Replace this content with your actual research content.
 
 ## Introduction
 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+## Methodology
+
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-## Key Findings
+## Results
 
-- Point 1: Lorem ipsum dolor sit amet
-- Point 2: Consectetur adipiscing elit
-- Point 3: Sed do eiusmod tempor incididunt
+- Finding 1: Lorem ipsum dolor sit amet
+- Finding 2: Consectetur adipiscing elit
+- Finding 3: Sed do eiusmod tempor incididunt
 
 ## Conclusion
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+Replace this entire content with your actual research post.
   `
 }

@@ -1,28 +1,34 @@
 export const post = {
   id: 2,
-  title: "The Future of Web Development",
-  excerpt: "A deep dive into modern web technologies and what's coming next in the world of frontend development.",
+  title: "Placeholder Blog Post",
+  excerpt: "This is a placeholder blog post. Replace this content with your actual blog content.",
   category: "blog",
   date: "2024-01-10",
-  readTime: "5 min read",
-  tags: ["Web Development", "Technology", "Frontend"],
+  readTime: "3 min read",
+  tags: ["Placeholder", "Blog", "Example"],
   content: `
-# The Future of Web Development
+# Placeholder Blog Post
+
+This is a placeholder blog post. Replace this content with your actual blog content.
+
+## Introduction
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Current Trends
+## Main Content
 
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-## What's Coming Next
+## Key Points
 
-- Trend 1: Lorem ipsum dolor sit amet
-- Trend 2: Consectetur adipiscing elit
-- Trend 3: Sed do eiusmod tempor incididunt
+- Point 1: Lorem ipsum dolor sit amet
+- Point 2: Consectetur adipiscing elit
+- Point 3: Sed do eiusmod tempor incididunt
 
-## My Predictions
+## Conclusion
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+Replace this entire content with your actual blog post.
   `
 }
