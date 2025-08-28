@@ -13,7 +13,7 @@ import Menu from './pages/Menu'
 
 function App() {
   return (
-    <Router basename="/portfolio">
+    <Router basename="/kyw-portfolio">
       <Helmet>
         <title>Kyle Wong — Portfolio</title>
         <meta name="description" content="CS @ SJSU · Applied AI @ SKKU · R&D @ Spartan Racing · Debian Apprentice" />

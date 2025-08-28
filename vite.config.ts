@@ -17,7 +17,7 @@ export default defineConfig({
       ]
     })
   ],
-  base: '/portfolio/', // Change this to your repo name for GitHub Pages
+  base: '/kyw-portfolio/', // GitHub Pages base path
   build: {
     outDir: 'dist',
   },
