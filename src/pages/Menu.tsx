@@ -6,9 +6,9 @@ import { ChevronLeft } from 'lucide-react'
 
 const menuItems = [
   {
-    label: 'About Me',
+    label: 'About me',
     path: '/about',
-    description: 'Learn more about my background and experience'
+    description: 'Learn more about my background and interests'
   },
   {
     label: 'Resume',
@@ -16,9 +16,9 @@ const menuItems = [
     description: 'View my professional experience and skills'
   },
   {
-    label: 'My Mind',
+    label: 'My mind',
     path: '/blog',
-    description: 'Explore my research and blog posts'
+    description: 'Explore my research, projects, blogs'
   },
   {
     label: 'Contact',
