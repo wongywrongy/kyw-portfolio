@@ -20,7 +20,7 @@ export default function PrismBackground() {
     animationType: "3drotate" as "3drotate" | "hover" | "wobble",
     glow: 2,
     offset: { x: 0, y: 0 },
-    noise: 0.06,
+    noise: 0.03,
     transparent: true,
     scale: 2.0,
     colorFrequency: 1.5,
