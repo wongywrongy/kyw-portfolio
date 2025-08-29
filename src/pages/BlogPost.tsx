@@ -34,13 +34,13 @@ export default function BlogPost() {
         <div className="text-center">
           <h1 className={`text-2xl font-bold ${theme === 'light' ? 'text-slate-800' : 'text-slate-100'} mb-4`}>Post Not Found</h1>
           <p className={`${theme === 'light' ? 'text-slate-600' : 'text-slate-400'} mb-6`}>The post you're looking for doesn't exist.</p>
-          <Link
-            to="/menu"
-            className={`inline-flex items-center gap-2 px-4 py-2 ${theme === 'light' ? 'bg-slate-700 text-white' : 'bg-slate-700 text-slate-100'} rounded-lg hover:bg-slate-600 transition-all duration-200`}
-          >
-            <ArrowLeft size={16} />
-            Back to My Mind
-          </Link>
+                      <Link
+              to="/blog"
+              className={`inline-flex items-center gap-2 px-4 py-2 ${theme === 'light' ? 'bg-slate-700 text-white' : 'bg-slate-700 text-slate-100'} rounded-lg hover:bg-slate-600 transition-all duration-200`}
+            >
+              <ArrowLeft size={16} />
+              Back
+            </Link>
         </div>
       </div>
     )
@@ -59,12 +59,12 @@ export default function BlogPost() {
           >
             {/* Back button and title */}
             <div className="flex items-center gap-4 mb-6">
-              <Link
-                to="/menu"
-                className="p-2 text-slate-400 hover:text-c3 transition-colors duration-200"
-              >
-                <ChevronLeft size={24} />
-              </Link>
+                          <Link
+              to="/blog"
+              className="p-2 text-slate-400 hover:text-c3 transition-colors duration-200"
+            >
+              <ChevronLeft size={24} />
+            </Link>
               <h1 className={`text-4xl md:text-5xl font-bold ${theme === 'light' ? 'text-slate-800' : 'text-slate-100'}`}>
                 {post.title}
               </h1>
@@ -125,11 +125,11 @@ export default function BlogPost() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
             <Link
-              to="/menu"
+              to="/blog"
               className={`inline-flex items-center gap-2 px-6 py-3 ${theme === 'light' ? 'bg-slate-700 text-white' : 'bg-slate-700 text-slate-100'} rounded-lg hover:bg-slate-600 transition-all duration-200`}
             >
               <ArrowLeft size={16} />
-              Back to My Mind
+              Back
             </Link>
           </motion.div>
         </div>
