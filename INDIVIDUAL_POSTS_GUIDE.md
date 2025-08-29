@@ -33,7 +33,7 @@ export const post = {
   category: "research", // Must be "research"
   date: "2024-01-30", // YYYY-MM-DD format
   readTime: "10 min read",
-  tags: ["AI", "Machine Learning", "Research"],
+
   content: `
 # Your Post Title
 
@@ -67,7 +67,7 @@ export const post = {
   category: "blog", // Must be "blog"
   date: "2024-01-25", // YYYY-MM-DD format
   readTime: "5 min read",
-  tags: ["Web Development", "Technology"],
+
   content: `
 # Your Blog Post Title
 
@@ -108,7 +108,7 @@ export const post = {
   category: "projects", // Must be "projects"
   date: "2024-01-30", // YYYY-MM-DD format
   readTime: "6 min read",
-  tags: ["React", "TypeScript", "Project"],
+
   content: `
 # Your Project Title
 
@@ -178,7 +178,7 @@ Each post file exports a single object with these properties:
   category: string,     // "research" or "blog" (required)
   date: string,         // YYYY-MM-DD format (required)
   readTime: string,     // e.g., "5 min read" (required)
-  tags: string[],       // Array of tags (required)
+
   content?: string      // Full post content in markdown (optional)
 }
 ```
@@ -218,7 +218,7 @@ export const post = {
   category: "research",
   date: "2024-01-30",
   readTime: "15 min read",
-  tags: ["Neural Networks", "AI", "Deep Learning"],
+
   content: `
 # Advanced Neural Network Architectures
 

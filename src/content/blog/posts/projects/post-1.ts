@@ -5,7 +5,7 @@ export const post = {
   category: "projects",
   date: "2024-01-05",
   readTime: "4 min read",
-  tags: ["Placeholder", "Projects", "Example"],
+
   content: `
 # Placeholder Project
 

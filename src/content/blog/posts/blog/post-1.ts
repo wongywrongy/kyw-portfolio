@@ -5,7 +5,7 @@ export const post = {
   category: "blog",
   date: "2024-01-10",
   readTime: "5 min read",
-  tags: ["Multilingual", "Images", "Korean", "Chinese", "Example"],
+
   content: `
 # Multilingual Blog Post with Images
 

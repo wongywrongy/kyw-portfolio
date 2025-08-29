@@ -10,7 +10,6 @@ export interface BlogPost {
   category: string
   date: string
   readTime: string
-  tags: string[]
   content?: string
   images?: BlogImage[]
 }

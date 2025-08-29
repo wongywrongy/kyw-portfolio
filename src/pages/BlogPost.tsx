@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link, useParams } from 'react-router-dom'
-import { ChevronLeft, Calendar, Clock, Tag, ArrowLeft } from 'lucide-react'
+import { ChevronLeft, Calendar, Clock, ArrowLeft } from 'lucide-react'
 import { useMemo } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import { allPosts } from '../content/blog'
@@ -88,21 +88,7 @@ export default function BlogPost() {
               </div>
             </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className={`px-3 py-1 text-sm ${theme === 'light' 
-                    ? 'bg-slate-100 rounded-full text-slate-600 border border-slate-200' 
-                    : 'bg-slate-700/50 rounded-full text-slate-300 border border-slate-600/30'
-                  } flex items-center gap-1`}
-                >
-                  <Tag size={12} />
-                  {tag}
-                </span>
-              ))}
-            </div>
+
           </motion.div>
 
           {/* Post content */}

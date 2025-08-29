@@ -136,20 +136,7 @@ export default function BlogIndex() {
                   {post.excerpt}
                 </p>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className={`px-2 py-1 text-xs ${theme === 'light' 
-                        ? 'bg-slate-100 rounded-md text-slate-600 border border-slate-200' 
-                        : 'bg-slate-700/50 rounded-md text-slate-300 border border-slate-600/30'
-                      }`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+
 
                 {/* Date and read more */}
                 <div className="flex items-center justify-between">
