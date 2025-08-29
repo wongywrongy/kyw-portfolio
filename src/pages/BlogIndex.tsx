@@ -113,7 +113,7 @@ export default function BlogIndex() {
                 className={`${theme === 'light' 
                   ? 'bg-white/80 backdrop-blur-sm border border-slate-200/50 hover:bg-white/90 hover:border-slate-300/50' 
                   : 'bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:bg-slate-800/70 hover:border-slate-600/50'
-                } rounded-xl p-6 transition-all duration-300 hover:scale-105 shadow-lg`}
+                } rounded-xl p-6 transition-all duration-300 hover:scale-105 shadow-lg flex flex-col h-full`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
@@ -132,14 +132,14 @@ export default function BlogIndex() {
                 </h3>
 
                 {/* Post excerpt */}
-                <p className={`${theme === 'light' ? 'text-slate-600' : 'text-slate-300'} text-sm mb-4 line-clamp-3 leading-relaxed`}>
+                <p className={`${theme === 'light' ? 'text-slate-600' : 'text-slate-300'} text-sm mb-4 line-clamp-3 leading-relaxed flex-grow`}>
                   {post.excerpt}
                 </p>
 
 
 
                 {/* Date and read more */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mt-auto">
                   <span className={`text-xs ${theme === 'light' ? 'text-slate-500' : 'text-slate-400'}`}>{post.date}</span>
                   <Link
                     to={`/blog/${post.id}`}
