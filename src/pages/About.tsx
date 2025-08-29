@@ -13,7 +13,7 @@ export default function About() {
         <div className="max-w-4xl mx-auto">
           {/* Page title with back button */}
           <motion.div
-            className="flex items-center gap-4 mb-8"
+            className="flex items-center gap-4 mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -28,6 +28,14 @@ export default function About() {
               {aboutContent.title}
             </h1>
           </motion.div>
+
+          {/* Title separator line */}
+          <motion.div
+            className={`w-full h-px mb-8 ${theme === 'light' ? 'bg-slate-300' : 'bg-slate-600'}`}
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          />
 
           {/* Content */}
           <motion.div

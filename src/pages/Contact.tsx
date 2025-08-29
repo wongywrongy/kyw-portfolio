@@ -12,7 +12,7 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto">
           {/* Page title with back button */}
           <motion.div
-            className="flex items-center gap-4 mb-8"
+            className="flex items-center gap-4 mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -27,6 +27,14 @@ export default function Contact() {
               Contact
             </h1>
           </motion.div>
+
+          {/* Title separator line */}
+          <motion.div
+            className={`w-full h-px mb-8 ${theme === 'light' ? 'bg-slate-300' : 'bg-slate-600'}`}
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          />
 
           {/* Main content layout */}
           <motion.div
@@ -43,7 +51,7 @@ export default function Contact() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <div className={`text-xl ${theme === 'light' ? 'text-slate-600' : 'text-slate-300'} leading-relaxed`}>
-                Please feel free to contact me with the LinkedIn contact, GitHub contact, or via email.
+                Please feel free to contact me through the LinkedIn contact, GitHub contact, or via email.
               </div>
             </motion.div>
 
