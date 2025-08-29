@@ -51,7 +51,7 @@ export default function Contact() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <div className={`text-xl ${theme === 'light' ? 'text-slate-600' : 'text-slate-300'} leading-relaxed`}>
-                Please feel free to contact me through the LinkedIn contact, GitHub contact, or via email.
+                Please feel free to contact me through LinkedIn, GitHub, or email!
               </div>
             </motion.div>
 
@@ -72,7 +72,7 @@ export default function Contact() {
             >
               {/* LinkedIn */}
               <motion.a
-                href="https://linkedin.com/in/kyle-wong"
+                href="https://www.linkedin.com/in/ktwong665/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-300 hover:scale-105 ${
@@ -92,7 +92,7 @@ export default function Contact() {
 
               {/* GitHub */}
               <motion.a
-                href="https://github.com/kylewong"
+                href="https://github.com/wongywrongy"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-300 hover:scale-105 ${

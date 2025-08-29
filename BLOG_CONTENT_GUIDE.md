@@ -77,7 +77,8 @@ Categories are defined in `src/content/blog/index.ts`:
 export const categories: BlogCategory[] = [
   { id: 'all', label: 'All Posts', icon: 'FileText' },
   { id: 'research', label: 'Research', icon: 'BookOpen' },
-  { id: 'blog', label: 'Blog', icon: 'FileText' }
+  { id: 'blog', label: 'Blog', icon: 'FileText' },
+  { id: 'projects', label: 'Projects', icon: 'Tag' }
 ]
 ```
 

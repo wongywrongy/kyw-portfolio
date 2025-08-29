@@ -37,6 +37,8 @@ export default function BlogIndex() {
         return 'bg-blue-600 text-white'
       case 'blog':
         return 'bg-slate-600 text-white'
+      case 'projects':
+        return 'bg-emerald-600 text-white'
       default:
         return 'bg-slate-500 text-white'
     }

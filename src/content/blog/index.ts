@@ -1,6 +1,7 @@
 // Import individual post files
 import { post as researchPost1 } from './posts/research/post-1'
 import { post as blogPost1 } from './posts/blog/post-1'
+import { post as projectPost1 } from './posts/projects/post-1'
 
 export interface BlogPost {
   id: number
@@ -22,14 +23,16 @@ export interface BlogCategory {
 // Combine all posts from individual files
 export const allPosts: BlogPost[] = [
   researchPost1,
-  blogPost1
+  blogPost1,
+  projectPost1
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
 // Categories configuration
 export const categories: BlogCategory[] = [
   { id: 'all', label: 'All Posts', icon: 'FileText' },
   { id: 'research', label: 'Research', icon: 'BookOpen' },
-  { id: 'blog', label: 'Blog', icon: 'FileText' }
+  { id: 'blog', label: 'Blog', icon: 'FileText' },
+  { id: 'projects', label: 'Projects', icon: 'Tag' }
 ]
 
 // Main blog content object

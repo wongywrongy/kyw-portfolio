@@ -13,7 +13,9 @@ src/content/blog/
     ├── research/
     │   └── post-1.ts          # Individual research post
     └── blog/
-        └── post-1.ts          # Individual blog post
+    │   └── post-1.ts          # Individual blog post
+    └── projects/
+        └── post-1.ts          # Individual project post
 ```
 
 ## ✏️ Adding New Posts
@@ -82,6 +84,44 @@ Your main content here.
 ## Conclusion
 
 Wrap up your thoughts.
+  `
+}
+```
+
+**For Project Posts:**
+Create a new file in `src/content/blog/posts/projects/` (e.g., `post-2.ts`):
+
+```typescript
+export const post = {
+  id: 5, // Use next available ID
+  title: "Your New Project Title",
+  excerpt: "Brief description of your project...",
+  category: "projects", // Must be "projects"
+  date: "2024-01-30", // YYYY-MM-DD format
+  readTime: "6 min read",
+  tags: ["React", "TypeScript", "Project"],
+  content: `
+# Your Project Title
+
+Your project content goes here.
+
+## Project Overview
+
+Lorem ipsum dolor sit amet.
+
+## Technologies Used
+
+- Technology 1: Description
+- Technology 2: Description
+
+## Key Features
+
+- Feature 1: Description
+- Feature 2: Description
+
+## Results
+
+Your project results and outcomes.
   `
 }
 ```
