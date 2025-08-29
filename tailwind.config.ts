@@ -9,8 +9,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Noto Sans KR', 'Noto Sans SC', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
+        korean: ['Noto Sans KR', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        chinese: ['Noto Sans SC', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'base': ['15px', { lineHeight: '1.6' }],

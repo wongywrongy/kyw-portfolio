@@ -4,6 +4,7 @@ import { ChevronLeft, Calendar, Clock, Tag, ArrowLeft } from 'lucide-react'
 import { useMemo } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import { allPosts } from '../content/blog'
+import type { BlogImage } from '../content/blog'
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>()
@@ -109,13 +110,43 @@ export default function BlogPost() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className={`prose prose-lg max-w-none ${
+            className={`prose prose-lg max-w-none font-sans ${
               theme === 'light' 
                 ? 'prose-headings:text-slate-800 prose-p:text-slate-600 prose-strong:text-slate-800 prose-ul:text-slate-600 prose-li:text-slate-600 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:text-blue-500' 
                 : 'prose-headings:text-slate-100 prose-p:text-slate-300 prose-strong:text-slate-100 prose-ul:text-slate-300 prose-li:text-slate-300 prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300'
             }`}
             dangerouslySetInnerHTML={{ __html: post.content || '' }}
           />
+
+          {/* Images */}
+          {post.images && post.images.length > 0 && (
+            <motion.div
+              className="mt-8 space-y-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            >
+              {post.images.map((image: BlogImage, index: number) => (
+                <div key={index} className="text-center">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width || 800}
+                    height={image.height || 400}
+                    className={`mx-auto rounded-lg shadow-lg ${
+                      theme === 'light' ? 'border border-slate-200' : 'border border-slate-700'
+                    }`}
+                    loading="lazy"
+                  />
+                  {image.caption && (
+                    <p className={`mt-2 text-sm italic ${theme === 'light' ? 'text-slate-500' : 'text-slate-400'}`}>
+                      {image.caption}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </motion.div>
+          )}
 
           {/* Back to blog button */}
           <motion.div

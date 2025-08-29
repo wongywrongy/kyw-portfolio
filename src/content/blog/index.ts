@@ -12,6 +12,15 @@ export interface BlogPost {
   readTime: string
   tags: string[]
   content?: string
+  images?: BlogImage[]
+}
+
+export interface BlogImage {
+  src: string
+  alt: string
+  caption?: string
+  width?: number
+  height?: number
 }
 
 export interface BlogCategory {

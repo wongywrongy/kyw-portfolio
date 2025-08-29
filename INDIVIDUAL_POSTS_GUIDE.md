@@ -84,7 +84,16 @@ Your main content here.
 ## Conclusion
 
 Wrap up your thoughts.
-  `
+  `,
+  images: [
+    {
+      src: "https://example.com/your-image.jpg",
+      alt: "Description of the image",
+      caption: "Optional caption for the image",
+      width: 800,
+      height: 400
+    }
+  ]
 }
 ```
 
@@ -122,7 +131,16 @@ Lorem ipsum dolor sit amet.
 ## Results
 
 Your project results and outcomes.
-  `
+  `,
+  images: [
+    {
+      src: "https://example.com/project-screenshot.jpg",
+      alt: "Project screenshot",
+      caption: "Screenshot of the project in action",
+      width: 800,
+      height: 400
+    }
+  ]
 }
 ```
 
@@ -307,3 +325,85 @@ export const allPosts: BlogPost[] = [
 5. All filtering and sorting works automatically
 
 This individual file system gives you maximum flexibility and control over your blog content!
+
+## 🌍 Multilingual Support
+
+The blog system supports multiple languages including Korean (한국어) and Chinese (中文). You can:
+
+- **Mix languages freely** in your content
+- **Use Korean characters**: 안녕하세요, 블로그 포스트
+- **Use Chinese characters**: 你好，博客文章
+- **Combine languages**: English, 한국어, 中文 in the same post
+
+The system uses Noto Sans fonts for optimal multilingual display.
+
+### Example Multilingual Content:
+
+```typescript
+content: `
+# Multilingual Blog Post
+
+안녕하세요! 你好! Hello! This post shows multilingual support.
+
+## Korean Section (한국어 섹션)
+
+한국어로 작성된 블로그 포스트입니다. 이 시스템은 한글을 완벽하게 지원합니다.
+
+## Chinese Section (中文部分)
+
+这是一个支持中文的博客系统。你可以用中文写博客文章。
+
+## Mixed Content
+
+You can mix languages: English, 한국어, 中文, and more!
+`
+```
+
+## 🖼️ Image Support
+
+You can add images to your posts using the `images` array:
+
+```typescript
+images: [
+  {
+    src: "https://example.com/image.jpg", // Image URL
+    alt: "Description for accessibility", // Alt text
+    caption: "Optional caption below image", // Optional caption
+    width: 800, // Optional width
+    height: 400 // Optional height
+  }
+]
+```
+
+### Image Guidelines:
+- **High Quality**: Use images with 800px+ width for best display
+- **Accessibility**: Include descriptive alt text
+- **Context**: Add captions to provide context
+- **Performance**: Images support lazy loading
+- **Display**: Images appear below the main content
+- **Styling**: Automatically styled with rounded corners and shadows
+
+### Example with Images:
+
+```typescript
+export const post = {
+  // ... other properties ...
+  content: `Your markdown content here...`,
+  images: [
+    {
+      src: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop",
+      alt: "Beautiful landscape",
+      caption: "A stunning landscape from Unsplash",
+      width: 800,
+      height: 400
+    },
+    {
+      src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop",
+      alt: "Code on screen",
+      caption: "Programming and development",
+      width: 800,
+      height: 400
+    }
+  ]
+}
+```
