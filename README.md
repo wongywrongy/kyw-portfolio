@@ -1,239 +1,211 @@
 # Kyle Wong — Portfolio
 
-A modern, minimal portfolio built with React, TypeScript, and MDX. Features a beautiful gradient + grain aesthetic with lightweight math-inspired background animations.
-
-## Features
-
-- **Modern Stack**: React 18 + TypeScript + Vite
-- **Beautiful Design**: Gradient backgrounds with grain overlay and CSS animations
-- **Content Management**: MDX for easy content editing
-- **Responsive**: Mobile-first design with Tailwind CSS
-- **Accessible**: Built with Radix UI components
-- **Fast**: Optimized for performance with Lighthouse scores ≥95
-- **Deployable**: Ready for GitHub Pages deployment
+Personal portfolio built with React, TypeScript, and Vite. Features a minimal design with gradient backgrounds and WebGL animations.
 
 ## Tech Stack
 
-- **Framework**: React 18 + TypeScript
+- **Frontend**: React 18 + TypeScript
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS
 - **Routing**: React Router
-- **UI Components**: Radix UI + Lucide React icons
-- **Content**: MDX with custom components
-- **SEO**: React Helmet Async
+- **Icons**: Lucide React
+- **Background**: OGL (WebGL library)
+- **Content**: TypeScript files for structured content
 - **Deployment**: GitHub Pages
 
-## Getting Started
+## Setup
 
-### Prerequisites
-
-- Node.js 18+ (recommended: 20+)
+### Requirements
+- Node.js 18+
 - npm or yarn
 
-### Installation
-
-1. Clone the repository:
+### Install & Run
 ```bash
-git clone <your-repo-url>
+git clone <repo-url>
 cd portfolio
-```
-
-2. Install dependencies:
-```bash
 npm install
-```
-
-3. Start the development server:
-```bash
 npm run dev
 ```
 
-4. Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open http://localhost:5173
 
 ## Project Structure
 
 ```
 portfolio/
-├── public/                 # Static assets
-│   ├── favicon.svg        # Site favicon
-│   └── Resume.pdf         # Your resume (replace with actual PDF)
-├── content/               # MDX content
-│   ├── about.mdx          # About page content
-│   ├── blog/              # Blog posts
-│   └── research/          # Research posts
+├── public/
+│   └── assets/
+│       └── Resume.pdf
 ├── src/
-│   ├── components/        # React components
-│   │   ├── Header.tsx     # Navigation header
-│   │   ├── GrainOverlay.tsx # Grain texture effect
-│   │   ├── MDXProvider.tsx # MDX component provider
-│   │   ├── ImageFull.tsx  # Full-width image component
-│   │   ├── ImageGrid.tsx  # Image grid component
-│   │   ├── Figure.tsx     # Figure with caption
-│   │   └── Callout.tsx    # Info/warning/tip callouts
-│   ├── pages/             # Page components
-│   │   ├── Home.tsx       # Landing page
-│   │   ├── About.tsx      # About page
-│   │   ├── BlogIndex.tsx  # Blog listing
-│   │   ├── BlogPost.tsx   # Individual blog post
-│   │   ├── ResearchIndex.tsx # Research listing
-│   │   ├── ResearchPost.tsx # Individual research post
-│   │   ├── Resume.tsx     # Resume page
-│   │   └── Contact.tsx    # Contact page
-│   ├── content.ts         # MDX content registry
-│   ├── App.tsx            # Main app component
-│   ├── main.tsx           # App entry point
-│   └── index.css          # Global styles
-├── tailwind.config.ts     # Tailwind configuration
-├── vite.config.ts         # Vite configuration
-└── package.json           # Dependencies and scripts
+│   ├── components/
+│   │   ├── PrismBackground.tsx    # WebGL background
+│   │   ├── FloatingMenu.tsx       # Navigation menu
+│   │   └── GrainOverlay.tsx       # Grain texture
+│   ├── pages/
+│   │   ├── Home.tsx               # Landing page
+│   │   ├── About.tsx              # About page
+│   │   ├── BlogIndex.tsx          # Blog listing
+│   │   ├── BlogPost.tsx           # Individual post
+│   │   ├── Resume.tsx             # Resume page
+│   │   ├── Contact.tsx            # Contact page
+│   │   └── Menu.tsx               # Menu page
+│   ├── content/
+│   │   ├── about.ts               # About content
+│   │   └── blog/
+│   │       ├── index.ts           # Blog content registry
+│   │       └── posts/
+│   │           ├── research/      # Research posts
+│   │           ├── blog/          # Blog posts
+│   │           └── projects/      # Project posts
+│   ├── contexts/
+│   │   └── ThemeContext.tsx       # Light/dark theme
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── tailwind.config.ts
+├── vite.config.ts
+└── package.json
 ```
 
 ## Content Management
 
-### Adding Blog Posts
+### Blog Posts
 
-1. Create a new `.mdx` file in `content/blog/`
-2. Add frontmatter with metadata:
+Each post is a TypeScript file in `src/content/blog/posts/[category]/`:
 
-```mdx
----
-title: "Your Post Title"
-date: 2024-01-15
-summary: "Brief description of the post"
-tags: ["Tag1", "Tag2"]
----
+```typescript
+export const post = {
+  id: 1,
+  title: "Post Title",
+  excerpt: "Brief description",
+  category: "research", // or "blog", "projects"
+  date: "2024-01-15",
+  readTime: "5 min read",
+  content: `
+# Your Content
 
-# Your Post Content
-
-Your content here...
+Markdown content here.
+  `,
+  images: [
+    {
+      src: "https://example.com/image.jpg",
+      alt: "Description",
+      caption: "Optional caption"
+    }
+  ]
+}
 ```
 
-3. Use custom MDX components:
+### Adding New Posts
 
-```mdx
-<Callout variant="info">
-  This is an info callout.
-</Callout>
+1. Create file in appropriate category folder
+2. Import in `src/content/blog/index.ts`
+3. Add to `allPosts` array
 
-<ImageGrid cols={2} gap="md">
-  <img src="/image1.jpg" alt="Description" />
-  <img src="/image2.jpg" alt="Description" />
-</ImageGrid>
+### About Page
 
-<ImageFull 
-  src="/hero-image.jpg" 
-  alt="Hero image" 
-  caption="Image caption"
-  credit="Photo by Author"
-/>
+Edit `src/content/about.ts`:
+
+```typescript
+export const aboutContent = {
+  title: "About Me",
+  sections: [
+    {
+      title: "Section Title",
+      content: "Section content..."
+    }
+  ]
+}
 ```
-
-### Adding Research Posts
-
-Follow the same process as blog posts, but place files in `content/research/`.
-
-### Updating About Page
-
-Edit `content/about.mdx` to update the about page content.
 
 ## Customization
 
-### Colors and Design Tokens
+### Colors
 
 Edit CSS variables in `src/index.css`:
 
 ```css
 :root {
-  --bg-1: 220 70% 8%;    /* Background color */
-  --fg-1: 210 20% 98%;   /* Text color */
-  --c1: 220 90% 56%;     /* Primary blue */
-  --c2: 260 85% 62%;     /* Secondary violet */
-  --c3: 190 85% 52%;     /* Accent cyan */
-  --grain-opacity: 0.14; /* Grain intensity */
+  --bg-1: 220 70% 8%;    /* Background */
+  --fg-1: 210 20% 98%;   /* Text */
+  --c1: 220 90% 56%;     /* Primary */
+  --c2: 260 85% 62%;     /* Secondary */
+  --c3: 190 85% 52%;     /* Accent */
 }
 ```
 
-### Background Animations
+### Background Animation
 
-Choose from three animation styles in `src/index.css`:
-- `.bg-animated` - Lissajous gradient animation
-- `.conic-orbit` - Rotating conic gradient
-- `.layer` classes - Parallax drift layers
+Configure in `src/components/PrismBackground.tsx`:
 
-### Personal Information
+```typescript
+const config = {
+  glow: 1.518,           // Background glow
+  noise: 0.03,           // Noise level
+  targetFPS: 24,         // Performance
+  // ... other settings
+}
+```
 
-Update personal information in:
-- `src/App.tsx` - Site title and footer links
-- `src/pages/Home.tsx` - Name and tagline
-- `src/pages/Contact.tsx` - Contact information
+### Personal Info
+
+Update in:
+- `src/App.tsx` - Site title, footer links
+- `src/pages/Home.tsx` - Name, subtitle
+- `src/pages/Contact.tsx` - Contact details
 
 ## Deployment
 
 ### GitHub Pages
 
-1. Update the `base` in `vite.config.ts` to match your repository name:
+1. Update `base` in `vite.config.ts`:
 ```typescript
 base: '/your-repo-name/',
 ```
 
-2. Deploy to GitHub Pages:
+2. Deploy:
 ```bash
 npm run deploy
 ```
 
-3. Configure GitHub Pages in your repository settings to use the `gh-pages` branch.
+3. Set GitHub Pages to use `gh-pages` branch
 
 ### Other Platforms
 
-For other platforms (Netlify, Vercel, etc.), build the project:
+Build for production:
 ```bash
 npm run build
 ```
 
-The built files will be in the `dist/` directory.
+Files output to `dist/`
 
 ## Development
 
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+### Scripts
+- `npm run dev` - Development server
+- `npm run build` - Production build
+- `npm run preview` - Preview build
 - `npm run deploy` - Deploy to GitHub Pages
 
-### Adding New Features
+### Adding Features
 
-1. **New Pages**: Add route in `src/App.tsx` and create page component
-2. **New MDX Components**: Add to `src/components/MDXProvider.tsx`
-3. **Styling**: Use Tailwind classes or add custom CSS in `src/index.css`
+- **New Pages**: Add route in `App.tsx`, create page component
+- **New Content**: Add to appropriate content folder
+- **Styling**: Use Tailwind classes or add to `index.css`
 
 ## Performance
 
-The portfolio is optimized for performance:
-- CSS-only animations (no JavaScript overhead)
-- Optimized images and assets
+- WebGL background optimized for 24 FPS
+- Lazy loading for images
 - Minimal bundle size with Vite
-- Lazy loading where appropriate
-- Print-friendly styles
+- CSS-only animations where possible
 
 ## Browser Support
 
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - Mobile browsers
-- Progressive enhancement for older browsers
+- Progressive enhancement
 
 ## License
 
-MIT License - feel free to use this template for your own portfolio!
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## Support
-
-For issues or questions, please open an issue on GitHub.
+MIT License
