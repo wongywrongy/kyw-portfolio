@@ -20,7 +20,7 @@ export default function PrismBackground() {
     animationType: "3drotate" as "3drotate" | "hover" | "wobble",
     glow: 2,
     offset: { x: 0, y: 0 },
-    noise: 0.05,
+    noise: 0.06,
     transparent: true,
     scale: 2.0,
     colorFrequency: 1.5,
@@ -28,8 +28,8 @@ export default function PrismBackground() {
     inertia: 0.15,
     bloom: 1.4,
     suspendWhenOffscreen: false,
-    timeScale: 0.3,
-    targetFPS: 24,
+    timeScale: 0.2,
+    targetFPS: 20,
   }), [])
 
   const cleanup = useCallback(() => {
