@@ -1,34 +1,35 @@
 export const post = {
   id: 1,
-  title: "Placeholder Research Post",
-  excerpt: "This is a placeholder research post. Replace this content with your actual research.",
+  title: "Lorem Ipsum Research Post",
+  excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   category: "research",
   date: "2024-01-15",
   readTime: "5 min read",
-
   content: `
-# Placeholder Research Post
-
-This is a placeholder research post. Replace this content with your actual research content.
-
-## Introduction
+# Lorem Ipsum Research Post
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
+## Introduction
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
 ## Methodology
 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ## Results
 
-- Finding 1: Lorem ipsum dolor sit amet
-- Finding 2: Consectetur adipiscing elit
-- Finding 3: Sed do eiusmod tempor incididunt
+- Finding 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Finding 2: Sed do eiusmod tempor incididunt ut labore et dolore
+- Finding 3: Ut enim ad minim veniam, quis nostrud exercitation
+
+## Discussion
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ## Conclusion
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-Replace this entire content with your actual research post.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   `
 }
