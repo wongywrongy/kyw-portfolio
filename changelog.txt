@@ -1,0 +1,158 @@
+# Portfolio Development Changelog
+
+## Latest Changes
+
+### 2024-12-19 - Blog Content Reorganization
+- **Organized blog content**: Split blog posts into separate files by category
+- **New structure**: 
+  - `src/content/blog/index.ts` - Main index file that combines all posts
+  - `src/content/blog/research.ts` - Research posts only
+  - `src/content/blog/blog.ts` - General blog posts only
+- **Easy content management**: Each category has its own file for simple editing
+- **Automatic combination**: Posts are automatically combined and sorted by date
+- **Helper functions**: Added `getPostsByCategory()` and `getPostById()` for easy filtering
+- **Comprehensive guide**: Created `BLOG_CONTENT_GUIDE.md` with detailed instructions
+- **Maintained functionality**: All existing features preserved with better organization
+
+### 2024-12-19 - Content Organization Improvement
+- **Moved Resume.pdf**: Relocated from `public/pdf/` to `src/content/assets/` for better organization
+- **Updated references**: Modified Resume.tsx to point to new PDF location
+- **Improved structure**: All content now organized under `src/content/` directory
+- **Maintained functionality**: PDF display and download still work correctly
+- **Better organization**: Content assets now grouped with other content files
+
+### 2024-12-19 - Project Cleanup and Optimization
+- **Removed unused components**: Deleted DarkVeilBackground, GradientBlindsBackground, TopologyBackground, and Header components
+- **Removed unused pages**: Deleted ResearchIndex and ResearchPost pages (functionality consolidated into BlogIndex)
+- **Removed unused files**: Deleted content.ts, react.svg, vite.svg, favicon.svg, App.css, and various README files
+- **Cleaned up dependencies**: Removed duplicate package.json and package-lock.json from root directory
+- **Updated HTML**: Fixed favicon reference and updated page title to "Kyle Wong - Portfolio"
+- **Maintained functionality**: All core features preserved - only unused files removed
+- **Improved performance**: Reduced bundle size and simplified project structure
+
+### 2024-12-19 - Content Management System Implementation
+- **Easy content modification**: Created separate content files for About Me and My Mind pages
+- **Content files created**: 
+  - `src/content/about.ts` - About Me page content
+  - `src/content/blog.ts` - My Mind (blog) page content
+- **Content guide**: Added `CONTENT_GUIDE.md` with detailed instructions for content modification
+- **Dynamic content rendering**: Pages now load content from external files
+- **No code changes needed**: Content can be modified without touching React components
+- **Hot reload support**: Changes appear immediately without server restart
+
+### Previous Changes
+- **Contact page horizontal line**: Added a clean horizontal line below the text content
+- **Visual separation**: Creates clear distinction between text and contact buttons
+- **Animated entrance**: Line appears with a smooth scale animation from left to right
+- **Theme-aware styling**: Line color adapts to light/dark theme (slate-300/slate-600)
+- **Consistent width**: Line matches the width of the text content for visual harmony
+
+## Technical Notes
+- Prism background uses WebGL shaders for optimal performance
+- Theme transitions now use uniform updates instead of recreating the prism
+- All animations are optimized for 30 FPS target frame rate
+- Responsive design maintained across all screen sizes
+- Content management system uses TypeScript interfaces for type safety
+- Project structure simplified for better maintainability
+- All content assets organized under `src/content/assets/` directory
+- Blog content organized by category for easy management and editing
+
+## Initial Setup (2024-01-XX)
+- Created React + Vite + TypeScript project structure
+- Configured Tailwind CSS with custom design tokens
+- Set up MDX support for content management
+- Implemented React Router for SPA navigation
+- Added Radix UI components for accessible UI elements
+- Integrated Framer Motion for animations
+- Set up GitHub Pages deployment configuration
+
+## Core Components Development
+- **Header Component**: Navigation with dropdown menu, theme toggle, and home button
+- **MDX Provider**: Custom components for rich content rendering
+- **Image Components**: Full-width and grid image layouts
+- **Figure Component**: Captioned images with styling
+- **Callout Component**: Highlighted content boxes
+- **Grain Overlay**: Subtle texture effect for visual depth
+
+## Page Components
+- **Home Page**: Landing page with hero section and call-to-action
+- **About Page**: Personal information and background
+- **Blog Index**: List of blog posts with metadata
+- **Blog Post**: Individual blog post rendering with MDX
+- **Research Index**: List of research projects
+- **Research Post**: Individual research project pages
+- **Resume Page**: Professional experience and skills
+- **Contact Page**: Contact information and form
+
+## Content Management
+- **MDX Integration**: Full markdown support with custom components
+- **Content Registry**: Centralized content management system
+- **Sample Content**: Example blog posts and research projects
+- **Image Assets**: Optimized image handling and display
+
+## Styling and Design
+- **Design System**: Comprehensive color palette and typography
+- **Responsive Design**: Mobile-first approach with breakpoints
+- **Dark/Light Mode**: Theme switching with system preference detection
+- **Animations**: Smooth transitions and micro-interactions
+- **Glass Morphism**: Modern UI effects with backdrop blur
+
+## Background Effects Evolution
+- **Dot Wave Background**: CSS-based animated dot patterns
+- **Topology Background**: SVG-based network animations
+- **Gradient Blinds Background**: WebGL-based angled gradient effects
+- **Dark Veil Background**: WebGL noise-based veil effect
+- **Prism Background**: Official WebGL prism effect with 3D rotation
+
+## Performance Optimizations (Latest)
+- **PrismBackground Component**:
+  - Reduced frame rate to 30 FPS for better performance
+  - Limited device pixel ratio to 1.5x
+  - Reduced ray marching steps from 100 to 60
+  - Changed shader precision from highp to mediump
+  - Added offscreen suspension to pause rendering when not visible
+  - Implemented proper WebGL resource cleanup
+  - Added frame rate limiting with throttling
+  - Optimized animation loop with delta time checking
+
+- **Header Component**:
+  - Memoized menu items to prevent re-creation
+  - Extracted reusable components (ThemeIcon, MenuIcon)
+  - Throttled mouse movement tracking to 50ms intervals
+  - Memoized button styles and menu item rendering
+  - Added passive event listeners for better performance
+  - Optimized ripple effect creation with timeouts
+
+- **CSS Optimizations**:
+  - Added `will-change` properties for GPU acceleration
+  - Implemented `contain` properties for layout isolation
+  - Removed unused topology animations and keyframes
+  - Simplified background animations
+  - Added reduced motion support for accessibility
+  - Optimized transitions and transforms
+  - Removed complex gradient layers and conic orbits
+
+## Technical Achievements
+- **WebGL Integration**: Advanced shader programming with OGL library
+- **Performance Monitoring**: Frame rate optimization and resource management
+- **Accessibility**: ARIA labels, keyboard navigation, reduced motion support
+- **SEO**: Meta tags, structured data, and semantic HTML
+- **Build Optimization**: Tree shaking, code splitting, and asset optimization
+
+## Deployment and Infrastructure
+- **GitHub Pages**: Automated deployment with GitHub Actions
+- **SPA Routing**: Client-side routing with 404 fallback
+- **Asset Optimization**: Compressed images and minified code
+- **CDN Integration**: Fast content delivery worldwide
+
+## Next Steps
+- [ ] Add more content (blog posts, research projects)
+- [ ] Implement contact form functionality
+- [ ] Add analytics and performance monitoring
+- [ ] Optimize images and assets further
+- [ ] Add more interactive elements
+- [ ] Implement search functionality
+- [ ] Add RSS feed for blog
+- [ ] Implement comment system
+- [ ] Add social media integration
+- [ ] Create admin panel for content management

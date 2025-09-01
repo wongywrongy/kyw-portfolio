@@ -1,0 +1,266 @@
+# CURSOR: Generate a React Portfolio (GitHub Pages Ready)
+
+## Goal
+
+Create a **React-only** portfolio that is **centered, minimal, and fast**, with a dropdown menu and a **cool gradient + strong grain** aesthetic, plus **lightweight, math-inspired background animations**. Content must be easily editable via **MDX**.
+
+---
+
+## Constraints
+
+* Framework: **Vite + React 18 + TypeScript** (no Next.js)
+* Routing: **React Router** (SPA)
+* Styling: **Tailwind CSS** (+ custom CSS variables)
+* UI/Icons: **Radix UI** (Dropdown Menu) + **lucide-react**
+* Markdown/MDX: `@mdx-js/react` + Vite MDX plugin (`@mdx-js/rollup`) + `remark-gfm`, `rehype-slug`, `rehype-autolink-headings`
+* Animations: **CSS-only** for backgrounds; **Framer Motion** only for small component transitions (optional)
+* Deploy: **GitHub Pages** (configure `base` + SPA 404)
+
+---
+
+## Information Architecture
+
+* **Header:** single minimalist icon button opens **Dropdown Menu** → About, Research, Resume, Blog, Contact
+* **Main:** centered column (`max-w-[900px]`) with generous whitespace
+* **Footer:** copyright, socials (GitHub, LinkedIn, Email), RSS (optional)
+
+### Routes
+
+* `/` — Landing (name + tagline)
+* `/about` — MDX page
+* `/research` — MDX **index** + **post** pages (blog-style)
+* `/blog` — MDX **index** + **post** pages
+* `/resume` — **inline PDF embed** with Download button
+* `/contact` — Contact info + simple mailto/Formspree form
+
+---
+
+## Personalization (Kyle)
+
+* **Site title:** Kyle Wong — Portfolio
+* **Tagline:** CS @ SJSU · Applied AI @ SKKU · R\&D @ Spartan Racing · Debian Apprentice
+* **GitHub:** [https://github.com/wongywrongy](https://github.com/wongywrongy)
+* **LinkedIn:** [https://www.linkedin.com/in/ktwong665/](https://www.linkedin.com/in/ktwong665/)
+* **Email:** [kyle.t.wong@sjsu.edu](mailto:kyle.t.wong@sjsu.edu)
+
+---
+
+## Project Structure
+
+```
+/ (repo)
+  /public
+    favicon.svg
+    Resume.pdf
+    noise.svg (optional if not data URI)
+  /content
+    about.mdx
+    /blog/*.mdx
+    /research/*.mdx
+  /src
+    /components
+      Header.tsx
+      DropdownNav.tsx
+      MDXProvider.tsx
+      ImageFull.tsx
+      ImageGrid.tsx
+      Figure.tsx
+      Callout.tsx
+      GrainOverlay.tsx
+    /pages
+      Home.tsx
+      About.tsx
+      BlogIndex.tsx
+      BlogPost.tsx
+      ResearchIndex.tsx
+      ResearchPost.tsx
+      Resume.tsx
+      Contact.tsx
+    content.ts (import.meta.glob registries)
+    main.tsx
+    App.tsx (Router)
+  index.html
+  tailwind.config.ts
+  vite.config.ts (MDX plugin + base for GH Pages)
+```
+
+---
+
+## MDX Setup & Content Registry
+
+* Install and configure Vite MDX plugin; support frontmatter.
+* Use `import.meta.glob('/content/blog/*.mdx', { eager: true })` and same for research to build **indexes** sorted by date.
+* Global MDX provider maps components: `ImageFull`, `ImageGrid`, `Figure`, `Callout`.
+
+### MDX Components (implement)
+
+* `<ImageFull src alt caption credit />` — edge-to-edge image with caption/credit
+* `<ImageGrid cols=2|3|4 gap="md">` — responsive grid for multiple images
+* `<Figure align="left|center|right">` — image + caption, optional max-w
+* `<Callout variant="info|warn|tip">` — subtle card with icon and semantic colors
+
+---
+
+## Resume (Inline PDF)
+
+* Place PDF as `/public/Resume.pdf`.
+* Render with:
+
+```tsx
+<object data="/Resume.pdf" type="application/pdf" className="h-[80vh] w-full rounded-xl">
+  <iframe src="/Resume.pdf" className="h-[80vh] w-full rounded-xl" title="Resume PDF" />
+</object>
+```
+
+* Add a **Download PDF** button and `@media print` rules to disable background/grain.
+
+---
+
+## Tailwind & CSS Design Tokens (Implement)
+
+* Base font: `Inter, ui-sans-serif` (fallback stack); monospace for code.
+* Type scale: `text-[15px]` base; headings use clamp:
+
+  * `h1: clamp(1.8rem, 2.5vw + 1rem, 3rem)`
+  * `h2: clamp(1.4rem, 1.6vw + 1rem, 2.2rem)`
+* Radius: `rounded-2xl` for cards/buttons; `shadow-[0_10px_30px_-10px_rgb(0_0_0_/_0.3)]`
+* Focus: `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400`
+* Spacing rhythm: `prose` + `leading-relaxed`, `tracking-tight`
+* Color tokens (CSS variables):
+
+```css
+:root{
+  --bg-1: 220 70% 8%;    /* near-black */
+  --fg-1: 210 20% 98%;   /* near-white */
+  --c1: 220 90% 56%;     /* blue */
+  --c2: 260 85% 62%;     /* violet */
+  --c3: 190 85% 52%;     /* cyan */
+  --grain-opacity: 0.14; /* grain strength */
+}
+```
+
+* Text effects often seen as "cool":
+
+  * Subtle **text-shadow** on hero titles: `text-shadow: 0 1px 20px hsl(var(--c3)/0.2)`
+  * **Backdrop blur** on nav: `backdrop-blur-md bg-black/30`
+  * **Soft border**: `border border-white/10`
+  * **Glass card**: `bg-white/[0.04] dark:bg-white/[0.03]` with `shadow-lg` and `ring-1 ring-white/10`
+  * **Hover lift**: `transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl`
+
+---
+
+## Grain Overlay (Lightweight)
+
+```tsx
+// GrainOverlay.tsx
+export default function GrainOverlay(){
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 grain-overlay" />
+  );
+}
+```
+
+```css
+/* globals.css */
+.grain-overlay{
+  mix-blend-mode: overlay;
+  opacity: var(--grain-opacity);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
+  background-size: 300px 300px;
+}
+@media (prefers-reduced-motion: reduce){ .grain-overlay{ opacity: 0.08; } }
+```
+
+---
+
+## Math‑Inspired, Lightweight Background Animations (CSS‑only)
+
+**1) Lissajous Gradient (approximated with two phase‑shifted radial gradients)**
+
+```css
+:root{ --t1: 40s; --t2: 53s; }
+.bg-animated{
+  background:
+    radial-gradient(40% 60% at var(--x1,20%) var(--y1,30%), hsl(var(--c1)/0.35), transparent 60%),
+    radial-gradient(60% 40% at var(--x2,80%) var(--y2,70%), hsl(var(--c2)/0.35), transparent 60%),
+    radial-gradient(50% 50% at 50% 50%, hsl(var(--c3)/0.25), transparent 70%),
+    linear-gradient(180deg, hsl(220 30% 6%), hsl(240 30% 6%));
+  animation: move1 var(--t1) ease-in-out infinite alternate,
+             move2 var(--t2) ease-in-out infinite alternate;
+}
+@keyframes move1{ 0%{ --x1:20%; --y1:30%; } 100%{ --x1:80%; --y1:70%; } }
+@keyframes move2{ 0%{ --x2:80%; --y2:70%; } 100%{ --x2:20%; --y2:30%; } }
+@media (prefers-reduced-motion: reduce){ .bg-animated{ animation:none; } }
+```
+
+**2) Conic Orbit (rotating conic gradient simulating polar coordinates)**
+
+```css
+.conic-orbit{
+  position: fixed; inset: 0; z-index:-1;
+  background:
+    conic-gradient(from var(--a,0deg), hsl(var(--c1)/0.15), hsl(var(--c2)/0.15), hsl(var(--c3)/0.15), hsl(var(--c1)/0.15));
+  filter: blur(60px) saturate(120%);
+  animation: spin 60s linear infinite;
+}
+@keyframes spin{ to{ --a:360deg; } }
+```
+
+**3) Parallax Drift (depth via multiple layers)**
+
+```css
+.layer{ position: fixed; inset:0; pointer-events:none; mix-blend-mode: screen; }
+.layer.l1{ background: radial-gradient(1200px 800px at 20% 30%, hsl(var(--c1)/0.12), transparent 70%); animation: drift1 70s ease-in-out infinite alternate; }
+.layer.l2{ background: radial-gradient(900px 900px at 80% 70%, hsl(var(--c2)/0.12), transparent 70%); animation: drift2 55s ease-in-out infinite alternate; }
+.layer.l3{ background: radial-gradient(1000px 700px at 50% 50%, hsl(var(--c3)/0.10), transparent 70%); animation: drift3 80s ease-in-out infinite alternate; }
+@keyframes drift1{ 0%{ transform:translate3d(-2%, -1%, 0); } 100%{ transform:translate3d(2%, 1%, 0); } }
+@keyframes drift2{ 0%{ transform:translate3d(1%, -2%, 0); } 100%{ transform:translate3d(-1%, 2%, 0); } }
+@keyframes drift3{ 0%{ transform:translate3d(1%, 1%, 0); } 100%{ transform:translate3d(-1%, -1%, 0); } }
+```
+
+> Choose **one** background per page to keep it lightweight. All animations respect `prefers-reduced-motion`.
+
+---
+
+## Header & Dropdown (Radix)
+
+* Header: small translucent bar (`backdrop-blur-md bg-black/30 border-b border-white/10`).
+* Button: icon-only with `sr-only` label. Dropdown items: About/Research/Resume/Blog/Contact; keyboard navigable.
+
+---
+
+## Blog/Research Indexes
+
+* Card list with **soft glass** look; on hover: small translate and shadow lift.
+* Each post shows title, date, summary, tags; clicking opens MDX post route.
+
+---
+
+## GitHub Pages Deployment
+
+* `vite.config.ts`: `base: "/<repo-name>/"`
+* `gh-pages` deploy: build to `dist`, then publish with `gh-pages` package
+* SPA fallback: copy `index.html` to `404.html` post-build
+
+---
+
+## Acceptance Criteria
+
+1. Centered layout; single header icon opens a **Dropdown Menu** to About/Research/Resume/Blog/Contact.
+2. **Gradient + grain** look with configurable intensity; one **CSS-only** background animation per page.
+3. **Blog & Research** MDX: full-bleed images, image grids, captions, callouts; indexes auto-built via `import.meta.glob` and sorted by date.
+4. **Resume** page embeds `public/Resume.pdf` with a download button; print view removes grain/animation.
+5. A11y (focus-visible, roles), SEO basics (title/meta per route), and Lighthouse ≥95.
+6. Deployable to **GitHub Pages** with correct base and SPA routing.
+
+---
+
+## Tasks for Cursor
+
+1. Scaffold Vite + React + TS + Tailwind + React Router + MDX plugin.
+2. Implement Tailwind tokens, global CSS, and one selected background animation on `/`.
+3. Build MDX provider and components (`ImageFull`, `ImageGrid`, `Figure`, `Callout`).
+4. Implement content registry with `import.meta.glob` for Blog/Research indexes.
+5. Create header + Radix dropdown; wire routes.
+6. Implement Resume inline PDF viewer + print overrides.
+7. Add README with run/edit/deploy steps; add `gh-pages` script.
