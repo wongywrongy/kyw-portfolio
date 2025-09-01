@@ -12,12 +12,13 @@ export default function About() {
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
   const lastChangeTime = useRef(Date.now())
 
-  // Calculate fixed scroll positions for timeline
+  // Fixed scroll "anchor" positions for timeline items (even spacing across the page)
   const timelinePositions = aboutContent.sections.map((_, index) => {
     return index * 110 // Fixed 110px intervals
   })
 
   useEffect(() => {
+    // Scroll handler: find nearest timeline anchor and throttle updates for stability
     const handleScroll = () => {
       const currentTime = Date.now()
       const scrollY = window.scrollY
@@ -71,6 +72,7 @@ export default function About() {
     return () => observer.disconnect()
   }, [])
 
+  // Smooth-scroll to the target anchor when a timeline item is clicked
   const scrollToSection = (index: number) => {
     const targetPosition = timelinePositions[index]
     window.scrollTo({
@@ -151,6 +153,7 @@ export default function About() {
                 <motion.div
                   className="relative"
                   style={{
+                    // Parallax: sidebar moves at ~30% of scroll speed for depth
                     transform: `translateY(${scrollY * 0.3}px)`
                   }}
                   initial={{ opacity: 0, x: 20 }}
