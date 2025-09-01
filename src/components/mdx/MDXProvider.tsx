@@ -1,8 +1,8 @@
 import { MDXProvider } from '@mdx-js/react'
-import ImageFull from './ImageFull'
-import ImageGrid from './ImageGrid'
-import Figure from './Figure'
-import Callout from './Callout'
+import ImageFull from '../media/ImageFull'
+import ImageGrid from '../media/ImageGrid'
+import Figure from '../media/Figure'
+import Callout from '../ui/Callout'
 
 const components = {
   ImageFull,

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useState, useMemo } from 'react'
 import { Renderer, Triangle, Program, Mesh } from 'ogl'
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from '../../contexts/ThemeContext'
 
 export default function PrismBackground() {
   const containerRef = useRef<HTMLDivElement>(null)
