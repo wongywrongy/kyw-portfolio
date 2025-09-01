@@ -1,0 +1,66 @@
+---
+title: "Building a Modern Portfolio with React and MDX"
+date: 2024-01-15
+summary: "A deep dive into creating a fast, minimal portfolio using React, TypeScript, and MDX for content management."
+tags: ["React", "TypeScript", "MDX", "Portfolio"]
+---
+
+# Building a Modern Portfolio with React and MDX
+
+Creating a portfolio that's both beautiful and functional can be a challenging task. In this post, I'll walk through the process of building a modern portfolio using React, TypeScript, and MDX for content management.
+
+## Why This Stack?
+
+The choice of technology stack was driven by several key requirements:
+
+- **Performance**: Fast loading times and smooth interactions
+- **Maintainability**: Easy to update content and add new features
+- **Developer Experience**: TypeScript for type safety, MDX for rich content
+- **Deployment**: Simple deployment to GitHub Pages
+
+## Key Features
+
+### 1. MDX Content Management
+
+Using MDX allows us to write content in Markdown while still being able to use React components. This gives us the best of both worlds:
+
+```jsx
+<Callout variant="tip">
+  MDX is incredibly powerful for content-heavy sites like portfolios and blogs.
+</Callout>
+```
+
+### 2. Responsive Design
+
+The portfolio is built with a mobile-first approach using Tailwind CSS:
+
+<ImageGrid cols={2} gap="md">
+  <img src="/sample-image-1.jpg" alt="Desktop view" />
+  <img src="/sample-image-2.jpg" alt="Mobile view" />
+</ImageGrid>
+
+### 3. Performance Optimizations
+
+- CSS-only animations for background effects
+- Lazy loading of images
+- Optimized bundle size with Vite
+
+## Technical Implementation
+
+The portfolio uses several key technologies:
+
+- **Vite**: For fast development and optimized builds
+- **React Router**: For client-side routing
+- **Tailwind CSS**: For utility-first styling
+- **Radix UI**: For accessible components
+- **Framer Motion**: For smooth animations
+
+<Callout variant="info">
+This is a sample blog post demonstrating the MDX capabilities. You can replace this with your actual content.
+</Callout>
+
+## Conclusion
+
+Building a modern portfolio with React and MDX provides a great foundation for showcasing your work. The combination of type safety, rich content capabilities, and excellent developer experience makes it an ideal choice for developers.
+
+The key is to focus on what matters most: your content and the user experience. With the right tools and a thoughtful approach, you can create something truly special.
