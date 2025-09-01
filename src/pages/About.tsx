@@ -9,7 +9,6 @@ export default function About() {
   const { theme } = useTheme()
   const [activeSection, setActiveSection] = useState(0)
   const [scrollY, setScrollY] = useState(0)
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
   const lastChangeTime = useRef(Date.now())
 
   // Fixed scroll "anchor" positions for timeline items (even spacing across the page)
@@ -47,30 +46,7 @@ export default function About() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = sectionRefs.current.findIndex(ref => ref === entry.target)
-            if (index !== -1) {
-              setActiveSection(index)
-            }
-          }
-        })
-      },
-      {
-        threshold: 0.3,
-        rootMargin: '-20% 0px -20% 0px'
-      }
-    )
-
-    sectionRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref)
-    })
-
-    return () => observer.disconnect()
-  }, [])
+  // IntersectionObserver removed: timeline highlighting is driven by fixed scroll anchors
 
   // Smooth-scroll to the target anchor when a timeline item is clicked
   const scrollToSection = (index: number) => {
@@ -128,9 +104,6 @@ export default function About() {
                 {aboutContent.sections.map((section, index) => (
                   <motion.div
                     key={section.title}
-                    ref={(el) => {
-                      sectionRefs.current[index] = el
-                    }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 + index * 0.1, ease: "easeOut" }}
