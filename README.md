@@ -1,4 +1,4 @@
-# Kyle Wong — Portfolio
+# Personal Portfolio Website
 
 Personal portfolio built with React, TypeScript, and Vite. Features a minimal design with gradient backgrounds and WebGL animations.
 

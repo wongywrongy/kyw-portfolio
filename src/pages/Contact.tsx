@@ -21,6 +21,7 @@ export default function Contact() {
               to="/menu"
               className="p-2 text-slate-400 hover:text-c3 transition-colors duration-200 group"
             >
+              {/* Subtle hover nudge on back chevron */}
               <motion.div
                 whileHover={{ x: -3 }}
                 transition={{ duration: 0.2 }}
@@ -38,7 +39,7 @@ export default function Contact() {
             </motion.h1>
           </motion.div>
 
-          {/* Title separator line with gradient */}
+          {/* Title separator with animated gradient fill */}
           <motion.div
             className="relative mb-8"
             initial={{ opacity: 0, scaleX: 0 }}
@@ -62,7 +63,7 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            {/* Text content with enhanced styling */}
+            {/* Intro text */}
             <motion.div
               className="w-full max-w-2xl relative"
               initial={{ opacity: 0, x: -20 }}
@@ -80,7 +81,7 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* Horizontal line divider with animation */}
+            {/* Content separator with animated gradient sweep */}
             <motion.div
               className="relative w-full max-w-2xl"
               initial={{ opacity: 0, scaleX: 0 }}
@@ -98,7 +99,7 @@ export default function Contact() {
               />
             </motion.div>
 
-            {/* Contact buttons with enhanced design */}
+            {/* Contact buttons with hover gradients and lift */}
             <motion.div
               className="w-full max-w-md space-y-4"
               initial={{ opacity: 0, x: 20 }}
@@ -118,7 +119,7 @@ export default function Contact() {
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Background gradient on hover */}
+                {/* Background gradient wash on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-r from-blue-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 
                 <motion.div 
@@ -145,7 +146,7 @@ export default function Contact() {
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Background gradient on hover */}
+                {/* Background gradient wash on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-r from-slate-500/10 to-slate-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 
                 <motion.div 
@@ -170,7 +171,7 @@ export default function Contact() {
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Background gradient on hover */}
+                {/* Background gradient wash on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-r from-green-500/10 to-green-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 
                 <motion.div 
@@ -185,7 +186,7 @@ export default function Contact() {
               </motion.a>
             </motion.div>
 
-            {/* Additional decorative element aligned with content */}
+            {/* Closing tag with small badge */}
             <motion.div
               className="w-full max-w-2xl"
               initial={{ opacity: 0, y: 20 }}

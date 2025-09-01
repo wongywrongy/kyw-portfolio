@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ChevronRight, ArrowRight, Mail } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 
 export default function Home() {
   return (

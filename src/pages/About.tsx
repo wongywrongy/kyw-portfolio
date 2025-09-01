@@ -9,15 +9,15 @@ export default function About() {
   const { theme } = useTheme()
   const [activeSection, setActiveSection] = useState(0)
   const [scrollY, setScrollY] = useState(0)
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
   const lastChangeTime = useRef(Date.now())
 
-  // Calculate fixed scroll positions for timeline
+  // Fixed scroll "anchor" positions for timeline items (even spacing across the page)
   const timelinePositions = aboutContent.sections.map((_, index) => {
     return index * 110 // Fixed 110px intervals
   })
 
   useEffect(() => {
+    // Scroll handler: find nearest timeline anchor and throttle updates for stability
     const handleScroll = () => {
       const currentTime = Date.now()
       const scrollY = window.scrollY
@@ -46,31 +46,9 @@ export default function About() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = sectionRefs.current.findIndex(ref => ref === entry.target)
-            if (index !== -1) {
-              setActiveSection(index)
-            }
-          }
-        })
-      },
-      {
-        threshold: 0.3,
-        rootMargin: '-20% 0px -20% 0px'
-      }
-    )
+  // IntersectionObserver removed: timeline highlighting is driven by fixed scroll anchors
 
-    sectionRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref)
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
+  // Smooth-scroll to the target anchor when a timeline item is clicked
   const scrollToSection = (index: number) => {
     const targetPosition = timelinePositions[index]
     window.scrollTo({
@@ -126,9 +104,6 @@ export default function About() {
                 {aboutContent.sections.map((section, index) => (
                   <motion.div
                     key={section.title}
-                    ref={(el) => {
-                      sectionRefs.current[index] = el
-                    }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 + index * 0.1, ease: "easeOut" }}
@@ -151,6 +126,7 @@ export default function About() {
                 <motion.div
                   className="relative"
                   style={{
+                    // Parallax: sidebar moves at ~30% of scroll speed for depth
                     transform: `translateY(${scrollY * 0.3}px)`
                   }}
                   initial={{ opacity: 0, x: 20 }}
