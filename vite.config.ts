@@ -17,7 +17,6 @@ export default defineConfig({
       ]
     })
   ],
-  base: '/kyw-portfolio/', // GitHub Pages base path
   build: {
     outDir: 'dist',
   },

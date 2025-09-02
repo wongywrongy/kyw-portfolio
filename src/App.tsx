@@ -46,7 +46,7 @@ function App() {
   }, [])
 
   return (
-    <Router basename="/kyw-portfolio">
+    <Router>
       <div className="min-h-screen bg-bg-1 text-fg-1">
         {/* Background Animation */}
         <div className="bg-animated fixed inset-0 -z-10" />
