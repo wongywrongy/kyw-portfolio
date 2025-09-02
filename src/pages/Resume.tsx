@@ -58,21 +58,6 @@ export default function Resume() {
                   }}
                 />
               </div>
-              
-              {/* Fallback download link */}
-              <div className="p-4 bg-gray-50 border-t border-gray-200">
-                <p className="text-sm text-gray-600 text-center mb-2">
-                  Having trouble viewing the PDF?
-                </p>
-                <a 
-                  href="/assets/Resume.pdf" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                >
-                  Download Resume
-                </a>
-              </div>
             </div>
           </motion.div>
         </div>
