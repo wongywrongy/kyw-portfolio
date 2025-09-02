@@ -47,13 +47,31 @@ export default function Resume() {
             <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
               <div className="aspect-[8.5/11] w-full">
                 <iframe 
-                  src="/kyw-portfolio/assets/Resume.pdf#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&view=FitH"
+                  src="/assets/Resume.pdf#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&view=FitH"
                   className="w-full h-full border-0"
                   title="Resume PDF Viewer"
                   style={{
                     backgroundColor: 'white'
                   }}
+                  onError={(e) => {
+                    console.error('PDF failed to load:', e)
+                  }}
                 />
+              </div>
+              
+              {/* Fallback download link */}
+              <div className="p-4 bg-gray-50 border-t border-gray-200">
+                <p className="text-sm text-gray-600 text-center mb-2">
+                  Having trouble viewing the PDF?
+                </p>
+                <a 
+                  href="/assets/Resume.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                >
+                  Download Resume
+                </a>
               </div>
             </div>
           </motion.div>
