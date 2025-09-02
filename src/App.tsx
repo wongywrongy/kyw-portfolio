@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
+import { useEffect } from 'react'
 import GrainOverlay from './components/layout/GrainOverlay'
 import PrismBackground from './components/layout/PrismBackground'
 import FloatingMenu from './components/layout/FloatingMenu'
@@ -12,15 +12,41 @@ import Contact from './pages/Contact'
 import Menu from './pages/Menu'
 
 function App() {
+  // Set document meta tags
+  useEffect(() => {
+    document.title = 'Kyle Wong — Portfolio'
+    
+    // Set meta description
+    let metaDescription = document.querySelector('meta[name="description"]')
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta')
+      metaDescription.setAttribute('name', 'description')
+      document.head.appendChild(metaDescription)
+    }
+    metaDescription.setAttribute('content', 'CS @ SJSU · Applied AI @ SKKU · R&D @ Spartan Racing · Debian Apprentice')
+    
+    // Set viewport
+    let viewport = document.querySelector('meta[name="viewport"]')
+    if (!viewport) {
+      viewport = document.createElement('meta')
+      viewport.setAttribute('name', 'viewport')
+      document.head.appendChild(viewport)
+    }
+    viewport.setAttribute('content', 'width=device-width, initial-scale=1')
+    
+    // Set favicon
+    let favicon = document.querySelector('link[rel="icon"]')
+    if (!favicon) {
+      favicon = document.createElement('link')
+      favicon.setAttribute('rel', 'icon')
+      favicon.setAttribute('type', 'image/svg+xml')
+      document.head.appendChild(favicon)
+    }
+    favicon.setAttribute('href', '/favicon.svg')
+  }, [])
+
   return (
     <Router basename="/kyw-portfolio">
-      <Helmet>
-        <title>Kyle Wong — Portfolio</title>
-        <meta name="description" content="CS @ SJSU · Applied AI @ SKKU · R&D @ Spartan Racing · Debian Apprentice" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-      </Helmet>
-      
       <div className="min-h-screen bg-bg-1 text-fg-1">
         {/* Background Animation */}
         <div className="bg-animated fixed inset-0 -z-10" />
