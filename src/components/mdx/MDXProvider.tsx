@@ -18,7 +18,28 @@ const components = {
   h1: (props: any) => <h1 className="mt-8 mb-4 first:mt-0" {...props} />,
   h2: (props: any) => <h2 className="mt-6 mb-3 first:mt-0" {...props} />,
   h3: (props: any) => <h3 className="mt-4 mb-2 first:mt-0" {...props} />,
-  p: (props: any) => <p className="mb-4 leading-relaxed" {...props} />,
+  p: (props: any) => {
+    // Check if paragraph contains LaTeX patterns
+    const content = props.children?.toString() || ''
+    
+    // Handle inline LaTeX: \(...\)
+    if (content.includes('\\(') && content.includes('\\)')) {
+      const parts = content.split(/(\\\(.*?\\\))/)
+      return (
+        <p className="mb-4 leading-relaxed">
+          {parts.map((part, index) => {
+            if (part.startsWith('\\(') && part.endsWith('\\)')) {
+              const latex = part.slice(2, -2)
+              return <LaTeX key={index}>{latex}</LaTeX>
+            }
+            return part
+          })}
+        </p>
+      )
+    }
+    
+    return <p className="mb-4 leading-relaxed" {...props} />
+  },
   ul: (props: any) => <ul className="mb-4 pl-6 space-y-1" {...props} />,
   ol: (props: any) => <ol className="mb-4 pl-6 space-y-1" {...props} />,
   li: (props: any) => <li className="leading-relaxed" {...props} />,
@@ -28,9 +49,17 @@ const components = {
   code: (props: any) => (
     <code className="bg-white/5 px-1.5 py-0.5 rounded text-sm font-mono" {...props} />
   ),
-  pre: (props: any) => (
-    <pre className="bg-white/5 p-4 rounded-2xl overflow-x-auto my-6" {...props} />
-  ),
+  pre: (props: any) => {
+    const content = props.children?.toString() || ''
+    
+    // Check if this is a LaTeX block: \[...\]
+    if (content.startsWith('\\[') && content.endsWith('\\]')) {
+      const latex = content.slice(2, -2)
+      return <LaTeX display={true}>{latex}</LaTeX>
+    }
+    
+    return <pre className="bg-white/5 p-4 rounded-2xl overflow-x-auto my-6" {...props} />
+  },
   a: (props: any) => (
     <a className="text-c3 hover:text-c2 transition-colors underline" {...props} />
   ),

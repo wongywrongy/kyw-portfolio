@@ -40,7 +40,7 @@ export default function BlogImage({
     <>
       {/* Main Image */}
       <motion.div 
-        className={`relative group ${className}`}
+        className={`relative ${className}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -51,15 +51,15 @@ export default function BlogImage({
             alt={alt}
             width={width || 800}
             height={height || 400}
-            className={`w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105 ${
+            className={`w-full h-auto object-cover ${
               theme === 'light' ? 'border border-slate-200' : 'border border-slate-700'
             }`}
             loading="lazy"
           />
           
-          {/* Overlay with actions */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
+          {/* Overlay with actions - only visible on click */}
+          <div className="absolute inset-0 bg-black/0 flex items-center justify-center">
+            <div className="flex gap-2">
               {lightbox && (
                 <motion.button
                   onClick={() => setIsLightboxOpen(true)}
