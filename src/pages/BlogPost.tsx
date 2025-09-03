@@ -6,7 +6,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import { allPosts } from '../content/blog'
 import type { BlogImage } from '../content/blog'
 import BlogImageComponent from '../components/mdx/BlogImage'
-import LaTeXRenderer from '../components/mdx/LaTeXRenderer'
+import MarkdownRenderer from '../components/mdx/MarkdownRenderer'
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>()
@@ -99,7 +99,7 @@ export default function BlogPost() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            <LaTeXRenderer 
+            <MarkdownRenderer 
               content={post.content || ''}
               className={`prose prose-lg max-w-none font-sans ${
                 theme === 'light' 
