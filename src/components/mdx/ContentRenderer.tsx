@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../../contexts/ThemeContext'
 import BlogImage from './BlogImage'
@@ -25,23 +25,21 @@ interface ContentRendererProps {
   className?: string
 }
 
-export default function ContentRenderer({ content, className = '' }: ContentRendererProps) {
-  const { theme } = useTheme()
+// Memoized content item renderer for better performance
+const ContentItemRenderer = React.memo(({ item, index, theme }: { item: ContentItem; index: number; theme: string }) => {
+  const animationDelay = Math.min(index * 0.05, 0.5) // Cap delay at 500ms for better UX
 
-  const renderContentItem = (item: ContentItem, index: number) => {
-    const animationDelay = index * 0.1
-
+  const renderContentItem = useCallback(() => {
     switch (item.type) {
       case 'text':
         return (
           <motion.p
-            key={index}
             className={`mb-4 leading-relaxed ${
               theme === 'light' ? 'text-slate-600' : 'text-slate-300'
             }`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: animationDelay }}
+            transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
           >
             {item.content}
           </motion.p>
@@ -58,10 +56,9 @@ export default function ContentRenderer({ content, className = '' }: ContentRend
         
         return (
           <motion.div
-            key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: animationDelay }}
+            transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
           >
             <HeadingTag
               className={`${headingClasses[item.level || 2]} ${
@@ -76,10 +73,9 @@ export default function ContentRenderer({ content, className = '' }: ContentRend
       case 'latex':
         return (
           <motion.div
-            key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: animationDelay }}
+            transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
           >
             <LaTeX display={item.display}>{item.content || ''}</LaTeX>
           </motion.div>
@@ -88,10 +84,9 @@ export default function ContentRenderer({ content, className = '' }: ContentRend
       case 'code':
         return (
           <motion.div
-            key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: animationDelay }}
+            transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
           >
             <CodeBlock
               language={item.language || 'text'}
@@ -105,11 +100,10 @@ export default function ContentRenderer({ content, className = '' }: ContentRend
       case 'list':
         return (
           <motion.ul
-            key={index}
             className="mb-4 pl-6 space-y-1"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: animationDelay }}
+            transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
           >
             {item.items?.map((listItem, listIndex) => (
               <li
@@ -126,10 +120,9 @@ export default function ContentRenderer({ content, className = '' }: ContentRend
       case 'image':
         return (
           <motion.div
-            key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: animationDelay }}
+            transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
           >
             <BlogImage
               src={item.src || ''}
@@ -144,11 +137,29 @@ export default function ContentRenderer({ content, className = '' }: ContentRend
       default:
         return null
     }
-  }
+  }, [item, theme, animationDelay])
+
+  return renderContentItem()
+})
+
+ContentItemRenderer.displayName = 'ContentItemRenderer'
+
+export default function ContentRenderer({ content, className = '' }: ContentRendererProps) {
+  const { theme } = useTheme()
+
+  // Memoize the content array to prevent unnecessary re-renders
+  const memoizedContent = useMemo(() => content, [content])
 
   return (
     <div className={className}>
-      {content.map((item, index) => renderContentItem(item, index))}
+      {memoizedContent.map((item, index) => (
+        <ContentItemRenderer
+          key={`${item.type}-${index}-${item.content?.slice(0, 20)}`}
+          item={item}
+          index={index}
+          theme={theme}
+        />
+      ))}
     </div>
   )
 }
