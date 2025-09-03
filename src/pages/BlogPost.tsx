@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import { allPosts } from '../content/blog'
 import type { BlogImage } from '../content/blog'
+import BlogImageComponent from '../components/mdx/BlogImage'
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>()
@@ -113,23 +114,16 @@ export default function BlogPost() {
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             >
               {post.images.map((image: BlogImage, index: number) => (
-                <div key={index} className="text-center">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    width={image.width || 800}
-                    height={image.height || 400}
-                    className={`mx-auto rounded-lg shadow-lg ${
-                      theme === 'light' ? 'border border-slate-200' : 'border border-slate-700'
-                    }`}
-                    loading="lazy"
-                  />
-                  {image.caption && (
-                    <p className={`mt-2 text-sm italic ${theme === 'light' ? 'text-slate-500' : 'text-slate-400'}`}>
-                      {image.caption}
-                    </p>
-                  )}
-                </div>
+                <BlogImageComponent
+                  key={index}
+                  src={image.src}
+                  alt={image.alt}
+                  caption={image.caption}
+                  width={image.width}
+                  height={image.height}
+                  lightbox={true}
+                  downloadable={true}
+                />
               ))}
             </motion.div>
           )}

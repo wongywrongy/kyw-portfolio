@@ -3,12 +3,18 @@ import ImageFull from '../media/ImageFull'
 import ImageGrid from '../media/ImageGrid'
 import Figure from '../media/Figure'
 import Callout from '../ui/Callout'
+import BlogImage from './BlogImage'
+import LaTeX from './LaTeX'
+import CodeBlock from './CodeBlock'
 
 const components = {
   ImageFull,
   ImageGrid,
   Figure,
   Callout,
+  BlogImage,
+  LaTeX,
+  CodeBlock,
   h1: (props: any) => <h1 className="mt-8 mb-4 first:mt-0" {...props} />,
   h2: (props: any) => <h2 className="mt-6 mb-3 first:mt-0" {...props} />,
   h3: (props: any) => <h3 className="mt-4 mb-2 first:mt-0" {...props} />,
