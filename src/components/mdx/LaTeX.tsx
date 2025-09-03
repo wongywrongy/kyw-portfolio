@@ -18,8 +18,16 @@ export default function LaTeX({ children, display = false, className = '' }: LaT
           // Clear any existing content
           containerRef.current.innerHTML = ''
           
+          // Clean up the LaTeX content - remove any problematic characters
+          const cleanContent = children
+            .replace(/\\text{([^}]*)}/g, '$1') // Replace \text{} with plain text
+            .replace(/\\mathbf{([^}]*)}/g, '\\mathbf{$1}') // Keep \mathbf{} as is
+            .trim()
+          
+          console.log('Rendering LaTeX:', cleanContent) // Debug log
+          
           // Render the LaTeX
-          window.katex.render(children, containerRef.current, {
+          window.katex.render(cleanContent, containerRef.current, {
             displayMode: display,
             throwOnError: false,
             errorColor: theme === 'light' ? '#dc2626' : '#fca5a5',
@@ -33,6 +41,7 @@ export default function LaTeX({ children, display = false, className = '' }: LaT
           })
         } catch (error) {
           console.error('LaTeX rendering error:', error)
+          console.error('Failed content:', children)
           // Fallback to plain text
           if (containerRef.current) {
             containerRef.current.textContent = children

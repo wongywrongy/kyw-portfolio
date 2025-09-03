@@ -57,7 +57,7 @@ export const post = {
       content: "Calculus Examples"
     },
     {
-      "type": "text",
+      type: "text",
       content: "The derivative of a simple function:"
     },
     {
@@ -72,7 +72,7 @@ export const post = {
     {
       type: "latex",
       display: true,
-      content: "\\int_0^1 x^2 dx = \\frac{1}{3}"
+      content: "\\int_0^1 x^2 \\, dx = \\frac{1}{3}"
     },
     {
       type: "text",
