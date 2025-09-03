@@ -18,6 +18,8 @@ interface ContentItem {
   caption?: string
   width?: number
   height?: number
+  quality?: 'low' | 'medium' | 'high' | 'original'
+  format?: 'jpeg' | 'png' | 'webp' | 'avif'
 }
 
 interface ContentRendererProps {
@@ -130,6 +132,8 @@ const ContentItemRenderer = React.memo(({ item, index, theme }: { item: ContentI
               caption={item.caption}
               width={item.width}
               height={item.height}
+              quality={item.quality}
+              format={item.format}
             />
           </motion.div>
         )

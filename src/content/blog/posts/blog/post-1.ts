@@ -158,11 +158,13 @@ export const post = {
     },
     {
       type: "image",
-      src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop",
+      src: "/assets/images/code-algorithms.jpg", // Local image path - just put your image files in public/assets/images/
       alt: "Code and algorithms",
       caption: "Implementation brings mathematical concepts to life",
-      width: 800,
-      height: 400
+      width: 1920, // Higher resolution for better quality
+      height: 1080,
+      quality: "high", // High quality setting
+      format: "webp" // WebP format for best quality/size ratio
     },
     {
       type: "code",
@@ -204,7 +206,7 @@ print(f"Derivative of x^2 at x=3: {result}")`
   ],
   images: [
     {
-      src: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=400&fit=crop",
+      src: "/assets/images/math-chalkboard.jpg", // Local image path - just put your image files in public/assets/images/
       alt: "Mathematical equations on chalkboard",
       caption: "Mathematical concepts form the foundation of machine learning algorithms",
       width: 800,
