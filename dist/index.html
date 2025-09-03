@@ -6,10 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kyle Wong — Portfolio</title>
     
-    <!-- KaTeX for LaTeX rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+Wdt4aH3gZ/6o7mY0JwkAnF" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-    <script type="module" crossorigin src="/assets/index-DKIbmu5R.js"></script>
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)']],
+          displayMath: [['\\[', '\\]']],
+          processEscapes: true,
+          processEnvironments: true
+        },
+        options: {
+          ignoreHtmlClass: 'tex2jax_ignore',
+          processHtmlClass: 'tex2jax_process'
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="module" crossorigin src="/assets/index-oWvqUB7j.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-hRn_DPM3.css">
   </head>
   <body>
