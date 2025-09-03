@@ -13,11 +13,84 @@ export const post = {
     {
       type: "heading",
       level: 2,
-      content: "Linear Algebra Fundamentals"
+      content: "Basic Mathematical Concepts"
     },
     {
       type: "text",
-      content: "Linear algebra is the backbone of machine learning. Vectors and matrices are used to represent data and transformations."
+      content: "Let's start with some fundamental mathematical expressions that you'll encounter in machine learning."
+    },
+    {
+      type: "heading",
+      level: 3,
+      content: "Simple Equations"
+    },
+    {
+      type: "text",
+      content: "The most famous equation in physics:"
+    },
+    {
+      type: "latex",
+      display: true,
+      content: "E = mc^2"
+    },
+    {
+      type: "text",
+      content: "The quadratic formula:"
+    },
+    {
+      type: "latex",
+      display: true,
+      content: "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}"
+    },
+    {
+      type: "text",
+      content: "A simple linear equation:"
+    },
+    {
+      type: "latex",
+      display: true,
+      content: "y = mx + b"
+    },
+    {
+      type: "heading",
+      level: 3,
+      content: "Calculus Examples"
+    },
+    {
+      "type": "text",
+      content: "The derivative of a simple function:"
+    },
+    {
+      type: "latex",
+      display: true,
+      content: "\\frac{d}{dx}(x^2) = 2x"
+    },
+    {
+      type: "text",
+      content: "An integral example:"
+    },
+    {
+      type: "latex",
+      display: true,
+      content: "\\int_0^1 x^2 dx = \\frac{1}{3}"
+    },
+    {
+      type: "text",
+      content: "A limit example:"
+    },
+    {
+      type: "latex",
+      display: true,
+      content: "\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1"
+    },
+    {
+      type: "heading",
+      level: 2,
+      content: "Linear Algebra Basics"
+    },
+    {
+      type: "text",
+      content: "Vectors and matrices are essential for representing data."
     },
     {
       type: "heading",
@@ -26,94 +99,48 @@ export const post = {
     },
     {
       type: "text",
-      content: "A vector in ℝⁿ can be represented as:"
+      content: "A simple 2D vector:"
     },
     {
       type: "latex",
       display: true,
-      content: "\\mathbf{v} = \\begin{pmatrix} v_1 \\\\ v_2 \\\\ \\vdots \\\\ v_n \\end{pmatrix}"
+      content: "\\mathbf{v} = \\begin{pmatrix} x \\\\ y \\end{pmatrix}"
     },
     {
       type: "text",
-      content: "The dot product of two vectors is:"
+      content: "The dot product:"
     },
     {
       type: "latex",
       display: true,
-      content: "\\mathbf{a} \\cdot \\mathbf{b} = \\sum_{i=1}^{n} a_i b_i"
-    },
-    {
-      type: "heading",
-      level: 3,
-      content: "Matrix Operations"
-    },
-    {
-      type: "text",
-      content: "Matrix multiplication is fundamental:"
-    },
-    {
-      type: "latex",
-      display: true,
-      content: "\\mathbf{C} = \\mathbf{A} \\mathbf{B}"
-    },
-    {
-      type: "text",
-      content: "Where C_{ij} = Σ_{k=1}^{n} A_{ik} B_{kj}"
+      content: "\\mathbf{a} \\cdot \\mathbf{b} = a_1 b_1 + a_2 b_2"
     },
     {
       type: "heading",
       level: 2,
-      content: "Calculus and Optimization"
+      content: "Probability Basics"
     },
     {
       type: "text",
-      content: "Gradient descent is the workhorse of machine learning optimization."
+      content: "Understanding probability is crucial for uncertainty quantification."
     },
     {
       type: "heading",
       level: 3,
-      content: "Gradient Descent"
+      content: "Basic Probability"
     },
     {
       type: "text",
-      content: "The update rule is:"
+      content: "The probability of an event:"
     },
     {
       type: "latex",
       display: true,
-      content: "\\theta_{t+1} = \\theta_t - \\alpha \\nabla J(\\theta_t)"
+      content: "P(A) = \\frac{\\text{Number of favorable outcomes}}{\\text{Total outcomes}}"
     },
     {
       type: "text",
-      content: "Where α is the learning rate and ∇J(θ_t) is the gradient of the cost function."
-    },
-    {
-      type: "heading",
-      level: 3,
-      content: "Chain Rule"
-    },
-    {
-      type: "text",
-      content: "For neural networks, the chain rule is essential:"
-    },
-    {
-      type: "latex",
-      display: true,
-      content: "\\frac{\\partial L}{\\partial w} = \\frac{\\partial L}{\\partial \\hat{y}} \\frac{\\partial \\hat{y}}{\\partial z} \\frac{\\partial z}{\\partial w}"
-    },
-    {
-      type: "heading",
-      level: 2,
-      content: "Probability and Statistics"
-    },
-    {
-      type: "text",
-      content: "Understanding probability distributions is crucial for many ML algorithms."
-    },
-    {
-      type: "heading",
-      level: 3,
-      content: "Bayes' Theorem"
+      content: "Bayes' Theorem:"
     },
     {
       type: "latex",
@@ -122,26 +149,12 @@ export const post = {
     },
     {
       type: "heading",
-      level: 3,
-      content: "Normal Distribution"
-    },
-    {
-      type: "text",
-      content: "The probability density function:"
-    },
-    {
-      type: "latex",
-      display: true,
-      content: "f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2}"
-    },
-    {
-      type: "heading",
       level: 2,
       content: "Code Example"
     },
     {
       type: "text",
-      content: "Here's a simple implementation of gradient descent:"
+      content: "Here's a simple Python function to calculate the derivative:"
     },
     {
       type: "image",
@@ -154,20 +167,21 @@ export const post = {
     {
       type: "code",
       language: "python",
-      filename: "gradient_descent.py",
-      content: `import numpy as np
+      filename: "derivative.py",
+      content: `def derivative(f, x, h=0.0001):
+    """
+    Calculate the derivative of function f at point x
+    using the limit definition
+    """
+    return (f(x + h) - f(x)) / h
 
-def gradient_descent(X, y, learning_rate=0.01, epochs=1000):
-    n_samples = X.shape[0]
-    theta = np.zeros(X.shape[1])
-    
-    for _ in range(epochs):
-        predictions = X @ theta
-        errors = predictions - y
-        gradient = (2/n_samples) * X.T @ errors
-        theta = theta - learning_rate * gradient
-    
-    return theta`
+# Example usage
+def f(x):
+    return x**2
+
+# Calculate derivative of x^2 at x = 3
+result = derivative(f, 3)
+print(f"Derivative of x^2 at x=3: {result}")`
     },
     {
       type: "heading",
@@ -177,15 +191,15 @@ def gradient_descent(X, y, learning_rate=0.01, epochs=1000):
     {
       type: "list",
       items: [
-        "**Linear Algebra**: Essential for data representation and transformations",
-        "**Calculus**: Critical for optimization and understanding how algorithms learn",
-        "**Probability**: Fundamental for uncertainty quantification and statistical inference",
-        "**Practice**: Implement algorithms from scratch to deepen understanding"
+        "**Basic equations** are the foundation of mathematical thinking",
+        "**Calculus concepts** like derivatives, integrals, and limits are essential",
+        "**Linear algebra** provides tools for data representation",
+        "**Probability** helps quantify uncertainty in predictions"
       ]
     },
     {
       type: "text",
-      content: "The mathematical foundations provide the tools needed to understand, implement, and improve machine learning algorithms."
+      content: "These mathematical foundations provide the tools needed to understand, implement, and improve machine learning algorithms."
     }
   ],
   images: [
@@ -193,13 +207,6 @@ def gradient_descent(X, y, learning_rate=0.01, epochs=1000):
       src: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=400&fit=crop",
       alt: "Mathematical equations on chalkboard",
       caption: "Mathematical concepts form the foundation of machine learning algorithms",
-      width: 800,
-      height: 400
-    },
-    {
-      src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop",
-      alt: "Code and algorithms",
-      caption: "Implementation brings mathematical concepts to life",
       width: 800,
       height: 400
     }
