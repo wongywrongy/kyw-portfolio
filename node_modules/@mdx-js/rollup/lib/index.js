@@ -32,8 +32,8 @@
  *   Callback called by Rollup and Vite to transform.
  * @param {string} value
  *   File contents.
- * @param {string} path
- *   File path.
+ * @param {string} id
+ *   Module ID.
  * @returns {Promise<SourceDescription | undefined>}
  *   Result.
  *
@@ -80,7 +80,7 @@ export function rollup(options) {
         ...rest
       })
     },
-    async transform(value, path) {
+    async transform(value, id) {
       if (!formatAwareProcessors) {
         formatAwareProcessors = createFormatAwareProcessors({
           SourceMapGenerator,
@@ -88,6 +88,7 @@ export function rollup(options) {
         })
       }
 
+      const [path] = id.split('?')
       const file = new VFile({path, value})
 
       if (
@@ -98,12 +99,7 @@ export function rollup(options) {
         const compiled = await formatAwareProcessors.process(file)
         const code = String(compiled.value)
         /** @type {SourceDescription} */
-        const result = {
-          code,
-          // @ts-expect-error: `rollup` is not compiled with `exactOptionalPropertyTypes`,
-          // so it does not allow `sourceRoot` in `file.map` to be `undefined` here.
-          map: compiled.map
-        }
+        const result = {code, map: compiled.map}
         return result
       }
     }
