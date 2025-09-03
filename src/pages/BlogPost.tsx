@@ -6,6 +6,8 @@ import { useTheme } from '../contexts/ThemeContext'
 import { allPosts } from '../content/blog'
 import type { BlogImage } from '../content/blog'
 import BlogImageComponent from '../components/mdx/BlogImage'
+import { MDXProvider } from '@mdx-js/react'
+import CustomMDXProvider from '../components/mdx/MDXProvider'
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>()
@@ -102,8 +104,11 @@ export default function BlogPost() {
                 ? 'prose-headings:text-slate-800 prose-p:text-slate-600 prose-strong:text-slate-800 prose-ul:text-slate-600 prose-li:text-slate-600 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:text-blue-500' 
                 : 'prose-headings:text-slate-100 prose-p:text-slate-300 prose-strong:text-slate-100 prose-ul:text-slate-300 prose-li:text-slate-300 prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300'
             }`}
-            dangerouslySetInnerHTML={{ __html: post.content || '' }}
-          />
+          >
+            <CustomMDXProvider>
+              {post.content}
+            </CustomMDXProvider>
+          </motion.div>
 
           {/* Images */}
           {post.images && post.images.length > 0 && (
@@ -121,8 +126,6 @@ export default function BlogPost() {
                   caption={image.caption}
                   width={image.width}
                   height={image.height}
-                  lightbox={true}
-                  downloadable={true}
                 />
               ))}
             </motion.div>

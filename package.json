@@ -12,7 +12,8 @@
     "postbuild": "cp dist/index.html dist/404.html"
   },
   "dependencies": {
-    "@mdx-js/react": "^3.0.0",
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
     "@mdx-js/rollup": "^3.0.0",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "framer-motion": "^11.0.0",
