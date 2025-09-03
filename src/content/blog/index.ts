@@ -61,3 +61,7 @@ export const getPostsByCategory = (category: string): BlogPost[] => {
 export const getPostById = (id: number): BlogPost | undefined => {
   return allPosts.find(post => post.id === id)
 }
+
+export const getPostBySlug = (slug: string): BlogPost | undefined => {
+  return allPosts.find(post => post.slug === slug)
+}

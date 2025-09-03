@@ -69,7 +69,7 @@ function App() {
             <Route path="/blog" element={<BlogIndex />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/menu" element={<Menu />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             {/* Redirect any unknown routes to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

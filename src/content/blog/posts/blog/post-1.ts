@@ -1,6 +1,7 @@
 export const post = {
   id: 2,
   title: "Mathematical Foundations in Machine Learning",
+  slug: "mathematical-foundations-machine-learning",
   excerpt: "Exploring the mathematical concepts that power modern machine learning algorithms, from linear algebra to calculus and probability theory.",
   category: "blog",
   date: "2024-01-10",

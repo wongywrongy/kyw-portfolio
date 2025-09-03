@@ -9,14 +9,13 @@ import BlogImageComponent from '../components/mdx/BlogImage'
 import ContentRenderer from '../components/mdx/ContentRenderer'
 
 export default function BlogPost() {
-  const { id } = useParams<{ id: string }>()
+  const { slug } = useParams<{ slug: string }>()
   const { theme } = useTheme()
 
-  // Find the post by ID
+  // Find the post by slug
   const post = useMemo(() => {
-    const postId = parseInt(id || '0')
-    return allPosts.find(p => p.id === postId)
-  }, [id])
+    return allPosts.find(p => p.slug === slug)
+  }, [slug])
 
   const getCategoryColor = (category: string) => {
     switch (category) {

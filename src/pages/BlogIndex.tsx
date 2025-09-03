@@ -142,7 +142,7 @@ export default function BlogIndex() {
                 <div className="flex items-center justify-between mt-auto">
                   <span className={`text-xs ${theme === 'light' ? 'text-slate-500' : 'text-slate-400'}`}>{post.date}</span>
                   <Link
-                    to={`/blog/${post.id}`}
+                    to={`/blog/${post.slug}`}
                     className="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors duration-200"
                   >
                     Read more →
