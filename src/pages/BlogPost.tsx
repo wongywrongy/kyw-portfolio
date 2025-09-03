@@ -6,7 +6,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import { allPosts } from '../content/blog'
 import type { BlogImage } from '../content/blog'
 import BlogImageComponent from '../components/mdx/BlogImage'
-import MarkdownRenderer from '../components/mdx/MarkdownRenderer'
+import ContentRenderer from '../components/mdx/ContentRenderer'
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>()
@@ -99,8 +99,8 @@ export default function BlogPost() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            <MarkdownRenderer 
-              content={post.content || ''}
+            <ContentRenderer 
+              content={post.content || []}
               className={`prose prose-lg max-w-none font-sans ${
                 theme === 'light' 
                   ? 'prose-headings:text-slate-800 prose-p:text-slate-600 prose-strong:text-slate-800 prose-ul:text-slate-600 prose-li:text-slate-600 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:text-blue-500' 
