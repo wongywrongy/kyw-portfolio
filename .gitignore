@@ -1,0 +1,100 @@
+# APM Framework Files (Agentic Project Management)
+apm/
+prompts/
+docs/Agent_Types.md
+docs/Context_and_Memory_Management.md
+docs/Context_and_Prompt_Engineering.md
+docs/Getting_Started.md
+docs/Introduction.md
+docs/Modifying_APM.md
+docs/Token_Consumption_Tips.md
+docs/Workflow_Overview.md
+docs/guides/APM_Quick_Start_Guide.pdf
+docs/guides/APM_User_Guide.pdf
+assets/apm-graph.png
+assets/apm-workflow-diagram.png
+assets/cobuter-man.png
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+CHANGELOG.md
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Production builds
+/frontend/.next/
+/frontend/out/
+/backend/dist/
+/shared/dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+prisma/dev.db
+
+# Logs
+logs
+*.log
+
+# Coverage and testing
+coverage/
+*.lcov
+.nyc_output
+
+# Cache files
+.eslintcache
+.npm
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+*.tsbuildinfo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Next.js specific
+.next/
+out/
+.vercel
+
+# Temporary folders
+tmp/
+temp/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Package files
+*.tgz
+.yarn-integrity
+.node_repl_history

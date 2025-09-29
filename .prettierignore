@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.next/
+coverage/
+*.min.js
+*.min.css
+package-lock.json
+yarn.lock
+.env
+.env.local
+.env.production
+.env.test
+.gitignore
+LICENSE
+CHANGELOG.md

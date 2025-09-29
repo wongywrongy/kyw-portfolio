@@ -1,0 +1,65 @@
+{
+  "name": "misogyu-webdev",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Full-stack web application with Next.js frontend and Express backend",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:shared": "cd shared && npm run dev",
+    "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build:shared": "cd shared && npm run build",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:frontend": "cd frontend && npm run start",
+    "start:backend": "cd backend && npm run start",
+    "clean": "npm run clean:frontend && npm run clean:backend && npm run clean:shared",
+    "clean:frontend": "cd frontend && npm run clean",
+    "clean:backend": "cd backend && npm run clean",
+    "clean:shared": "cd shared && npm run clean",
+    "lint": "npm run lint:frontend && npm run lint:backend && npm run lint:shared",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:shared": "cd shared && npm run lint",
+    "lint:fix": "npm run lint:fix:frontend && npm run lint:fix:backend && npm run lint:fix:shared",
+    "lint:fix:frontend": "cd frontend && npm run lint:fix",
+    "lint:fix:backend": "cd backend && npm run lint:fix",
+    "lint:fix:shared": "cd shared && npm run lint:fix",
+    "test": "npm run test:frontend && npm run test:backend && npm run test:shared",
+    "test:frontend": "cd frontend && npm run test",
+    "test:backend": "cd backend && npm run test",
+    "test:shared": "cd shared && npm run test",
+    "test:watch": "concurrently \"npm run test:watch:frontend\" \"npm run test:watch:backend\"",
+    "test:watch:frontend": "cd frontend && npm run test:watch",
+    "test:watch:backend": "cd backend && npm run test:watch",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../shared && npm install",
+    "db:generate": "cd backend && npm run db:generate",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:studio": "cd backend && npm run db:studio",
+    "db:seed": "cd backend && npm run db:seed",
+    "postinstall": "npm run build:shared"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "fullstack",
+    "nextjs",
+    "express",
+    "typescript",
+    "prisma"
+  ],
+  "author": "Development Team",
+  "license": "MIT"
+}
