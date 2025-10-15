@@ -8,23 +8,23 @@ export const aboutContent = {
   sections: [
     {
       title: "Introduction",
-      content: "I am a current sophomore at San José State University pursuing a B.S. in Computer Science. My academic and project experiences have cultivated a strong interest in systems-level work and a deep understanding of how software operates beneath the abstraction layers. I took a semester abroad at 성균관대학교 (Sungkyunkwan University) where I studied Applied Artificial Intelligence. I strive to have a diverse skill set and always work with efficiency, precision, and detail."
+      content: "I am a current sophomore at San José State University pursuing a B.S. in Computer Science. My academic and project experiences have cultivated a strong interest in systems-level work and a deep understanding of how software operates beneath the abstraction layers. I took a semester abroad at 성균관대학교 (Sungkyunkwan University) where I studied Applied Artificial Intelligence. I strive to maintain a diverse skill set and approach every project with efficiency, precision, and detail."
     },
     {
-      title: "Academic & Technical Foundations",
-      content: "My coursework and projects span a wide range of concepts, from full-stack applications to kernel-level systems. I am also well versed in theory namely big data, programming paradigms, data structures, algorithms, and more. Besides standard computer science knowledge, my studies in Korea extended my knowledge into machine learning and artificial intelligence, equipping me to think across both traditional computing and the emerging AI constructs."
+      title: "Foundations",
+      content: "My coursework and projects span full-stack applications through kernel-adjacent and embedded systems. I am well-versed in theory—data structures, algorithms, programming paradigms, and elements of big-data thinking—and I translate that theory into robust implementations. Studies in Korea broadened my perspective into machine learning and AI, helping me connect traditional systems engineering with modern AI-driven approaches."
     },
     {
-      title: "Spartan Racing – Computer Science in Action",
-      content: "I am a part of Spartan Racing which is part of FSAE. I take two roles R&D and Software. As a Research & Development Associate, I apply computer science principles to develop a torque vectoring algorithm from scratch. I must combine physics and computer science to get the most out of our vehicle. As a Software Associate, I work on enhancing our launch control algorithms. These roles allow me to combine software development with real-time system constraints, where code directly translates into real results on the track."
+      title: "Spartan Racing",
+      content: "I am part of Spartan Racing (FSAE) in both R&D and Software roles. I helped modernize a legacy VCU codebase in C into a coherent embedded architecture, improving algorithmic efficiency under real-time constraints. I also designed a physics-informed torque-vectoring controller that allocates wheel torque deterministically in a time-critical environment. In parallel, I contribute to launch-control improvements where code decisions translate directly into on-track performance. These roles combine rigorous software engineering with vehicle dynamics to deliver measurable results."
     },
     {
-      title: "Systems & Open Source Development",
-      content: "I am a contributor to the Debian Operating System. I contribute to a few packages and make sure they are stable across the pipeline. My responsibilities include analyzing crashes, implementing patches, and ensuring system libraries remain reliable and portable. This work strengthened my skills in debugging, architecture-aware programming, and maintaining robust open-source systems."
+      title: "Open Source w/ Debian",
+      content: "I contribute to the Debian ecosystem, sustaining packages across x86 and ARM by reproducing crashes, diagnosing regressions, and landing architecture-aware patches. This work sharpened my debugging discipline, command of Linux tooling, and attention to portability and reliability across build and release pipelines. It has also deepened my understanding of how low-level choices ripple through system libraries in production."
     },
     {
-      title: "Full-Stack & Cloud Applications",
-      content: "Beyond systems-level development, I have extensive experience with full-stack application design and deployment. I work across frontend and backend technologies to create responsive, reliable applications. These utilize cloud platforms to scale and manage infrastructure. These projects allow me to build end-to-end solutions, where user-facing design, backend logic, and cloud-based systems work together."
+      title: "Full-Stack Development",
+      content: "Beyond systems work, I build end-to-end applications across the frontend and backend and deploy them on cloud platforms. I focus on responsive UX, clean interfaces, and reliable APIs, then leverage managed services to scale and simplify operations. These projects keep me fluent at the product layer while reinforcing engineering fundamentals learned at the systems layer."
     },
     {
       title: "Personal Interests",
