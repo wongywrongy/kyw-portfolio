@@ -18,12 +18,12 @@ const menuItems = [
   {
     label: 'My mind',
     path: '/blog',
-    description: 'Explore my research, projects, blogs'
+    description: 'Section in development'
   },
   {
     label: 'Contact',
     path: '/contact',
-    description: 'Get in touch with me'
+    description: 'Lets get in touch!'
   }
 ]
 
@@ -42,7 +42,7 @@ export default function Menu() {
     // Professional shadow and hover effects
     shadow: "shadow-sm hover:shadow-lg",
     // Subtle border radius that's professional
-    borderRadius: "rounded-[8px]",
+    borderRadius: "rounded-[5px]",
     // Professional color scheme
     text: theme === 'light' ? "text-slate-100 font-medium" : "text-slate-800 font-medium",
     description: theme === 'light' ? "text-slate-300 text-sm" : "text-slate-600 text-sm",
