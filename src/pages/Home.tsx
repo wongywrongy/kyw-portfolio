@@ -8,7 +8,7 @@ export default function Home() {
       <div className="text-center max-w-2xl mx-auto">
         {/* Main heading with gradient text */}
         <motion.h1 
-          className="text-5xl md:text-6xl font-bold mb-2 bg-gradient-to-r from-c1 via-c2 to-c3 bg-clip-text text-transparent py-8 drop-shadow-lg"
+          className="text-5xl md:text-6xl font-bold mb-1 bg-gradient-to-r from-c1 via-c2 to-c3 bg-clip-text text-transparent py-8 drop-shadow-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
@@ -18,7 +18,7 @@ export default function Home() {
 
         {/* Subtitle */}
         <motion.p 
-          className="text-lg md:text-xl text-fg-1/80 mb-8 leading-relaxed"
+          className="text-lg md:text-xl text-fg-1/80 mb-8 leading-relaxed mt-0"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}

@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import GrainOverlay from './components/layout/GrainOverlay'
 import PrismBackground from './components/layout/PrismBackground'
 import FloatingMenu from './components/layout/FloatingMenu'
@@ -105,6 +107,10 @@ function App() {
             </div>
           </div>
         </footer>
+        
+        {/* Analytics */}
+        <Analytics />
+        <SpeedInsights />
       </div>
     </Router>
   )
