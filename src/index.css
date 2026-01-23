@@ -68,6 +68,13 @@ section[class*="snap-start"] {
   scroll-margin-top: 20vh; /* Require scrolling past 20% of viewport before snapping */
 }
 
+/* Mobile-specific scroll margin adjustments */
+@media (max-width: 640px) {
+  section[class*="snap-start"] {
+    scroll-margin-top: 10vh; /* Smaller margin on mobile */
+  }
+}
+
 /* Last section should snap to end to prevent extra scrolling */
 section[class*="snap-end"] {
   scroll-snap-align: end;

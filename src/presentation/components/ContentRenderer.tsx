@@ -52,7 +52,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
   const renderText = useCallback(() => {
     return (
       <motion.p
-        className={`mb-6 leading-relaxed text-base md:text-lg break-words overflow-wrap-anywhere ${
+        className={`mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere ${
           getThemeClasses('text-slate-700', 'text-slate-300')
         }`}
         initial={{ opacity: 0, y: 20 }}
@@ -73,10 +73,10 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
     
     // Define heading styles based on level
     const headingStyles = {
-      1: 'mt-12 mb-6 first:mt-0 text-4xl md:text-5xl font-bold',
-      2: 'mt-10 mb-4 first:mt-0 text-3xl md:text-4xl font-bold',
-      3: 'mt-8 mb-3 first:mt-0 text-2xl md:text-3xl font-semibold',
-      4: 'mt-6 mb-2 first:mt-0 text-xl md:text-2xl font-semibold',
+      1: 'mt-8 sm:mt-12 mb-4 sm:mb-6 first:mt-0 text-3xl sm:text-4xl md:text-5xl font-bold',
+      2: 'mt-6 sm:mt-10 mb-3 sm:mb-4 first:mt-0 text-2xl sm:text-3xl md:text-4xl font-bold',
+      3: 'mt-6 sm:mt-8 mb-2 sm:mb-3 first:mt-0 text-xl sm:text-2xl md:text-3xl font-semibold',
+      4: 'mt-4 sm:mt-6 mb-2 first:mt-0 text-lg sm:text-xl md:text-2xl font-semibold',
     };
     
     const baseStyles = headingStyles[level as keyof typeof headingStyles] || headingStyles[2];
@@ -105,7 +105,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
   const renderLaTeX = useCallback(() => {
     return (
       <motion.div
-        className={`${item.display ? 'my-8' : 'my-4'} w-full overflow-x-auto`}
+        className={`${item.display ? 'my-4 sm:my-8' : 'my-2 sm:my-4'} w-full overflow-x-auto`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
@@ -123,7 +123,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
   const renderCode = useCallback(() => {
     return (
       <motion.div
-        className="my-8 w-full overflow-x-auto"
+        className="my-4 sm:my-8 w-full overflow-x-auto"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
@@ -148,7 +148,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
 
     return (
       <motion.ul
-        className="mb-6 pl-6 space-y-2 list-disc break-words"
+        className="mb-4 sm:mb-6 pl-4 sm:pl-6 space-y-1 sm:space-y-2 list-disc break-words"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
@@ -156,7 +156,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
         {item.items.map((listItem, listIndex) => (
           <motion.li
             key={listIndex}
-            className={`leading-relaxed text-base md:text-lg break-words overflow-wrap-anywhere ${
+            className={`leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere ${
               getThemeClasses('text-slate-700', 'text-slate-300')
             }`}
             initial={{ opacity: 0, x: -10 }}
