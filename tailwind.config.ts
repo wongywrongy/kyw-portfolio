@@ -9,13 +9,29 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'Noto Sans KR', 'Noto Sans SC', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-family)', 'Inter', 'Noto Sans KR', 'Noto Sans SC', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
         korean: ['Noto Sans KR', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         chinese: ['Noto Sans SC', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Font options for experimentation
+        'space-grotesk': ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'dm-sans': ['DM Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'manrope': ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'poppins': ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'base': ['15px', { lineHeight: '1.6' }],
+        // Consistent typography scale
+        'xs': ['12px', { lineHeight: '1.5' }],
+        'sm': ['13px', { lineHeight: '1.5' }],
+        'md': ['15px', { lineHeight: '1.6' }],
+        'lg': ['16px', { lineHeight: '1.6' }],
+        'xl': ['18px', { lineHeight: '1.6' }],
+        '2xl': ['20px', { lineHeight: '1.5' }],
+        '3xl': ['24px', { lineHeight: '1.4' }],
+        '4xl': ['30px', { lineHeight: '1.3' }],
+        '5xl': ['36px', { lineHeight: '1.2' }],
+        '6xl': ['48px', { lineHeight: '1.1' }],
       },
       borderRadius: {
         '2xl': '1rem',

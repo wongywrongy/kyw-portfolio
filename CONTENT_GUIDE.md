@@ -1,171 +1,122 @@
 # Content Management Guide
 
-This guide explains how to easily modify the content of your portfolio website without touching the main code.
+Complete guide for editing all content on your portfolio without touching component code.
 
-## 📁 Content Files Location
+## 📁 Content Structure
 
-All content is stored in the `src/content/` directory:
-- `about.ts` - About Me page content
-- `blog.ts` - My Mind (blog) page content
+All content is in `src/infrastructure/data/`:
 
-## ✏️ Modifying About Me Content
-
-### File: `src/content/about.ts`
-
-To modify the About Me page content, edit the `aboutContent` object:
-
-```typescript
-export const aboutContent = {
-  title: "About Me", // Page title
-  sections: [
-    {
-      title: "Introduction", // Section heading
-      content: "Your introduction text here..." // Section content
-    },
-    {
-      title: "Background", // Section heading
-      content: "Your background text here..." // Section content
-    },
-    // Add more sections as needed
-  ]
-}
+```
+src/infrastructure/data/
+├── home.ts          # Home page content
+├── contact.ts       # Contact page content
+├── about.ts         # About page content
+└── blog/            # Blog posts
+    ├── index.ts
+    └── posts/
+        ├── research/
+        ├── projects/
+        └── blog/
 ```
 
-### How to Add/Remove Sections
+## 🏠 Home Page
 
-**To add a new section:**
+Edit `src/infrastructure/data/home.ts`:
+
+- **Hero**: Name and description
+- **About**: Title and paragraphs
+- **Blog**: Title and subtitle
+- **Contact**: Title, subtitle, and contact info
+
+## 📧 Contact Page
+
+Edit `src/infrastructure/data/contact.ts`:
+
+- Page title and subtitle
+- Contact information (Email, LinkedIn, GitHub)
+- Response time message
+
+Icons auto-map: "Email" → Mail, "LinkedIn" → LinkedIn, "GitHub" → GitHub
+
+## 📝 About Page
+
+Edit `src/infrastructure/data/about.ts`:
+
+- Page title
+- Section titles and content
+- Add/remove sections
+- Add images to sections
+
+### Adding Images
+
+1. Place images in `public/assets/images/`
+2. Add to section:
+
 ```typescript
 {
-  title: "New Section",
-  content: "Your new section content here..."
-}
-```
-
-**To remove a section:**
-Simply delete the entire section object from the `sections` array.
-
-**To reorder sections:**
-Move the section objects around in the `sections` array.
-
-## 📝 Modifying My Mind (Blog) Content
-
-### File: `src/content/blog.ts`
-
-To modify the blog content, edit the `blogContent` object:
-
-```typescript
-export const blogContent = {
-  title: "My Mind", // Page title
-  categories: [
-    { id: 'all', label: 'All Posts', icon: 'FileText' },
-    { id: 'research', label: 'Research', icon: 'BookOpen' },
-    // Add more categories
-  ],
-  posts: [
+  title: "Section Title",
+  content: "Your content...",
+  images: [
     {
-      id: 1, // Unique ID for each post
-      title: "Post Title",
-      excerpt: "Brief description of the post...",
-      category: "research", // Must match a category id
-      date: "2024-01-15", // YYYY-MM-DD format
-      readTime: "8 min read",
-      tags: ["Tag1", "Tag2", "Tag3"] // Array of tags
-    },
-    // Add more posts
-  ]
-}
-```
-
-### How to Add/Remove Blog Posts
-
-**To add a new post:**
-```typescript
-{
-  id: 7, // Use the next available ID
-  title: "Your New Post Title",
-  excerpt: "Brief description of your new post...",
-  category: "blog", // Must match an existing category
-  date: "2024-01-20",
-  readTime: "5 min read",
-  tags: ["Your", "Tags", "Here"]
-}
-```
-
-**To remove a post:**
-Delete the entire post object from the `posts` array.
-
-**To edit an existing post:**
-Simply modify the values in the post object.
-
-### How to Add/Remove Categories
-
-**To add a new category:**
-```typescript
-{ id: 'newcategory', label: 'New Category', icon: 'Tag' }
-```
-
-**Available icons:**
-- `FileText` - General documents
-- `BookOpen` - Research/books
-- `Tag` - Tags/labels
-
-**To remove a category:**
-1. Delete the category from the `categories` array
-2. Remove or update any posts that use that category
-
-## 🎨 Content Formatting Tips
-
-### Text Content
-- Use regular text for paragraphs
-- Line breaks are preserved
-- You can use basic HTML-like formatting in the content
-
-### Dates
-- Use YYYY-MM-DD format (e.g., "2024-01-15")
-- This ensures proper sorting and display
-
-### Tags
-- Keep tags short and relevant
-- Use 2-4 tags per post for best display
-- Tags are automatically limited to 3 in the UI
-
-## 🔄 After Making Changes
-
-1. Save the content file
-2. The changes will automatically appear on your website
-3. No need to restart the development server
-4. The website will hot-reload with your new content
-
-## 📋 Example: Complete About Me Update
-
-```typescript
-export const aboutContent = {
-  title: "About Kyle Wong",
-  sections: [
-    {
-      title: "Introduction",
-      content: "I'm Kyle Wong, a passionate Computer Science student at San Jose State University. I specialize in artificial intelligence and software development, with a particular focus on machine learning applications."
-    },
-    {
-      title: "Education",
-      content: "I'm currently pursuing my Computer Science degree at San Jose State University, where I've developed a strong foundation in algorithms, data structures, and software engineering principles."
-    },
-    {
-      title: "Research",
-      content: "I'm actively involved in applied AI research at Sungkyunkwan University, working on cutting-edge machine learning projects that have real-world applications."
-    },
-    {
-      title: "Open Source",
-      content: "As a Debian apprentice, I contribute to the open-source community and believe in the power of collaborative software development to solve complex problems."
+      src: "/assets/images/photo.jpg",
+      alt: "Description",
+      caption: "Optional caption",
+      width: 1200,  // Optional
+      height: 600   // Optional
     }
   ]
 }
 ```
 
-## 🆘 Need Help?
+## 📚 Blog Posts
 
-If you need assistance with content modification:
-1. Check this guide first
-2. Look at the existing content structure for examples
-3. The content files are well-commented and self-explanatory
-4. All changes are immediately visible in your browser
+Create posts in `src/infrastructure/data/blog/posts/[category]/`:
+
+1. Create new file: `post-2.ts`
+2. Export post object with required fields
+3. Import in `blog/index.ts`
+4. Add to `allPosts` array
+
+### Post Structure
+
+```typescript
+export const post = {
+  id: 2,
+  title: "Post Title",
+  slug: "post-slug",
+  excerpt: "Brief description...",
+  category: "research", // or "projects", "blog"
+  date: "2024-01-15",
+  content: [
+    { type: "heading", level: 1, content: "Title" },
+    { type: "text", content: "Paragraph..." },
+    { type: "image", src: "/path/to/image.jpg", alt: "Description" },
+    { type: "code", language: "typescript", code: "..." },
+    { type: "list", items: ["Item 1", "Item 2"] }
+  ]
+}
+```
+
+### Content Types
+
+- `heading`: `{ type: "heading", level: 1-6, content: "..." }`
+- `text`: `{ type: "text", content: "..." }`
+- `image`: `{ type: "image", src: "...", alt: "...", caption?: "..." }`
+- `code`: `{ type: "code", language: "...", code: "..." }`
+- `list`: `{ type: "list", items: ["..."] }`
+- `latex`: `{ type: "latex", content: "..." }`
+
+## 🎨 Styling
+
+**Do NOT edit component files** for content changes.
+
+Only edit:
+- ✅ Content data files (`src/infrastructure/data/*.ts`)
+- ✅ Constants (`src/shared/constants/index.ts`) for site-wide settings
+
+## 💡 Tips
+
+- Keep paragraphs concise
+- Use proper formatting
+- Test changes after editing
+- Backup important content
