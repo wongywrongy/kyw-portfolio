@@ -281,13 +281,13 @@ export const LAYOUT = {
   /** Standard container max width */
   containerMaxWidth: 'max-w-6xl',
   /** Standard page vertical padding - responsive */
-  pagePaddingY: 'py-12 md:py-20',
+  pagePaddingY: 'py-8 sm:py-12 md:py-20',
   /** Standard page horizontal padding - responsive */
   pagePaddingX: 'px-4 sm:px-6',
   /** Standard content box padding - responsive */
-  contentPadding: 'p-4 sm:p-6 md:p-8',
+  contentPadding: 'p-4 sm:p-5 md:p-8',
   /** Standard header margin bottom - responsive */
-  headerMarginBottom: 'mb-8 md:mb-12',
+  headerMarginBottom: 'mb-6 sm:mb-8 md:mb-12',
   /** Standard section spacing - responsive */
   sectionSpacing: 'mb-8 md:mb-12',
 } as const;

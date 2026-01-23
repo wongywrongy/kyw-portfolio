@@ -60,7 +60,7 @@ export const Home: React.FC = () => {
     text: getColorClass(COLORS.text.light, COLORS.text.dark),
     textSecondary: getColorClass(COLORS.textSecondary.light, COLORS.textSecondary.dark),
     textMuted: getColorClass(COLORS.textMuted.light, COLORS.textMuted.dark),
-    section: 'min-h-screen py-12 md:py-20 flex items-center',
+    section: 'min-h-screen py-8 sm:py-12 md:py-20 flex items-center',
     card: `${getColorClass(COLORS.cardBg.light, COLORS.cardBg.dark)} border ${getColorClass(COLORS.cardBorder.light, COLORS.cardBorder.dark)}`,
   }), []);
 
@@ -147,7 +147,7 @@ export const Home: React.FC = () => {
               {homeContent.about.paragraphs.map((paragraph, index) => (
                 <p 
                   key={index}
-                  className={`leading-relaxed ${index < homeContent.about.paragraphs.length - 1 ? 'mb-6' : ''} ${styles.textSecondary}`}
+                  className={`leading-relaxed ${index < homeContent.about.paragraphs.length - 1 ? 'mb-4 sm:mb-6' : ''} ${styles.textSecondary}`}
                 >
                   {paragraph}
                 </p>

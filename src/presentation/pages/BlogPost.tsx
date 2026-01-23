@@ -175,18 +175,18 @@ export const BlogPost: React.FC = () => {
         <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)}`}>
           {/* Post Header - Medium Style */}
           <motion.header 
-            className={`mb-12 ${featuredImage ? 'mt-0' : 'mt-0'}`}
+            className={`mb-8 sm:mb-12 ${featuredImage ? 'mt-0' : 'mt-0'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
             {/* Title - Medium Style Typography */}
-            <h1 className={`${TYPOGRAPHY.h1} font-bold mb-6 leading-tight tracking-tight ${styles.text}`}>
+            <h1 className={`${TYPOGRAPHY.h1} font-bold mb-4 sm:mb-6 leading-tight tracking-tight ${styles.text}`}>
               {post.title}
             </h1>
 
             {/* Date */}
-            <div className={`text-sm ${styles.textMuted} mb-8 pb-8 border-b ${getColorClass(COLORS.divider.light, COLORS.divider.dark)}`}>
+            <div className={`text-sm ${styles.textMuted} mb-6 sm:mb-8 pb-6 sm:pb-8 border-b ${getColorClass(COLORS.divider.light, COLORS.divider.dark)}`}>
               <div className="flex items-center gap-2">
                 <Calendar size={16} />
                 {formatDate(post.date)}
