@@ -1,32 +1,44 @@
-// Import individual post files
-import { post as researchPost1 } from './posts/research/post-1'
-import { post as blogPost1 } from './posts/blog/post-1'
-import { post as projectPost1 } from './posts/projects/post-1'
+// Import markdown files and parse them
+import { parseMarkdownPost } from './MarkdownParser';
+import type { BlogPost, BlogImage } from '../../shared/types';
 
-export interface BlogPost {
-  id: number
-  title: string
-  excerpt: string
-  date: string
-  slug: string
-  content?: any[]
-  images?: BlogImage[]
-}
+// Re-export types for convenience
+export type { BlogPost, BlogImage };
 
-export interface BlogImage {
-  src: string
-  alt: string
-  caption?: string
-  width?: number
-  height?: number
-}
+// Automatically import all markdown files from the posts directory
+// This allows you to just drop .md files in the posts folder and they'll be automatically included
+// No need to manually import each file - just add a new .md file and it will be picked up!
+const markdownModules = import.meta.glob<string>('./posts/*.md', { 
+  eager: true, 
+  query: '?raw',
+  import: 'default'
+});
 
-// Combine all posts from individual files
-export const allPosts: BlogPost[] = [
-  researchPost1,
-  blogPost1,
-  projectPost1
-].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+// Parse all markdown files to BlogPost format
+const allPosts: BlogPost[] = Object.entries(markdownModules).map(([path, content]) => {
+  try {
+    return parseMarkdownPost(content);
+  } catch (error) {
+    console.error(`Error parsing markdown file ${path}:`, error);
+    // Return a placeholder post to prevent the app from breaking
+    const filename = path.split('/').pop()?.replace('.md', '') || 'unknown';
+    return {
+      id: 0,
+      title: `Error loading post: ${filename}`,
+      slug: filename,
+      excerpt: 'There was an error loading this post.',
+      date: new Date().toISOString().split('T')[0],
+      readTime: '0 min read',
+      content: [{
+        type: 'text',
+        content: `Error: Could not parse markdown file ${path}. Please check the file format.`
+      }]
+    } as BlogPost;
+  }
+}).filter(post => post.id > 0) // Filter out error posts
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+export { allPosts };
 
 // Helper functions for easy content management
 export const getPostById = (id: number): BlogPost | undefined => {

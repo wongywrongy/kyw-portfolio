@@ -14,7 +14,9 @@ export default defineConfig({
       rehypePlugins: [
         rehypeSlug,
         [rehypeAutolinkHeadings, { behavior: 'wrap' }]
-      ]
+      ],
+      // Only process .mdx files, not .md files (we use .md?raw for blog posts)
+      include: /\.mdx$/
     })
   ],
   build: {
@@ -25,4 +27,5 @@ export default defineConfig({
       '@': '/src',
     },
   },
+  assetsInclude: ['**/*.md']
 })

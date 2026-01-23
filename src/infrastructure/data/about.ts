@@ -8,7 +8,7 @@ export const aboutContent = {
   sections: [
     {
       title: "Introduction",
-      content: "I am a current sophomore at San José State University pursuing a B.S. in Computer Science. My academic and project experiences have cultivated a strong interest in systems-level work and a deep understanding of how software operates beneath the abstraction layers. I took a semester abroad at 성균관대학교 (Sungkyunkwan University) where I studied Applied Artificial Intelligence. I strive to have a diverse skill set and always work with efficiency, precision, and detail."
+      content: "Hey, I’m Kyle, a Computer Science student at San José State University. I enjoy working with software beneath layers of abstraction and understanding systems at their core. I’m drawn to projects where details matter, impact is real, and the code is practical and intentional."
     },
     {
       title: "Academic & Technical Foundations",

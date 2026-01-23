@@ -38,9 +38,9 @@ export const homeContent: HomeContent = {
   about: {
     title: "About me",
     paragraphs: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-      "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.",
+      "Hey, I’m Kyle, a Computer Science student at San José State University. I enjoy working with software beneath layers of abstraction and understanding systems at their core. I’m drawn to projects where details matter, impact is tangible, and the code is practical and intentional.",
+      "I’ve worked across embedded systems, open-source software, and full-stack applications, and I spent a full semester in Korea studying applied artificial intelligence while developing projects alongside my coursework. This mix of experiences has reinforced my interest in the field and strengthened my focus on applying theory to real-world problems.",
+      "Outside of academics, I enjoy playing badminton both casually and competitively. I currently serve as the Vice President of SJSU Badminton, where I help others play, compete, and improve. I’m also passionate about photography and enjoy capturing moments on my Fujifilm camera.",
     ],
   },
   blog: {
