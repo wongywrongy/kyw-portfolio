@@ -49,7 +49,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
@@ -64,7 +64,8 @@ html {
 /* Ensure snap points align to start of sections */
 section[class*="snap-start"] {
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
+  scroll-margin-top: 20vh; /* Require scrolling past 20% of viewport before snapping */
 }
 
 /* Last section should snap to end to prevent extra scrolling */
