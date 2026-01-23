@@ -77,7 +77,7 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="relative snap-y snap-mandatory">
+    <div className="relative snap-y snap-proximity">
       {/* Hero Section */}
       <section id="hero" className={`${styles.section} px-4 sm:px-6 snap-start snap-always`}>
         <div className="text-center max-w-2xl mx-auto w-full">

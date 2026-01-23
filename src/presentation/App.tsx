@@ -136,7 +136,7 @@ const App: React.FC = () => {
           <main className="relative z-10">
             <Routes>
               {/* Main Routes */}
-              <Route path={ROUTES.HOME} element={<div className="h-screen snap-y snap-mandatory overflow-y-scroll"><Home /></div>} />
+              <Route path={ROUTES.HOME} element={<div className="h-screen snap-y snap-proximity overflow-y-scroll"><Home /></div>} />
               <Route path={ROUTES.ABOUT} element={<About />} />
               <Route path={ROUTES.BLOG} element={<BlogIndex />} />
               <Route path={ROUTES.RESUME} element={<Resume />} />
