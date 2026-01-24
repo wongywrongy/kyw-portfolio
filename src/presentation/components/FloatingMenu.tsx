@@ -96,26 +96,64 @@ export const FloatingMenu: React.FC = () => {
   }, [isLight]);
 
   return (
-    <div className="fixed top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-50">
-      <div className="flex items-center gap-2">
-        {/* Expandable Menu Items */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              className="flex gap-2"
-              initial={{ opacity: 0, x: 0, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 0, scale: 0.8 }}
-              transition={{ 
-                duration: 0.3, 
-                ease: "easeOut",
-                delay: 0.1 // Delay to let carrot rotate first
-              }}
-            >
+    <>
+      {/* Backdrop overlay for mobile when menu is open */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40 sm:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={handleToggleMenu}
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+
+      <div className="fixed top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-50">
+        <div className="flex flex-col sm:flex-row items-center gap-2">
+          {/* Expandable Menu Items */}
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                className="flex flex-col sm:flex-row gap-2 max-h-[calc(100vh-120px)] sm:max-h-none overflow-y-auto sm:overflow-y-visible bg-white/95 dark:bg-slate-900/95 backdrop-blur-md sm:bg-transparent sm:dark:bg-transparent sm:backdrop-blur-none rounded-lg sm:rounded-none shadow-lg sm:shadow-none border border-slate-200/50 dark:border-slate-700/50 sm:border-0 p-3 sm:p-0 items-center sm:items-center"
+                initial={{ opacity: 0, x: 0, scale: 0.8 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 0, scale: 0.8 }}
+                transition={{ 
+                  duration: 0.3, 
+                  ease: "easeOut",
+                  delay: 0.1 // Delay to let carrot rotate first
+                }}
+              >
+                {/* Toggle Button (Carrot) - Inside menu on mobile when open */}
+                {isOpen && (
+                  <motion.button
+                    onClick={handleToggleMenu}
+                    className={`${getIconStyles(isOpen)} w-11 h-11 sm:hidden flex-shrink-0 self-center`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    aria-label="Close menu"
+                    title="Close menu"
+                    style={{ minWidth: '44px', minHeight: '44px' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <motion.div
+                      animate={{ rotate: 180 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronUp className="w-6 h-6" />
+                    </motion.div>
+                  </motion.button>
+                )}
               {/* Home Button */}
               <motion.button
                 onClick={() => handleNavigate(ROUTES.HOME)}
-                className={getTextButtonStyles()}
+                className={`${getTextButtonStyles()} whitespace-nowrap`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 aria-label="Go to home"
@@ -126,7 +164,7 @@ export const FloatingMenu: React.FC = () => {
               {/* Autobiography Button */}
               <motion.button
                 onClick={() => handleNavigate(ROUTES.ABOUT)}
-                className={getTextButtonStyles()}
+                className={`${getTextButtonStyles()} whitespace-nowrap`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 aria-label="Go to about"
@@ -137,7 +175,7 @@ export const FloatingMenu: React.FC = () => {
               {/* Blog Button */}
               <motion.button
                 onClick={() => handleNavigate(ROUTES.BLOG)}
-                className={getTextButtonStyles()}
+                className={`${getTextButtonStyles()} whitespace-nowrap`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 aria-label="Go to blog"
@@ -148,7 +186,7 @@ export const FloatingMenu: React.FC = () => {
               {/* Resume Button */}
               <motion.button
                 onClick={() => handleNavigate(ROUTES.RESUME)}
-                className={getTextButtonStyles()}
+                className={`${getTextButtonStyles()} whitespace-nowrap`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 aria-label="Go to resume"
@@ -159,7 +197,7 @@ export const FloatingMenu: React.FC = () => {
               {/* Contact Button */}
               <motion.button
                 onClick={() => handleNavigate(ROUTES.CONTACT)}
-                className={getTextButtonStyles()}
+                className={`${getTextButtonStyles()} whitespace-nowrap`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 aria-label="Go to contact"
@@ -170,7 +208,7 @@ export const FloatingMenu: React.FC = () => {
               {/* Theme Toggle Button */}
               <motion.button
                 onClick={handleToggleTheme}
-                className={`${getIconStyles()} w-11 h-11 sm:w-10 sm:h-10`}
+                className={`${getIconStyles()} w-11 h-11 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 aria-label={themeAriaLabel}
@@ -187,10 +225,10 @@ export const FloatingMenu: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Toggle Button (Carrot) */}
+        {/* Toggle Button (Carrot) - Always visible outside, hidden on mobile when menu is open (since it's inside the box) */}
         <motion.button
           onClick={handleToggleMenu}
-          className={`${getIconStyles(isOpen)} w-11 h-11 sm:w-12 sm:h-12`}
+          className={`${getIconStyles(isOpen)} w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0 ${isOpen ? 'hidden sm:flex' : 'flex'}`}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
@@ -206,6 +244,7 @@ export const FloatingMenu: React.FC = () => {
         </motion.button>
       </div>
     </div>
+    </>
   );
 };
 

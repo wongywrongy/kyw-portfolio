@@ -84,14 +84,13 @@ export class ThemeService implements IThemeService {
 
   /**
    * Initializes the theme service
-   * Loads saved theme or uses system preference
+   * Loads saved theme or uses default (light) theme
    */
   private initializeTheme(): void {
     const savedTheme = this.getSavedTheme();
-    const systemTheme = this.getSystemTheme();
     
-    // Use saved theme if available, otherwise use system theme
-    const themeToUse = savedTheme || systemTheme;
+    // Use saved theme if available, otherwise use default (light) theme
+    const themeToUse = savedTheme || THEME_CONFIG.defaultTheme;
     
     this.currentTheme = themeToUse;
     this.applyTheme(this.currentTheme);

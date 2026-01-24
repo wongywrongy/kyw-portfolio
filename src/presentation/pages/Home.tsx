@@ -199,10 +199,10 @@ export const Home: React.FC = () => {
                           <span className="whitespace-nowrap">
                             {(() => {
                               const date = new Date(post.date);
+                              const month = (date.getMonth() + 1).toString().padStart(2, '0');
                               const day = date.getDate().toString().padStart(2, '0');
-                              const month = date.toLocaleDateString('en-US', { month: 'long' });
-                              const year = date.getFullYear();
-                              return `${month} ${day}, ${year}`;
+                              const year = date.getFullYear().toString().slice(-2);
+                              return `${month}/${day}/${year}`;
                             })()}
                           </span>
                         </div>
