@@ -110,18 +110,8 @@ export function useTheme(): UseThemeReturn {
     return themeService.getOppositeTheme(theme);
   }, [themeService, theme]);
 
-  // Listen for system theme changes
-  useEffect(() => {
-    const cleanup = themeService.onSystemThemeChange((systemTheme) => {
-      // Only update if no theme is saved (user hasn't made a preference)
-      const savedTheme = themeService.getSavedTheme();
-      if (!savedTheme) {
-        setTheme(systemTheme);
-      }
-    });
-
-    return cleanup;
-  }, [themeService, setTheme]);
+  // Listen for system theme changes (disabled - default to light instead)
+  // Removed system theme detection to always default to light mode
 
   // Sync theme service with context theme
   useEffect(() => {
