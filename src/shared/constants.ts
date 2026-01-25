@@ -185,6 +185,22 @@ export const TYPOGRAPHY = {
 } as const;
 
 /**
+ * Blog-specific typography optimized for reading
+ * Uses more moderate scaling for comfortable reading experience
+ */
+export const BLOG_TYPOGRAPHY = {
+  /** Blog body text - optimized for reading (16-20px range) */
+  body: 'text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl',
+  /** Blog headings - moderate scaling for readability */
+  h1: 'text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold',
+  h2: 'text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold',
+  h3: 'text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-semibold',
+  h4: 'text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-semibold',
+  /** Blog list items - same as body for consistency */
+  listItem: 'text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl',
+} as const;
+
+/**
  * Available font families for experimentation
  */
 export const FONTS = {
