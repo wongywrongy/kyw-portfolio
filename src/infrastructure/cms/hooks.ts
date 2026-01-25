@@ -169,25 +169,64 @@ export function useBlogPost(slug: string) {
         const transformedContent = (data.content || []).map((block: any) => {
           switch (block.type) {
             case 'text':
-              return { type: 'text', content: block.content };
+              // Preserve line breaks by splitting on double newlines (paragraphs)
+              // Single newlines will be handled by CSS white-space
+              return { 
+                type: 'text', 
+                content: block.content || '',
+                paragraphs: block.content ? block.content.split(/\n\n+/).filter((p: string) => p.trim()) : []
+              };
             case 'heading':
               return { type: 'heading', level: block.level, content: block.content };
             case 'image':
+              // Handle image asset - try urlFor first, fallback to direct URL
+              let imageUrl = '';
+              if (block.image?.asset) {
+                try {
+                  // If we have _id or _ref, use urlFor for optimization
+                  if (block.image.asset._id || block.image.asset._ref) {
+                    imageUrl = urlFor(block.image.asset).url();
+                  } else if (block.image.asset.url) {
+                    // Fallback to direct URL from query
+                    imageUrl = block.image.asset.url;
+                  }
+                } catch (err) {
+                  console.warn('Error processing image URL:', err);
+                  // Final fallback
+                  imageUrl = block.image.asset.url || '';
+                }
+              }
+              
+              if (!imageUrl) {
+                console.warn('No image URL found for block:', block);
+                return null;
+              }
+              
               return {
                 type: 'image',
-                url: urlFor(block.image.asset).url(),
-                alt: block.image.alt || '',
-                caption: block.image.caption,
-                width: block.image.width,
-                align: block.image.align,
+                src: imageUrl,
+                alt: block.image?.alt || '',
+                caption: block.image?.caption,
+                width: block.image?.width,
+                align: block.image?.align,
               };
             case 'code':
-              return { type: 'code', language: block.language, code: block.code };
+              // Use 'code' field from Sanity, fallback to 'content'
+              return { 
+                type: 'code', 
+                language: block.language || 'text', 
+                content: block.code || block.content || ''
+              };
             case 'latex':
-              return { type: 'latex', content: block.content, display: block.display };
+              return { type: 'latex', content: block.content, display: block.display || false };
             case 'list':
-              return { type: 'list', ordered: block.ordered, items: block.items };
+              return { 
+                type: 'list', 
+                ordered: block.ordered || false, 
+                items: block.items || [] 
+              };
             default:
+              console.warn('Unknown block type:', block.type, block);
               return null;
           }
         }).filter(Boolean);

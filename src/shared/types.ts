@@ -45,6 +45,8 @@ export interface ContentItem {
   type: ContentItemType;
   /** Text content for text and heading items */
   content?: string;
+  /** Paragraphs array for text blocks (preserves line breaks) */
+  paragraphs?: string[];
   /** Heading level for heading items (1-6) */
   level?: number;
   /** Whether LaTeX should be displayed as block or inline */
@@ -53,8 +55,12 @@ export interface ContentItem {
   language?: string;
   /** Filename for code blocks */
   filename?: string;
+  /** Code content (alternative to content for code blocks) */
+  code?: string;
   /** List items for list type */
   items?: string[];
+  /** Whether list is ordered (numbered) */
+  ordered?: boolean;
   /** Image source URL */
   src?: string;
   /** Image alt text */
@@ -62,9 +68,11 @@ export interface ContentItem {
   /** Image caption */
   caption?: string;
   /** Image width */
-  width?: number;
+  width?: number | string;
   /** Image height */
   height?: number;
+  /** Image alignment */
+  align?: 'left' | 'center' | 'right';
   /** Image quality setting */
   quality?: 'low' | 'medium' | 'high' | 'original';
   /** Image format */

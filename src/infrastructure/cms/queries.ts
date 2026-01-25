@@ -88,7 +88,8 @@ export const blogPostBySlugQuery = `*[_type == "blogPost" && slug.current == $sl
     "image": image {
       asset-> {
         _id,
-        url
+        _ref,
+        _type
       },
       alt,
       caption,

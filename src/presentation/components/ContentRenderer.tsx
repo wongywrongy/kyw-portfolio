@@ -48,21 +48,38 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
 
   /**
    * Renders text content with proper styling
+   * Handles line breaks and paragraph separation
    */
   const renderText = useCallback(() => {
+    const content = item.content || '';
+    // If we have paragraphs array (from Sanity), use that
+    // Otherwise, split on double newlines to create paragraphs
+    const paragraphs = (item as any).paragraphs || content.split(/\n\n+/).filter((p: string) => p.trim());
+    
+    if (paragraphs.length === 0) {
+      return null;
+    }
+
     return (
-      <motion.p
-        className={`mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere ${
-          getThemeClasses('text-slate-700', 'text-slate-300')
-        }`}
+      <motion.div
+        className="mb-4 sm:mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
       >
-        {item.content}
-      </motion.p>
+        {paragraphs.map((paragraph: string, paraIndex: number) => (
+          <p
+            key={paraIndex}
+            className={`mb-4 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere whitespace-pre-line ${
+              getThemeClasses('text-slate-700', 'text-slate-300')
+            }`}
+          >
+            {paragraph.trim()}
+          </p>
+        ))}
+      </motion.div>
     );
-  }, [item.content, animationDelay, getThemeClasses]);
+  }, [item, animationDelay, getThemeClasses]);
 
   /**
    * Renders heading with appropriate level and styling
@@ -121,6 +138,9 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
    * Renders code blocks with syntax highlighting
    */
   const renderCode = useCallback(() => {
+    // Code content can be in 'content' or 'code' field
+    const codeContent = item.content || (item as any).code || '';
+    
     return (
       <motion.div
         className="my-4 sm:my-8 w-full overflow-x-auto"
@@ -132,11 +152,11 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
           language={item.language || 'text'}
           filename={item.filename}
         >
-          {item.content || ''}
+          {codeContent}
         </CodeBlock>
       </motion.div>
     );
-  }, [item.content, item.language, item.filename, animationDelay]);
+  }, [item, animationDelay]);
 
   /**
    * Renders lists with proper styling
@@ -146,32 +166,40 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
       return null;
     }
 
+    const ListTag = item.ordered ? 'ol' : 'ul';
+    const listStyle = item.ordered ? 'list-decimal' : 'list-disc';
+
     return (
-      <motion.ul
-        className="mb-4 sm:mb-6 pl-4 sm:pl-6 space-y-1 sm:space-y-2 list-disc break-words"
+      <motion.div
+        className="mb-4 sm:mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
       >
-        {item.items.map((listItem, listIndex) => (
-          <motion.li
-            key={listIndex}
-            className={`leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere ${
-              getThemeClasses('text-slate-700', 'text-slate-300')
-            }`}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ 
-              duration: 0.3, 
-              delay: animationDelay + (listIndex * 0.05),
-              ease: "easeOut" 
-            }}
-            dangerouslySetInnerHTML={{ __html: listItem }}
-          />
-        ))}
-      </motion.ul>
+        <ListTag
+          className={`${listStyle} pl-4 sm:pl-6 space-y-2 sm:space-y-3 break-words`}
+        >
+          {item.items.map((listItem, listIndex) => (
+            <motion.li
+              key={listIndex}
+              className={`leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere whitespace-pre-line ${
+                getThemeClasses('text-slate-700', 'text-slate-300')
+              }`}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ 
+                duration: 0.3, 
+                delay: animationDelay + (listIndex * 0.05),
+                ease: "easeOut" 
+              }}
+            >
+              {listItem}
+            </motion.li>
+          ))}
+        </ListTag>
+      </motion.div>
     );
-  }, [item.items, animationDelay, getThemeClasses]);
+  }, [item.items, item.ordered, animationDelay, getThemeClasses]);
 
   /**
    * Renders images with optimization and accessibility
