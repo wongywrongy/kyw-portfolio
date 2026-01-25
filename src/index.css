@@ -1,5 +1,7 @@
 /* Import fonts for better multilingual support and experimentation */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+/* Montserrat - Primary font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 /* Additional font options for experimentation */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
@@ -86,7 +88,7 @@ section[class*="snap-end"] {
 
 body {
   margin: 0;
-  font-family: var(--font-family, 'Manrope'), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-family, 'Montserrat'), ui-sans-serif, system-ui, sans-serif;
   font-size: calc(15px * var(--font-scale)); /* Uses --font-scale variable for easy global adjustment */
   line-height: 1.6;
   color: hsl(var(--fg-1));
@@ -102,7 +104,7 @@ body {
 
 /* Font family options */
 :root {
-  --font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
 }
 
 [data-font="inter"] {

@@ -9,15 +9,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-family)', 'Inter', 'Noto Sans KR', 'Noto Sans SC', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-family)', 'Montserrat', 'Inter', 'Noto Sans KR', 'Noto Sans SC', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
-        korean: ['Noto Sans KR', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        chinese: ['Noto Sans SC', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        korean: ['Noto Sans KR', 'Montserrat', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        chinese: ['Noto Sans SC', 'Montserrat', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         // Font options for experimentation
         'space-grotesk': ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'dm-sans': ['DM Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'manrope': ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'poppins': ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'montserrat': ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         // Global font scale: Uses CSS variable --font-scale for easy customization
