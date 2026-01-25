@@ -58,7 +58,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 }) => {
   // State for current theme
   const [theme, setThemeState] = useState<ThemeVariant>(() => {
-    // Initialize theme from props, localStorage, or system preference
+    // Initialize theme from props, localStorage, or default (light)
     if (initialTheme) {
       return initialTheme;
     }
@@ -75,17 +75,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
       console.warn('Failed to read theme from localStorage:', error);
     }
     
-    // Fall back to system preference
-    try {
-      if (typeof window !== 'undefined' && window.matchMedia) {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        return prefersDark ? 'dark' : 'light';
-      }
-    } catch (error) {
-      console.warn('Failed to detect system theme preference:', error);
-    }
-    
-    // Default fallback
+    // Default to light theme (don't use system preference)
     return THEME_CONFIG.defaultTheme;
   });
 
@@ -170,35 +160,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     applyTheme(theme);
   }, [theme, applyTheme]);
 
-  // Listen for system theme changes
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) {
-      return;
-    }
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      // Only update if no theme is saved (user hasn't made a preference)
-      try {
-        const savedTheme = localStorage.getItem(THEME_CONFIG.storageKey);
-        if (!savedTheme) {
-          const systemTheme: ThemeVariant = e.matches ? 'dark' : 'light';
-          setThemeState(systemTheme);
-          applyTheme(systemTheme);
-        }
-      } catch (error) {
-        console.warn('Failed to handle system theme change:', error);
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleSystemThemeChange);
-
-    // Cleanup function
-    return () => {
-      mediaQuery.removeEventListener('change', handleSystemThemeChange);
-    };
-  }, [applyTheme]);
+  // Listen for system theme changes (disabled - default to light instead)
+  // Removed system theme detection to always default to light mode
 
   // Save theme when it changes
   useEffect(() => {

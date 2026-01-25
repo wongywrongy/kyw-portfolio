@@ -21,6 +21,16 @@ export default defineConfig({
   ],
   build: {
     outDir: 'dist',
+    sourcemap: false, // Disable sourcemaps in production for smaller bundle
+    minify: 'esbuild', // Use esbuild for faster builds
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'sanity-vendor': ['@sanity/client', '@sanity/image-url'],
+        },
+      },
+    },
   },
   resolve: {
     alias: {
