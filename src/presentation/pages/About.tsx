@@ -8,7 +8,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useAboutContent } from '../../infrastructure/cms/hooks';
-import { TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
+import { TYPOGRAPHY, MINDSPACE_TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
 import BlogImage from '../components/BlogImage';
 
 /**
@@ -112,7 +112,7 @@ export const About: React.FC = () => {
                   </h2>
                   
                   <div className={`prose prose-lg max-w-none ${getContentStyles()}`}>
-                    <p className="leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
+                    <p className={`leading-relaxed ${MINDSPACE_TYPOGRAPHY.body}`}>
                       {section.content}
                     </p>
                   </div>
