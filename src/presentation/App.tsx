@@ -48,8 +48,10 @@ const App: React.FC = () => {
    * Initializes font family from localStorage or default
    */
   useEffect(() => {
-    const savedFont = localStorage.getItem('font-family') || APP_CONFIG.defaultFont;
-    document.documentElement.setAttribute('data-font', savedFont);
+    // Set font to Montserrat (clear any saved font preference)
+    document.documentElement.setAttribute('data-font', 'montserrat');
+    // Clear any old font preference from localStorage
+    localStorage.removeItem('font-family');
   }, []);
 
   /**

@@ -127,6 +127,10 @@ body {
   --font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
 }
 
+[data-font="montserrat"] {
+  --font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+}
+
 /* Grain Overlay - Optimized */
 .grain-overlay {
   mix-blend-mode: overlay;

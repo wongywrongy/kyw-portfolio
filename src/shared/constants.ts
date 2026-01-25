@@ -24,7 +24,7 @@ export const APP_CONFIG = {
   /** Default theme */
   defaultTheme: 'light' as const,
   /** Default font family */
-  defaultFont: 'manrope' as const,
+  defaultFont: 'montserrat' as const,
   /** Maximum content width */
   maxContentWidth: '1200px',
   /** Default animation duration */
