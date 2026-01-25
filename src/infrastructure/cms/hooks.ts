@@ -13,11 +13,87 @@ import {
   allBlogPostsQuery,
   blogPostBySlugQuery,
   resumeQuery,
-  siteSettingsQuery,
 } from './queries';
 import type { HomeContent } from '../data/home';
 import type { AboutSection } from '../../shared/types';
 import type { BlogPost } from '../../shared/types';
+
+// ============================================================================
+// Client-side TTL Cache + In-flight Request Deduplication
+// ============================================================================
+
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+// Cache: stores successful query results with timestamps
+const queryCache = new Map<string, { data: unknown; timestamp: number }>();
+
+// In-flight: tracks ongoing requests to deduplicate concurrent calls
+const inflight = new Map<string, Promise<unknown>>();
+
+/**
+ * Get cached data if available and not stale
+ */
+function getCached(key: string): unknown | null {
+  const cached = queryCache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    if (import.meta.env.DEV) {
+      console.debug(`[Sanity Cache] HIT: ${key}`);
+    }
+    return cached.data;
+  }
+  if (import.meta.env.DEV && cached) {
+    console.debug(`[Sanity Cache] MISS (stale): ${key}`);
+  } else if (import.meta.env.DEV) {
+    console.debug(`[Sanity Cache] MISS: ${key}`);
+  }
+  return null;
+}
+
+/**
+ * Set cached data with current timestamp
+ */
+function setCached(key: string, data: unknown): void {
+  queryCache.set(key, { data, timestamp: Date.now() });
+}
+
+/**
+ * Fetch with caching and deduplication
+ */
+async function fetchWithCache<T>(
+  cacheKey: string,
+  fetchFn: () => Promise<T>
+): Promise<T> {
+  // Check cache first
+  const cached = getCached(cacheKey);
+  if (cached !== null) {
+    return cached as T;
+  }
+
+  // Check if request is already in-flight
+  const existingPromise = inflight.get(cacheKey);
+  if (existingPromise) {
+    if (import.meta.env.DEV) {
+      console.debug(`[Sanity Cache] In-flight DEDUP: ${cacheKey}`);
+    }
+    return existingPromise as Promise<T>;
+  }
+
+  // Create new fetch promise
+  const promise = fetchFn()
+    .then((data) => {
+      setCached(cacheKey, data);
+      return data;
+    })
+    .finally(() => {
+      // Always remove from in-flight map, even on error
+      inflight.delete(cacheKey);
+    });
+
+  // Track in-flight request
+  inflight.set(cacheKey, promise);
+
+  return promise;
+}
 
 // Home page content hook
 export function useHomeContent() {
@@ -30,10 +106,15 @@ export function useHomeContent() {
       try {
         setLoading(true);
         setError(null);
-        const data = await client.fetch(homeQuery);
-        if (!data) {
-          throw new Error('Home page content not found. Please create a Home Page document in Sanity.');
-        }
+        
+        const data = await fetchWithCache<HomeContent>('homeContent', async () => {
+          const result = await client.fetch(homeQuery);
+          if (!result) {
+            throw new Error('Home page content not found. Please create a Home Page document in Sanity.');
+          }
+          return result;
+        });
+        
         setContent(data);
       } catch (err) {
         console.error('Error fetching home content:', err);
@@ -60,10 +141,15 @@ export function useAboutContent() {
       try {
         setLoading(true);
         setError(null);
-        const data = await client.fetch(aboutQuery);
-        if (!data) {
-          throw new Error('About page content not found. Please create an About Page document in Sanity.');
-        }
+        
+        const data = await fetchWithCache<{ title: string; sections: AboutSection[] }>('aboutContent', async () => {
+          const result = await client.fetch(aboutQuery);
+          if (!result) {
+            throw new Error('About page content not found. Please create an About Page document in Sanity.');
+          }
+          return result;
+        });
+        
         setContent(data);
       } catch (err) {
         console.error('Error fetching about content:', err);
@@ -90,9 +176,16 @@ export function useBlogPosts() {
       try {
         setLoading(true);
         setError(null);
-        const data = await client.fetch(allBlogPostsQuery);
         
-        if (!data || !Array.isArray(data)) {
+        const data = await fetchWithCache<any[]>('allBlogPosts', async () => {
+          const result = await client.fetch(allBlogPostsQuery);
+          if (!result || !Array.isArray(result)) {
+            return [];
+          }
+          return result;
+        });
+        
+        if (!data || data.length === 0) {
           setPosts([]);
           return;
         }
@@ -170,8 +263,15 @@ export function useBlogPost(slug: string) {
       try {
         setLoading(true);
         setError(null);
+        
         // Use parameterized query to prevent injection attacks
-        const data = await client.fetch(blogPostBySlugQuery, { slug });
+        const data = await fetchWithCache<any>(`blogPostBySlug:${slug}`, async () => {
+          const result = await client.fetch(blogPostBySlugQuery, { slug });
+          if (!result) {
+            throw new Error('Post not found');
+          }
+          return result;
+        });
 
         if (!data) {
           setError(new Error('Post not found'));
@@ -344,13 +444,18 @@ export function useResume() {
       try {
         setLoading(true);
         setError(null);
-        const data = await client.fetch(resumeQuery);
-        if (!data) {
-          throw new Error('Resume not found. Please create a Resume document in Sanity.');
-        }
-        if (!data.pdfUrl) {
-          throw new Error('Resume PDF not found. Please upload a PDF file in the Resume document.');
-        }
+        
+        const data = await fetchWithCache<any>('resume', async () => {
+          const result = await client.fetch(resumeQuery);
+          if (!result) {
+            throw new Error('Resume not found. Please create a Resume document in Sanity.');
+          }
+          if (!result.pdfUrl) {
+            throw new Error('Resume PDF not found. Please upload a PDF file in the Resume document.');
+          }
+          return result;
+        });
+        
         setResume({
           title: data.title,
           introText: data.introText,
@@ -373,48 +478,3 @@ export function useResume() {
   return { resume, loading, error };
 }
 
-// Site settings hook
-export function useSiteSettings() {
-  const [settings, setSettings] = useState<{
-    siteName?: string;
-    siteDescription?: string;
-    socialLinks?: Array<{
-      platform: string;
-      url: string;
-      icon?: string;
-    }>;
-    footerText?: {
-      copyright?: string;
-      additionalText?: string;
-    };
-    navigationLinks?: Array<{
-      label: string;
-      path: string;
-      order?: number;
-    }>;
-  } | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    async function fetchSettings() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await client.fetch(siteSettingsQuery);
-        // Site settings are optional, so null is acceptable
-        setSettings(data || null);
-      } catch (err) {
-        console.error('Error fetching site settings:', err);
-        // Site settings are optional, so we don't set error for missing settings
-        setSettings(null);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchSettings();
-  }, []);
-
-  return { settings, loading, error };
-}

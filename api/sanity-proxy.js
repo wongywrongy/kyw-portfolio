@@ -38,6 +38,7 @@ export default async function handler(request, response) {
     
     sanityUrl.searchParams.set('query', query);
     sanityUrl.searchParams.set('perspective', 'published');
+    sanityUrl.searchParams.set('useCdn', 'true');
 
     // Handle parameterized queries
     if (params && typeof params === 'string') {

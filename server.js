@@ -53,6 +53,7 @@ app.get('/api/sanity', async (req, res) => {
     
     sanityUrl.searchParams.set('query', finalQuery);
     sanityUrl.searchParams.set('perspective', 'published');
+    sanityUrl.searchParams.set('useCdn', 'true');
 
     // Fetch from Sanity API (server-side, no CORS issues)
     const sanityResponse = await fetch(sanityUrl.toString(), {
