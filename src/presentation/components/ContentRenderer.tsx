@@ -329,7 +329,8 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
         case 'list':
           return !!(item.items && item.items.length > 0);
         case 'image':
-          return !!(item.src && item.alt);
+          // Allow images even if src is empty (for debugging)
+          return !!(item.type === 'image');
         default:
           console.warn(`Unknown content item type: ${item.type}`);
           return false;

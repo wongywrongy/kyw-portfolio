@@ -66,6 +66,15 @@ export const BlogImage: React.FC<BlogImageProps> = ({
   const { getThemeClasses } = useThemeClasses();
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  
+  // Debug logging
+  React.useEffect(() => {
+    if (!src) {
+      console.error('BlogImage: Missing src prop', { src, alt, caption });
+    } else {
+      console.log('BlogImage: Rendering image', { src: src.substring(0, 100), alt, caption });
+    }
+  }, [src, alt, caption]);
 
   /**
    * Generates optimized image source URL

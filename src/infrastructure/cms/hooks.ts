@@ -181,34 +181,73 @@ export function useBlogPost(slug: string) {
             case 'image':
               // Handle image asset - try urlFor first, fallback to direct URL
               let imageUrl = '';
-              if (block.image?.asset) {
+              
+              // Debug logging
+              console.log('Processing image block:', {
+                hasImage: !!block.image,
+                hasAsset: !!block.image?.asset,
+                asset: block.image?.asset,
+                alt: block.alt,
+                caption: block.caption,
+                fullBlock: block
+              });
+              
+              if (block.image) {
                 try {
-                  // If we have _id or _ref, use urlFor for optimization
-                  if (block.image.asset._id || block.image.asset._ref) {
-                    imageUrl = urlFor(block.image.asset).url();
-                  } else if (block.image.asset.url) {
-                    // Fallback to direct URL from query
-                    imageUrl = block.image.asset.url;
+                  // Try passing the full image object first (urlFor can handle this)
+                  if (block.image.asset) {
+                    // If we have asset with _id or _ref, use urlFor
+                    if (block.image.asset._id || block.image.asset._ref) {
+                      imageUrl = urlFor(block.image.asset).url();
+                      console.log('Generated image URL via urlFor (asset):', imageUrl);
+                    } else {
+                      // Try passing the full image object
+                      imageUrl = urlFor(block.image).url();
+                      console.log('Generated image URL via urlFor (image):', imageUrl);
+                    }
+                  } else {
+                    // Try passing the full image object directly
+                    imageUrl = urlFor(block.image).url();
+                    console.log('Generated image URL via urlFor (direct):', imageUrl);
                   }
                 } catch (err) {
-                  console.warn('Error processing image URL:', err);
-                  // Final fallback
-                  imageUrl = block.image.asset.url || '';
+                  console.error('Error processing image URL:', err, {
+                    image: block.image,
+                    asset: block.image?.asset
+                  });
+                  // Try alternative approach - construct URL manually if we have _id
+                  if (block.image.asset?._id) {
+                    const projectId = import.meta.env.VITE_SANITY_PROJECT_ID || '29s0hb29';
+                    const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
+                    const imageId = block.image.asset._id.replace('image-', '').replace(/-/g, '');
+                    imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${imageId}`;
+                    console.log('Using manual CDN URL:', imageUrl);
+                  }
                 }
+              } else {
+                console.warn('Image block missing image object:', block);
               }
               
               if (!imageUrl) {
-                console.warn('No image URL found for block:', block);
-                return null;
+                console.error('No image URL found for block:', block);
+                // Return a placeholder instead of null so we can see what's wrong
+                return {
+                  type: 'image',
+                  src: '',
+                  alt: block.alt || 'Missing image',
+                  caption: block.caption || 'Image failed to load',
+                  width: block.width,
+                  align: block.align,
+                };
               }
               
               return {
                 type: 'image',
                 src: imageUrl,
-                alt: block.image?.alt || '',
-                caption: block.image?.caption,
-                width: block.image?.width,
-                align: block.image?.align,
+                alt: block.alt || '',
+                caption: block.caption,
+                width: block.width,
+                align: block.align,
               };
             case 'code':
               // Use 'code' field from Sanity, fallback to 'content'
