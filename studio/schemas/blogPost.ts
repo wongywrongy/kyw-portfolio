@@ -53,6 +53,40 @@ export default defineType({
       initialValue: '5 min read',
     },
     {
+      name: 'tag',
+      title: 'Post Tag',
+      type: 'object',
+      description: 'A colored tag that appears above the title. Use this to categorize or highlight your post.',
+      fields: [
+        {
+          name: 'text',
+          title: 'Tag Text',
+          type: 'string',
+          description: 'The text to display on the tag (e.g., "Project", "Research", "Tutorial").',
+          validation: (Rule) => Rule.max(20),
+        },
+        {
+          name: 'color',
+          title: 'Tag Color',
+          type: 'string',
+          description: 'Choose a color for the tag. This will create a nice visual flow into the title.',
+          options: {
+            list: [
+              { title: 'Blue', value: 'blue' },
+              { title: 'Purple', value: 'purple' },
+              { title: 'Pink', value: 'pink' },
+              { title: 'Green', value: 'green' },
+              { title: 'Orange', value: 'orange' },
+              { title: 'Red', value: 'red' },
+              { title: 'Teal', value: 'teal' },
+              { title: 'Indigo', value: 'indigo' },
+            ],
+          },
+          initialValue: 'blue',
+        },
+      ],
+    },
+    {
       name: 'featuredImage',
       title: 'Featured Image',
       type: 'image',

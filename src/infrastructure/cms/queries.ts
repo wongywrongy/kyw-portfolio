@@ -67,6 +67,10 @@ export const blogPostBySlugQuery = `*[_type == "blogPost" && slug.current == $sl
   excerpt,
   date,
   readTime,
+  tag {
+    text,
+    color
+  },
   "featuredImage": featuredImage {
     asset-> {
       _id,

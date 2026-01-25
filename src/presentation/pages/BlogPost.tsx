@@ -82,6 +82,24 @@ export const BlogPost: React.FC = () => {
     backButton: `${getColorClass('text-slate-600', 'dark:text-slate-400')} ${getColorClass('hover:text-c1', 'dark:hover:text-c1')} ${getColorClass('border-slate-200', 'dark:border-slate-700')} ${getColorClass('hover:border-c1', 'dark:hover:border-c1')}`,
   }), []);
 
+  /**
+   * Gets color classes for tag based on color option
+   */
+  const getTagColorClasses = useCallback((color?: string) => {
+    const colorMap: Record<string, string> = {
+      blue: 'bg-blue-500/20 text-blue-600 dark:bg-blue-500/30 dark:text-blue-400 border border-blue-500/30 dark:border-blue-500/50',
+      purple: 'bg-purple-500/20 text-purple-600 dark:bg-purple-500/30 dark:text-purple-400 border border-purple-500/30 dark:border-purple-500/50',
+      pink: 'bg-pink-500/20 text-pink-600 dark:bg-pink-500/30 dark:text-pink-400 border border-pink-500/30 dark:border-pink-500/50',
+      green: 'bg-green-500/20 text-green-600 dark:bg-green-500/30 dark:text-green-400 border border-green-500/30 dark:border-green-500/50',
+      orange: 'bg-orange-500/20 text-orange-600 dark:bg-orange-500/30 dark:text-orange-400 border border-orange-500/30 dark:border-orange-500/50',
+      red: 'bg-red-500/20 text-red-600 dark:bg-red-500/30 dark:text-red-400 border border-red-500/30 dark:border-red-500/50',
+      teal: 'bg-teal-500/20 text-teal-600 dark:bg-teal-500/30 dark:text-teal-400 border border-teal-500/30 dark:border-teal-500/50',
+      indigo: 'bg-indigo-500/20 text-indigo-600 dark:bg-indigo-500/30 dark:text-indigo-400 border border-indigo-500/30 dark:border-indigo-500/50',
+    };
+    
+    return colorMap[color || 'blue'] || colorMap.blue;
+  }, []);
+
   // Loading state
   if (loading) {
     return (
@@ -143,6 +161,26 @@ export const BlogPost: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
+            {/* Tag */}
+            {post.tag?.text && (
+              <motion.div
+                className="mb-4 sm:mb-6"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+              >
+                <span
+                  className={`
+                    inline-block px-4 py-1.5 text-sm font-semibold rounded-full
+                    ${getTagColorClasses(post.tag.color)}
+                    transition-all duration-300
+                  `}
+                >
+                  {post.tag.text}
+                </span>
+              </motion.div>
+            )}
+            
             {/* Title - Medium Style Typography */}
             <h1 className={`${TYPOGRAPHY.h1} font-bold mb-4 sm:mb-6 leading-tight tracking-tight ${styles.text}`}>
               {post.title}

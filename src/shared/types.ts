@@ -117,6 +117,11 @@ export interface BlogPost {
   date: string;
   /** Estimated reading time */
   readTime: string;
+  /** Post tag with text and color */
+  tag?: {
+    text: string;
+    color: 'blue' | 'purple' | 'pink' | 'green' | 'orange' | 'red' | 'teal' | 'indigo';
+  };
   /** Structured content items */
   content?: ContentItem[];
   /** Associated images */

@@ -291,6 +291,7 @@ export function useBlogPost(slug: string) {
           excerpt: data.excerpt,
           date: data.date,
           readTime: data.readTime || '5 min read',
+          tag: data.tag || undefined,
           featuredImage,
           content: transformedContent,
         };
