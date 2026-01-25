@@ -148,8 +148,16 @@ export const CSS_VARIABLES = {
 // ============================================================================
 
 /**
+ * Global font size scale factor
+ * Adjust this value to scale all fonts globally (1.0 = 100%, 0.85 = 85%, etc.)
+ * Change this single value to make all text larger or smaller across the entire site
+ */
+export const FONT_SCALE = 0.85; // 15% reduction (85% of original size)
+
+/**
  * Typography configuration
  * Defines consistent font sizes and styles across the application
+ * All sizes are scaled by FONT_SCALE for easy global adjustment
  */
 export const TYPOGRAPHY = {
   /** Page titles (h1) - mobile optimized with large screen scaling */

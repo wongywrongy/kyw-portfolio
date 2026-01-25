@@ -20,18 +20,22 @@ export default {
         'poppins': ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'base': ['15px', { lineHeight: '1.6' }],
-        // Consistent typography scale
-        'xs': ['12px', { lineHeight: '1.5' }],
-        'sm': ['13px', { lineHeight: '1.5' }],
-        'md': ['15px', { lineHeight: '1.6' }],
-        'lg': ['16px', { lineHeight: '1.6' }],
-        'xl': ['18px', { lineHeight: '1.6' }],
-        '2xl': ['20px', { lineHeight: '1.5' }],
-        '3xl': ['24px', { lineHeight: '1.4' }],
-        '4xl': ['30px', { lineHeight: '1.3' }],
-        '5xl': ['36px', { lineHeight: '1.2' }],
-        '6xl': ['48px', { lineHeight: '1.1' }],
+        // Global font scale: Uses CSS variable --font-scale for easy customization
+        // Change --font-scale in src/index.css :root to adjust all font sizes sitewide
+        'base': ['calc(15px * var(--font-scale))', { lineHeight: '1.6' }],
+        // Consistent typography scale (all scaled by --font-scale)
+        'xs': ['calc(12px * var(--font-scale))', { lineHeight: '1.5' }],
+        'sm': ['calc(13px * var(--font-scale))', { lineHeight: '1.5' }],
+        'md': ['calc(15px * var(--font-scale))', { lineHeight: '1.6' }],
+        'lg': ['calc(16px * var(--font-scale))', { lineHeight: '1.6' }],
+        'xl': ['calc(18px * var(--font-scale))', { lineHeight: '1.6' }],
+        '2xl': ['calc(20px * var(--font-scale))', { lineHeight: '1.5' }],
+        '3xl': ['calc(24px * var(--font-scale))', { lineHeight: '1.4' }],
+        '4xl': ['calc(30px * var(--font-scale))', { lineHeight: '1.3' }],
+        '5xl': ['calc(36px * var(--font-scale))', { lineHeight: '1.2' }],
+        '6xl': ['calc(48px * var(--font-scale))', { lineHeight: '1.1' }],
+        '7xl': ['calc(60px * var(--font-scale))', { lineHeight: '1.1' }],
+        '8xl': ['calc(72px * var(--font-scale))', { lineHeight: '1.1' }],
       },
       borderRadius: {
         '2xl': '1rem',

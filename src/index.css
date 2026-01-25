@@ -41,6 +41,9 @@
 :root {
   --t1: 40s;
   --t2: 53s;
+  /* Global font scale multiplier - change this value to adjust all font sizes sitewide */
+  /* 0.85 = 15% smaller, 1.0 = original size, 1.15 = 15% larger, etc. */
+  --font-scale: 0.85;
 }
 
 * {
@@ -84,7 +87,7 @@ section[class*="snap-end"] {
 body {
   margin: 0;
   font-family: var(--font-family, 'Manrope'), ui-sans-serif, system-ui, sans-serif;
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale)); /* Uses --font-scale variable for easy global adjustment */
   line-height: 1.6;
   color: hsl(var(--fg-1));
   background: hsl(var(--bg-1));
