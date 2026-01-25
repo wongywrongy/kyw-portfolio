@@ -7,8 +7,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { aboutContent } from '../../infrastructure/data/about';
-import { AboutContent } from '../../domain/entities/AboutContent';
+import { useAboutContent } from '../../infrastructure/cms/hooks';
 import { TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
 import BlogImage from '../components/BlogImage';
 
@@ -32,12 +31,11 @@ import BlogImage from '../components/BlogImage';
  * ```
  */
 export const About: React.FC = () => {
+  const { content: aboutContent, loading, error } = useAboutContent();
 
-  // Create domain entity for business logic
-  const aboutEntity = useMemo(() => 
-    AboutContent.fromJSON(aboutContent), 
-    []
-  );
+  React.useEffect(() => {
+    console.log('About page state:', { aboutContent, loading, error });
+  }, [aboutContent, loading, error]);
 
   /**
    * Gets theme-aware content styles
@@ -53,6 +51,27 @@ export const About: React.FC = () => {
     return getColorClass(COLORS.heading.light, COLORS.heading.dark);
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !aboutContent) {
+    console.error('About content error:', error);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500">Failed to load content. Check console for details.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`min-h-screen ${LAYOUT.pagePaddingY}`}>
       <div className={`${LAYOUT.containerMaxWidth} mx-auto ${LAYOUT.pagePaddingX}`}>
@@ -64,7 +83,7 @@ export const About: React.FC = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h1 className={`${TYPOGRAPHY.h1} font-bold mb-4 ${getHeadingStyles()}`}>
-            {aboutEntity.title}
+            {aboutContent.title}
           </h1>
           <p className={`${TYPOGRAPHY.bodyLarge} ${getContentStyles()}`}>
             Learn more about my background and interests
@@ -79,7 +98,7 @@ export const About: React.FC = () => {
         >
           <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)}`}>
             <div className="space-y-12">
-              {aboutEntity.sections.map((section, index) => (
+              {aboutContent.sections.map((section, index) => (
                 <motion.section
                   key={index}
                   data-section={index}

@@ -1,23 +1,22 @@
 /**
- * Sanity CMS React Hooks
+ * CMS Data Hooks
  * 
- * Custom hooks for fetching content from Sanity CMS.
- * These hooks replace the static data imports.
+ * These hooks load data from build-time generated JSON files.
+ * Data is fetched at build time to avoid CORS issues.
  */
 
 import { useEffect, useState } from 'react';
-import client, { urlFor } from './client';
-import {
-  homeQuery,
-  aboutQuery,
-  allBlogPostsQuery,
-  blogPostBySlugQuery,
-  resumeQuery,
-  siteSettingsQuery,
-} from './queries';
+import { urlFor } from './client';
 import type { HomeContent } from '../data/home';
 import type { AboutSection } from '../../shared/types';
 import type { BlogPost } from '../../shared/types';
+
+// Import build-time generated data
+import homeData from '../data/cms/home.json';
+import aboutData from '../data/cms/about.json';
+import blogPostsData from '../data/cms/blogPosts.json';
+import resumeData from '../data/cms/resume.json';
+import siteSettingsData from '../data/cms/siteSettings.json';
 
 // Home page content hook
 export function useHomeContent() {
@@ -26,24 +25,21 @@ export function useHomeContent() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchContent() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await client.fetch(homeQuery);
-        if (!data) {
-          throw new Error('Home page content not found. Please create a Home Page document in Sanity.');
-        }
-        setContent(data);
-      } catch (err) {
-        console.error('Error fetching home content:', err);
-        setError(err instanceof Error ? err : new Error('Failed to fetch home content'));
-      } finally {
-        setLoading(false);
+    try {
+      setLoading(true);
+      setError(null);
+      // Use build-time data
+      const data = homeData as any;
+      if (!data) {
+        throw new Error('Home page content not found. Please run npm run build to fetch data from Sanity.');
       }
+      setContent(data);
+    } catch (err) {
+      console.error('Error loading home content:', err);
+      setError(err instanceof Error ? err : new Error('Failed to load home content'));
+    } finally {
+      setLoading(false);
     }
-
-    fetchContent();
   }, []);
 
   return { content, loading, error };
@@ -56,24 +52,21 @@ export function useAboutContent() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchContent() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await client.fetch(aboutQuery);
-        if (!data) {
-          throw new Error('About page content not found. Please create an About Page document in Sanity.');
-        }
-        setContent(data);
-      } catch (err) {
-        console.error('Error fetching about content:', err);
-        setError(err instanceof Error ? err : new Error('Failed to fetch about content'));
-      } finally {
-        setLoading(false);
+    try {
+      setLoading(true);
+      setError(null);
+      // Use build-time data
+      const data = aboutData as any;
+      if (!data) {
+        throw new Error('About page content not found. Please run npm run build to fetch data from Sanity.');
       }
+      setContent(data);
+    } catch (err) {
+      console.error('Error loading about content:', err);
+      setError(err instanceof Error ? err : new Error('Failed to load about content'));
+    } finally {
+      setLoading(false);
     }
-
-    fetchContent();
   }, []);
 
   return { content, loading, error };
@@ -86,46 +79,52 @@ export function useBlogPosts() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchPosts() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await client.fetch(allBlogPostsQuery);
-        
-        if (!data || !Array.isArray(data)) {
-          setPosts([]);
-          return;
+    try {
+      setLoading(true);
+      setError(null);
+      // Use build-time data
+      const data = blogPostsData as any[];
+      
+      if (!data || !Array.isArray(data)) {
+        setPosts([]);
+        return;
+      }
+      
+      // Transform Sanity data to BlogPost format
+      const transformedPosts: BlogPost[] = data.map((post: any, index: number) => {
+        let featuredImage = undefined;
+        if (post.featuredImage?.asset) {
+          try {
+            featuredImage = {
+              url: urlFor(post.featuredImage.asset).url(),
+              alt: post.featuredImage.alt || '',
+              caption: post.featuredImage.caption,
+            };
+          } catch (err) {
+            console.warn('Error processing featured image for post:', post.title, err);
+          }
         }
         
-        // Transform Sanity data to BlogPost format
-        const transformedPosts: BlogPost[] = data.map((post: any, index: number) => ({
+        return {
           id: index + 1,
           title: post.title,
-          slug: post.slug.current,
+          slug: post.slug?.current || '',
           excerpt: post.excerpt,
           date: post.date,
           readTime: post.readTime || '5 min read',
-          featuredImage: post.featuredImage
-            ? {
-                url: urlFor(post.featuredImage.asset).url(),
-                alt: post.featuredImage.alt || '',
-                caption: post.featuredImage.caption,
-              }
-            : undefined,
+          featuredImage,
           content: [], // Will be populated when viewing individual post
-        }));
+        };
+      });
 
-        setPosts(transformedPosts);
-      } catch (err) {
-        console.error('Error fetching blog posts:', err);
-        setError(err instanceof Error ? err : new Error('Failed to fetch blog posts'));
-        setPosts([]);
-      } finally {
-        setLoading(false);
-      }
+      setPosts(transformedPosts);
+    } catch (err) {
+      console.error('Error loading blog posts:', err);
+      setError(err instanceof Error ? err : new Error('Failed to load blog posts'));
+      setPosts([]);
+    } finally {
+      setLoading(false);
     }
-
-    fetchPosts();
   }, []);
 
   return { posts, loading, error };
@@ -143,12 +142,25 @@ export function useBlogPost(slug: string) {
       return;
     }
 
-    async function fetchPost() {
+    async function loadPost() {
       try {
         setLoading(true);
         setError(null);
-        // Use parameterized query to prevent injection attacks
-        const data = await client.fetch(blogPostBySlugQuery, { slug });
+        
+        // Try to load from build-time data
+        let data: any = null;
+        try {
+          // Dynamic import for the specific blog post
+          const postModule = await import(`../data/cms/blogPosts/${slug}.json`);
+          data = postModule.default || postModule;
+        } catch (importError) {
+          // If file doesn't exist, try to find it in the blogPosts array
+          const allPosts = blogPostsData as any[];
+          const foundPost = allPosts.find((p: any) => p.slug?.current === slug);
+          if (foundPost) {
+            data = foundPost;
+          }
+        }
 
         if (!data) {
           setError(new Error('Post not found'));
@@ -157,7 +169,7 @@ export function useBlogPost(slug: string) {
         }
 
         // Transform Sanity content blocks to BlogPost format
-        const transformedContent = data.content.map((block: any) => {
+        const transformedContent = (data.content || []).map((block: any) => {
           switch (block.type) {
             case 'text':
               return { type: 'text', content: block.content };
@@ -183,34 +195,41 @@ export function useBlogPost(slug: string) {
           }
         }).filter(Boolean);
 
+        let featuredImage = undefined;
+        if (data.featuredImage?.asset) {
+          try {
+            featuredImage = {
+              url: urlFor(data.featuredImage.asset).url(),
+              alt: data.featuredImage.alt || '',
+              caption: data.featuredImage.caption,
+            };
+          } catch (err) {
+            console.warn('Error processing featured image:', err);
+          }
+        }
+
         const transformedPost: BlogPost = {
-          id: 0, // Not used for individual posts
+          id: 0,
           title: data.title,
-          slug: data.slug.current,
+          slug: data.slug?.current || slug,
           excerpt: data.excerpt,
           date: data.date,
           readTime: data.readTime || '5 min read',
-          featuredImage: data.featuredImage
-            ? {
-                url: urlFor(data.featuredImage.asset).url(),
-                alt: data.featuredImage.alt || '',
-                caption: data.featuredImage.caption,
-              }
-            : undefined,
+          featuredImage,
           content: transformedContent,
         };
 
         setPost(transformedPost);
       } catch (err) {
-        console.error('Error fetching blog post:', err);
-        setError(err instanceof Error ? err : new Error('Failed to fetch blog post'));
+        console.error('Error loading blog post:', err);
+        setError(err instanceof Error ? err : new Error('Failed to load blog post'));
         setPost(null);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchPost();
+    loadPost();
   }, [slug]);
 
   return { post, loading, error };
@@ -230,34 +249,31 @@ export function useResume() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchResume() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await client.fetch(resumeQuery);
-        if (!data) {
-          throw new Error('Resume not found. Please create a Resume document in Sanity.');
-        }
-        if (!data.pdfUrl) {
-          throw new Error('Resume PDF not found. Please upload a PDF file in the Resume document.');
-        }
-        setResume({
-          title: data.title,
-          introText: data.introText,
-          pdfUrl: data.pdfUrl,
-          downloadText: data.downloadText || 'Download Resume',
-          lastUpdated: data.lastUpdated,
-          showLastUpdated: data.showLastUpdated !== false,
-        });
-      } catch (err) {
-        console.error('Error fetching resume:', err);
-        setError(err instanceof Error ? err : new Error('Failed to fetch resume'));
-      } finally {
-        setLoading(false);
+    try {
+      setLoading(true);
+      setError(null);
+      // Use build-time data
+      const data = resumeData as any;
+      if (!data) {
+        throw new Error('Resume not found. Please run npm run build to fetch data from Sanity.');
       }
+      if (!data.pdfUrl) {
+        throw new Error('Resume PDF not found. Please upload a PDF file in the Resume document.');
+      }
+      setResume({
+        title: data.title,
+        introText: data.introText,
+        pdfUrl: data.pdfUrl,
+        downloadText: data.downloadText || 'Download Resume',
+        lastUpdated: data.lastUpdated,
+        showLastUpdated: data.showLastUpdated !== false,
+      });
+    } catch (err) {
+      console.error('Error loading resume:', err);
+      setError(err instanceof Error ? err : new Error('Failed to load resume'));
+    } finally {
+      setLoading(false);
     }
-
-    fetchResume();
   }, []);
 
   return { resume, loading, error };
@@ -287,23 +303,19 @@ export function useSiteSettings() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchSettings() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await client.fetch(siteSettingsQuery);
-        // Site settings are optional, so null is acceptable
-        setSettings(data || null);
-      } catch (err) {
-        console.error('Error fetching site settings:', err);
-        // Site settings are optional, so we don't set error for missing settings
-        setSettings(null);
-      } finally {
-        setLoading(false);
-      }
+    try {
+      setLoading(true);
+      setError(null);
+      // Use build-time data (optional, so null is acceptable)
+      const data = siteSettingsData as any;
+      setSettings(data || null);
+    } catch (err) {
+      console.error('Error loading site settings:', err);
+      // Site settings are optional, so we don't set error for missing settings
+      setSettings(null);
+    } finally {
+      setLoading(false);
     }
-
-    fetchSettings();
   }, []);
 
   return { settings, loading, error };

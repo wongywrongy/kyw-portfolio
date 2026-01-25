@@ -7,13 +7,12 @@
 
 import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar } from 'lucide-react';
-import { useBlog } from '../../shared/useBlog';
+import { useBlogPost } from '../../infrastructure/cms/hooks';
 import { LAYOUT, COLORS, getColorClass, TYPOGRAPHY } from '../../shared/constants';
 import ContentRenderer from '../components/ContentRenderer';
 import BlogImage from '../components/BlogImage';
-import type { BlogPost as IBlogPost } from '../../shared/types';
 
 /**
  * Blog Image Component for MDX
@@ -55,45 +54,11 @@ const BlogImageComponent: React.FC<{
  */
 export const BlogPost: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { getPostBySlug } = useBlog();
-  
-  const [post, setPost] = React.useState<IBlogPost | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const { post, loading, error } = useBlogPost(slug || '');
 
-  /**
-   * Loads the blog post by slug
-   */
-  const loadPost = useCallback(async () => {
-    if (!slug) {
-      setError('No post slug provided');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-
-      const postData = await getPostBySlug(slug);
-      
-      if (postData) {
-        setPost(postData);
-      } else {
-        setError('Post not found');
-      }
-    } catch (err) {
-      console.error('Error loading blog post:', err);
-      setError('Failed to load blog post');
-    } finally {
-      setLoading(false);
-    }
-  }, [slug, getPostBySlug]);
-
-  // Load post when slug changes
   React.useEffect(() => {
-    loadPost();
-  }, [loadPost]);
+    console.log('BlogPost state:', { slug, post, loading, error });
+  }, [slug, post, loading, error]);
 
 
   /**
@@ -120,10 +85,9 @@ export const BlogPost: React.FC = () => {
   // Loading state
   if (loading) {
     return (
-      <div className={`min-h-screen ${LAYOUT.pagePaddingY} flex items-center justify-center`}>
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto mb-4"></div>
-          <p className={styles.textSecondary}>Loading blog post...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto"></div>
         </div>
       </div>
     );
@@ -131,12 +95,11 @@ export const BlogPost: React.FC = () => {
 
   // Error state
   if (error || !post) {
+    console.error('Blog post error:', error);
     return (
-      <div className={`min-h-screen ${LAYOUT.pagePaddingY} flex items-center justify-center`}>
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="text-red-500 mb-4">
-            {error || 'Post not found'}
-          </div>
+          <p className="text-red-500 mb-4">Failed to load blog post. Check console for details.</p>
           <Link 
             to="/blog" 
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-colors ${styles.backButton}`}
@@ -149,22 +112,22 @@ export const BlogPost: React.FC = () => {
     );
   }
 
-  // Get featured image (first image from post)
-  const featuredImage = post.images && post.images.length > 0 ? post.images[0] : null;
+  // Get featured image
+  const featuredImage = post.featuredImage;
 
   return (
     <div className="min-h-screen">
       {/* Featured Hero Image - Full Width */}
       {featuredImage && (
-        <motion.div 
-          className="w-full h-[60vh] md:h-[70vh] overflow-hidden"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
+          <motion.div 
+            className="w-full h-[60vh] md:h-[70vh] overflow-hidden"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
           <img
-            src={featuredImage.src}
-            alt={featuredImage.alt}
+            src={featuredImage.url}
+            alt={featuredImage.alt || ''}
             className="w-full h-full object-cover"
             loading="eager"
           />

@@ -7,8 +7,8 @@
 
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ASSETS, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
-import { useThemeClasses } from '../../shared/useTheme';
+import { useResume } from '../../infrastructure/cms/hooks';
+import { TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
 
 /**
  * Resume Page Component
@@ -31,7 +31,11 @@ import { useThemeClasses } from '../../shared/useTheme';
  * ```
  */
 export const Resume: React.FC = () => {
-  const { getThemeClasses } = useThemeClasses();
+  const { resume, loading, error } = useResume();
+
+  React.useEffect(() => {
+    console.log('Resume state:', { resume, loading, error });
+  }, [resume, loading, error]);
 
   /**
    * Gets theme-aware styles
@@ -41,6 +45,27 @@ export const Resume: React.FC = () => {
     textSecondary: getColorClass(COLORS.textSecondary.light, COLORS.textSecondary.dark),
     container: `${getColorClass(COLORS.cardBg.light, COLORS.cardBg.dark)} border ${getColorClass(COLORS.cardBorder.light, COLORS.cardBorder.dark)}`,
   }), []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !resume) {
+    console.error('Resume error:', error);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500">Failed to load resume. Check console for details.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen ${LAYOUT.pagePaddingY} overflow-x-hidden`}>
@@ -53,11 +78,13 @@ export const Resume: React.FC = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h1 className={`${TYPOGRAPHY.h1} font-bold mb-2 ${styles.text}`}>
-            Resume
+            {resume.title}
           </h1>
-          <p className={`text-sm ${styles.textSecondary}`}>
-            View my professional experience and skills
-          </p>
+          {resume.introText && (
+            <p className={`text-sm ${styles.textSecondary}`}>
+              {resume.introText}
+            </p>
+          )}
         </motion.div>
 
         <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)} w-full overflow-x-hidden`}>
@@ -70,9 +97,9 @@ export const Resume: React.FC = () => {
           >
             <div className="w-full overflow-hidden" style={{ aspectRatio: '8.5 / 11', maxHeight: '90vh' }}>
               <iframe
-                src={ASSETS.resume}
+                src={resume.pdfUrl}
                 className="w-full h-full border-0"
-                title="Kyle Wong Resume"
+                title={resume.title}
                 aria-label="Resume PDF document"
                 style={{ minHeight: '400px' }}
               />
@@ -88,13 +115,17 @@ export const Resume: React.FC = () => {
           >
             <p className={`text-xs ${styles.textSecondary}`}>
               <a 
-                href={ASSETS.resume} 
+                href={resume.pdfUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
+                download
                 className="text-c1 hover:text-c2 transition-colors"
               >
-                Open in new tab
+                {resume.downloadText}
               </a>
+              {resume.showLastUpdated && resume.lastUpdated && (
+                <span className="ml-2"> • Last updated: {resume.lastUpdated}</span>
+              )}
             </p>
           </motion.div>
         </div>

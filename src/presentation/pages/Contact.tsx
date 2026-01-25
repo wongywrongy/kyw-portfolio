@@ -8,8 +8,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Linkedin, Github } from 'lucide-react';
-import { EXTERNAL_LINKS, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
-import { contactContent } from '../../infrastructure/data/contact';
+import { TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
+import { useHomeContent } from '../../infrastructure/cms/hooks';
 
 /**
  * Contact Page Component
@@ -33,6 +33,12 @@ import { contactContent } from '../../infrastructure/data/contact';
  * ```
  */
 export const Contact: React.FC = () => {
+  const { content: homeContent, loading, error } = useHomeContent();
+
+  React.useEffect(() => {
+    console.log('Contact page state:', { homeContent, loading, error });
+  }, [homeContent, loading, error]);
+
   /**
    * Map contact labels to icons
    */
@@ -52,11 +58,13 @@ export const Contact: React.FC = () => {
   /**
    * Contact information with icons
    */
-  const contactInfo = useMemo(() => 
-    contactContent.contacts.map(contact => ({
+  const contactInfo = useMemo(() => {
+    if (!homeContent?.contact?.contacts) return [];
+    return homeContent.contact.contacts.map(contact => ({
       ...contact,
       icon: getIcon(contact.label),
-    })), [getIcon]);
+    }));
+  }, [homeContent, getIcon]);
 
   /**
    * Gets theme-aware styles
@@ -95,6 +103,26 @@ export const Contact: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !homeContent?.contact) {
+    console.error('Contact content error:', error);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500">Failed to load contact information. Check console for details.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen ${LAYOUT.pagePaddingY}`}>
@@ -107,10 +135,10 @@ export const Contact: React.FC = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h1 className={`${TYPOGRAPHY.h1} font-bold mb-4 ${styles.text}`}>
-            {contactContent.title}
+            {homeContent.contact.title}
           </h1>
           <p className={`${TYPOGRAPHY.bodyLarge} ${styles.textSecondary}`}>
-            {contactContent.subtitle}
+            {homeContent.contact.subtitle}
           </p>
         </motion.div>
 
@@ -165,19 +193,6 @@ export const Contact: React.FC = () => {
           })}
           </motion.div>
 
-          {/* Response Time Note */}
-          {contactContent.responseTime && (
-            <motion.div 
-              className="text-center mt-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              <p className={`text-sm ${styles.textMuted}`}>
-                {contactContent.responseTime}
-              </p>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>

@@ -49,7 +49,7 @@ export default defineType({
               description: 'The full URL to your profile (e.g., "https://github.com/username" or "mailto:email@example.com").',
               validation: (Rule) =>
                 Rule.required().custom((value) => {
-                  if (!value) return true;
+                  if (!value) return 'URL is required';
                   // Allow mailto: links
                   if (value.startsWith('mailto:')) return true;
                   // Allow http:// and https:// URLs
@@ -58,7 +58,6 @@ export default defineType({
                   if (value.startsWith('tel:')) return true;
                   return 'Must be a valid URL (http://, https://), mailto: link, or tel: link';
                 }),
-              validation: (Rule) => Rule.required(),
             },
             {
               name: 'icon',

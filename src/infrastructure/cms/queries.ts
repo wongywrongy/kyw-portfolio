@@ -51,7 +51,8 @@ export const allBlogPostsQuery = `*[_type == "blogPost"] | order(date desc) {
   "featuredImage": featuredImage {
     asset-> {
       _id,
-      url
+      _ref,
+      _type
     },
     alt,
     caption
@@ -69,7 +70,8 @@ export const blogPostBySlugQuery = `*[_type == "blogPost" && slug.current == $sl
   "featuredImage": featuredImage {
     asset-> {
       _id,
-      url
+      _ref,
+      _type
     },
     alt,
     caption

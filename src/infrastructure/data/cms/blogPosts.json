@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "73d45829-6d3b-4bf1-bbc2-3a487a2d9543",
+    "date": "2026-01-24",
+    "excerpt": "I built this personal website using React 18 and TypeScript, with the goal of keeping it lightweight and technically grounded. ",
+    "featuredImage": null,
+    "readTime": "5 min read",
+    "slug": {
+      "_type": "slug",
+      "current": "the-backstory-of-this-website"
+    },
+    "title": "The Backstory of This Website"
+  }
+]

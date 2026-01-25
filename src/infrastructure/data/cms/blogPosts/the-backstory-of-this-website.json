@@ -1,0 +1,58 @@
+{
+  "_id": "73d45829-6d3b-4bf1-bbc2-3a487a2d9543",
+  "content": [
+    {
+      "code": null,
+      "content": "The Backstory of This Website",
+      "display": null,
+      "image": null,
+      "items": null,
+      "language": null,
+      "level": 1,
+      "ordered": null,
+      "type": "heading"
+    },
+    {
+      "code": null,
+      "content": "I built this personal website using React 18 and TypeScript, with the goal of keeping it lightweight and technically grounded. I’ve spent about a year developing it, and this blog post marks the completion of a full rebuild. The site is now bundled with Vite for fast iteration and styled using Tailwind CSS to ensure long-term maintainability.\n\nRather than relying on heavy design frameworks, I leaned into the idea that simplicity is its own form of beauty. I focused on subtle gradients and background animations imported from React Bits. Combined, these visual elements add motion without compromising responsiveness or clarity, while still adhering to solid design principles. Routing is handled with React Router, and all content is structured directly in TypeScript files, making the site easy to extend while preserving consistency across the codebase.\n\nThis project represents a true 2.0 compared to my previous site, which relied on overly complex visuals and quickly devolved into difficult-to-maintain code. After months of iteration and refactoring, I’ve simplified navigation, improved load times, and arrived at a clean, intentional design I’m proud of. The site is deployed via Vercel through GitHub. Overall, the stack remains minimal, and the project now serves as both my personal showcase and an ongoing exercise in aesthetics, performance, and maintainability.",
+      "display": null,
+      "image": null,
+      "items": null,
+      "language": null,
+      "level": null,
+      "ordered": null,
+      "type": "text"
+    },
+    {
+      "code": null,
+      "content": "Future",
+      "display": null,
+      "image": null,
+      "items": null,
+      "language": null,
+      "level": 1,
+      "ordered": null,
+      "type": "heading"
+    },
+    {
+      "code": null,
+      "content": "I’m currently satisfied with the pages on this site as a concise personal showcase. While it isn’t overly advanced, it demonstrates a level of web design that, as a CS major, has never been my primary focus. The project shows my ability to learn new skills and translate them into a practical, polished result.\n\nLooking ahead, I plan to expand the blog section as a space to share photos, thoughts, achievements, or anything I find worth documenting. I also see the addition of photography as an opportunity to introduce new technical challenges and extend the existing tech stack in a meaningful way.",
+      "display": null,
+      "image": null,
+      "items": null,
+      "language": null,
+      "level": null,
+      "ordered": null,
+      "type": "text"
+    }
+  ],
+  "date": "2026-01-24",
+  "excerpt": "I built this personal website using React 18 and TypeScript, with the goal of keeping it lightweight and technically grounded. ",
+  "featuredImage": null,
+  "readTime": "5 min read",
+  "slug": {
+    "_type": "slug",
+    "current": "the-backstory-of-this-website"
+  },
+  "title": "The Backstory of This Website"
+}

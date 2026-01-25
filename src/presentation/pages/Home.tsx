@@ -10,8 +10,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Calendar, Mail, Linkedin, Github, ChevronDown } from 'lucide-react';
 import { ROUTES, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
-import { useBlog } from '../../shared/useBlog';
-import { homeContent } from '../../infrastructure/data/home';
+import { useBlogPosts } from '../../infrastructure/cms/hooks';
+import { useHomeContent } from '../../infrastructure/cms/hooks';
 
 /**
  * Home Page Component
@@ -38,7 +38,13 @@ import { homeContent } from '../../infrastructure/data/home';
  * ```
  */
 export const Home: React.FC = () => {
-  const { filteredPosts } = useBlog();
+  const { posts: blogPosts, loading: blogLoading, error: blogError } = useBlogPosts();
+  const { content: homeContent, loading: homeLoading, error: homeError } = useHomeContent();
+
+  // Debug logging
+  React.useEffect(() => {
+    console.log('Home page state:', { homeContent, homeLoading, homeError, blogPosts, blogLoading, blogError });
+  }, [homeContent, homeLoading, homeError, blogPosts, blogLoading, blogError]);
 
   /**
    * Scrolls to a section smoothly
@@ -75,6 +81,28 @@ export const Home: React.FC = () => {
       transition: { duration: 0.6, ease: "easeOut" }
     }
   };
+
+  // Show loading state or error
+  if (homeLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (homeError || !homeContent) {
+    console.error('Home content error:', homeError);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500">Failed to load content. Check console for details.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative snap-y snap-proximity">
@@ -179,7 +207,7 @@ export const Home: React.FC = () => {
           <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)}`}>
             {/* Blog Posts - One Line Format */}
             <div className="space-y-4 mb-12">
-            {filteredPosts.slice(0, 3).map((post, index) => {
+            {blogPosts.slice(0, 3).map((post, index) => {
               return (
                 <motion.article
                   key={post.id}

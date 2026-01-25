@@ -20,4 +20,10 @@ declare module '*.md?raw' {
   export default content;
 }
 
+// Allow importing JSON files
+declare module '*.json' {
+  const content: any;
+  export default content;
+}
+
 export {}

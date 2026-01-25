@@ -1,0 +1,17 @@
+{
+  "sections": [
+    {
+      "content": "Hey, I’m Kyle, a Computer Science student at San José State University. I enjoy working with software beneath layers of abstraction and understanding systems at their core. I’m drawn to projects where details matter, impact is real, and the code is practical and intentional.\n\nMy coursework and projects span a wide range of concepts, from full-stack applications to kernel-level systems. I am also well versed in theory namely big data, programming paradigms, data structures, algorithms, and more. Besides standard computer science knowledge, my studies in Korea extended my knowledge into machine learning and artificial intelligence, equipping me to think across both traditional computing and the emerging AI constructs.",
+      "title": "Introduction"
+    },
+    {
+      "content": "I am a part of Spartan Racing which is part of FSAE. I take two roles R&D and Software. As a Research & Development Associate, I apply computer science principles to develop a torque vectoring algorithm from scratch. I must combine physics and computer science to get the most out of our vehicle. As a Software Associate, I work on enhancing our launch control algorithms. These roles allow me to combine software development with real-time system constraints, where code directly translates into real results on the track.\n\nI am a contributor to the Debian Operating System. I contribute to a few packages and make sure they are stable across the pipeline. My responsibilities include analyzing crashes, implementing patches, and ensuring system libraries remain reliable and portable. This work strengthened my skills in debugging, architecture-aware programming, and maintaining robust open-source systems.\n\nBeyond systems-level development, I have extensive experience with full-stack application design and deployment. I work across frontend and backend technologies to create responsive, reliable applications. These utilize cloud platforms to scale and manage infrastructure. These projects allow me to build end-to-end solutions, where user-facing design, backend logic, and cloud-based systems work together.",
+      "title": "Experience"
+    },
+    {
+      "content": "Outside of academics and software, I enjoy playing badminton competitively where I made it to both the regional and state level. Badminton has been a passion that keeps me active and engaged with community events. I am also deeply interest in photography. I have a Fujifilm X-T5 with various prime lenses. I enjoy capturing street photography and portraits. I am still working on composition and perspective to enhance my visuals. This is my creative outlet and a fun hobby of mine.",
+      "title": "Personal Interests"
+    }
+  ],
+  "title": "About Me"
+}

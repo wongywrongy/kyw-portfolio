@@ -2,7 +2,7 @@
  * Sanity CMS Client
  * 
  * This file sets up the Sanity client for fetching content.
- * Production-ready configuration using Sanity CDN (no CORS needed).
+ * Using API endpoint (not CDN) to avoid CORS issues.
  * 
  * Environment variables:
  * - VITE_SANITY_PROJECT_ID: Your Sanity project ID
@@ -22,21 +22,24 @@ const token = import.meta.env.VITE_SANITY_TOKEN;
 // Validate required configuration
 if (!projectId) {
   console.error('VITE_SANITY_PROJECT_ID is required. Please set it in your .env file.');
+} else {
+  console.log('Sanity client configured:', { projectId, dataset, useCdn: false });
 }
 
-// Create Sanity client - uses CDN which handles CORS automatically
-// No CORS configuration needed as Sanity CDN supports cross-origin requests
+// Create Sanity client
+// Using API endpoint (useCdn: false) to avoid CORS issues
+// The API endpoint has proper CORS headers configured
 const client = createClient({
   projectId,
   dataset,
   apiVersion: '2024-01-01',
-  useCdn: true, // Use CDN for faster, cached responses (production-ready)
+  useCdn: false, // Use API endpoint to avoid CORS issues (CDN may have restrictions)
   token, // Optional: Add read token for production (recommended for security)
   perspective: 'published', // Only fetch published content in production
 });
 
 // Image URL builder for Sanity images
-// Production-ready: automatically uses CDN URLs, no CORS needed
+// Images will still use CDN URLs (which is fine for images)
 const builder = imageUrlBuilder(client);
 
 /**

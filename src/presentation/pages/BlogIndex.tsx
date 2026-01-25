@@ -8,7 +8,7 @@ import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Calendar } from 'lucide-react';
-import { useBlog } from '../../shared/useBlog';
+import { useBlogPosts } from '../../infrastructure/cms/hooks';
 import { BLOG_CONFIG, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
 
 /**
@@ -17,12 +17,11 @@ import { BLOG_CONFIG, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../sh
  * Displays blog posts in a simple list format.
  */
 export const BlogIndex: React.FC = () => {
-  const { 
-    posts, 
-    filteredPosts,
-    loading,
-    error 
-  } = useBlog();
+  const { posts, loading, error } = useBlogPosts();
+
+  React.useEffect(() => {
+    console.log('BlogIndex state:', { posts, loading, error });
+  }, [posts, loading, error]);
 
   /**
    * Gets theme-aware styles for various elements
@@ -88,10 +87,9 @@ export const BlogIndex: React.FC = () => {
   // Loading state
   if (loading) {
     return (
-      <div className={`min-h-screen ${LAYOUT.pagePaddingY} flex items-center justify-center`}>
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto mb-4"></div>
-          <p className={styles.textSecondary}>Loading blog posts...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-c1 mx-auto"></div>
         </div>
       </div>
     );
@@ -99,11 +97,11 @@ export const BlogIndex: React.FC = () => {
 
   // Error state
   if (error) {
+    console.error('Blog posts error:', error);
     return (
-      <div className={`min-h-screen ${LAYOUT.pagePaddingY} flex items-center justify-center`}>
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="text-red-500 mb-4">Error loading blog posts</div>
-          <p className={styles.textSecondary}>{error}</p>
+          <p className="text-red-500">Failed to load blog posts. Check console for details.</p>
         </div>
       </div>
     );
@@ -135,7 +133,7 @@ export const BlogIndex: React.FC = () => {
             initial="hidden"
             animate="visible"
           >
-          {filteredPosts.map((post, index) => (
+          {posts.map((post, index) => (
             <motion.article
               key={post.id}
               variants={postVariants}
@@ -172,7 +170,7 @@ export const BlogIndex: React.FC = () => {
           </motion.div>
 
           {/* Empty State */}
-          {filteredPosts.length === 0 && (
+          {posts.length === 0 && (
             <motion.div 
               className="text-center py-16"
               initial={{ opacity: 0 }}
@@ -193,7 +191,7 @@ export const BlogIndex: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
           >
             <p className={`text-sm ${styles.textMuted}`}>
-              Showing {filteredPosts.length} of {posts.length} posts
+              Showing {posts.length} posts
             </p>
           </motion.div>
         </div>

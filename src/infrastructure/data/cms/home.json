@@ -1,0 +1,40 @@
+{
+  "about": {
+    "paragraphs": [
+      "Hey, I’m Kyle, a Computer Science student at San José State University. I enjoy working with software beneath layers of abstraction and understanding systems at their core. I’m drawn to projects where details matter, impact is tangible, and the code is practical and intentional.\n\nI’ve worked across embedded systems, open-source software, and full-stack applications, and I spent a full semester in Korea studying applied artificial intelligence while developing projects alongside my coursework. This mix of experiences has reinforced my interest in the field and strengthened my focus on applying theory to real-world problems.\n\nOutside of academics, I enjoy playing badminton both casually and competitively. I currently serve as the Vice President of SJSU Badminton, where I help others play, compete, and improve. I’m also passionate about photography and enjoy capturing moments on my Fujifilm camera."
+    ],
+    "title": "About me"
+  },
+  "blog": {
+    "subtitle": "Explore my research, projects, and thoughts",
+    "title": "Blog"
+  },
+  "contact": {
+    "contacts": [
+      {
+        "description": null,
+        "href": "mailto:kyle.t.wong@sjsu.edu",
+        "label": "Email",
+        "value": "kyle.t.wong@sjsu.edu"
+      },
+      {
+        "description": null,
+        "href": "https://www.linkedin.com/in/ktwong665/",
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/ktwong665"
+      },
+      {
+        "description": null,
+        "href": "https://github.com/wongywrongy",
+        "label": "Github",
+        "value": "github.com/wongywrongy"
+      }
+    ],
+    "subtitle": "I'd love to hear from you. Feel free to reach out!",
+    "title": "Get in Touch"
+  },
+  "hero": {
+    "description": "Computer Science @ SJSU",
+    "name": "Kyle Wongggg"
+  }
+}
