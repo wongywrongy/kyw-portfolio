@@ -8,7 +8,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useBlogPost } from '../../infrastructure/cms/hooks';
 import { LAYOUT, COLORS, getColorClass, TYPOGRAPHY } from '../../shared/constants';
 import ContentRenderer from '../components/ContentRenderer';
@@ -161,38 +161,32 @@ export const BlogPost: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            {/* Tag */}
-            {post.tag?.text && (
-              <motion.div
-                className="mb-4 sm:mb-6"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-              >
-                <span
-                  className={`
-                    inline-block px-4 py-1.5 text-sm font-semibold rounded-full
-                    ${getTagColorClasses(post.tag.color)}
-                    transition-all duration-300
-                  `}
-                >
-                  {post.tag.text}
-                </span>
-              </motion.div>
-            )}
+            {/* Combined Date and Tag */}
+            <motion.div
+              className="mb-4 sm:mb-6"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+            >
+              {post.tag?.text ? (
+                <div className={`inline-flex items-center gap-2 text-sm px-4 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
+                  <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
+                  <span className="font-semibold">{post.tag.text}</span>
+                </div>
+              ) : (
+                <div className="text-sm text-black dark:text-slate-300 font-medium">
+                  {formatDate(post.date)}
+                </div>
+              )}
+            </motion.div>
             
             {/* Title - Medium Style Typography */}
             <h1 className={`${TYPOGRAPHY.h1} font-bold mb-4 sm:mb-6 leading-tight tracking-tight ${styles.text}`}>
               {post.title}
             </h1>
 
-            {/* Date */}
-            <div className={`text-sm ${styles.textMuted} mb-6 sm:mb-8 pb-6 sm:pb-8 border-b ${getColorClass(COLORS.divider.light, COLORS.divider.dark)}`}>
-              <div className="flex items-center gap-2">
-                <Calendar size={16} />
-                {formatDate(post.date)}
-              </div>
-            </div>
+            {/* Divider */}
+            <div className={`mb-6 sm:mb-8 pb-6 sm:pb-8 border-b ${getColorClass(COLORS.divider.light, COLORS.divider.dark)}`}></div>
           </motion.header>
 
           {/* Post Content - Medium Style */}

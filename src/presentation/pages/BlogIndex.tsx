@@ -7,7 +7,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Calendar } from 'lucide-react';
 import { useBlogPosts } from '../../infrastructure/cms/hooks';
 import { BLOG_CONFIG, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
 
@@ -33,6 +32,24 @@ export const BlogIndex: React.FC = () => {
     textMuted: getColorClass(COLORS.textMuted.light, COLORS.textMuted.dark),
     postCard: `${getColorClass(COLORS.cardBg.light, COLORS.cardBg.dark)} border ${getColorClass(COLORS.cardBorder.light, COLORS.cardBorder.dark)} ${getColorClass('hover:border-c1', 'dark:hover:border-c1')}`,
   }), []);
+
+  /**
+   * Gets color classes for tag based on color option
+   */
+  const getTagColorClasses = useCallback((color?: string) => {
+    const colorMap: Record<string, string> = {
+      blue: 'bg-blue-500/20 text-blue-600 dark:bg-blue-500/30 dark:text-blue-400 border border-blue-500/30 dark:border-blue-500/50',
+      purple: 'bg-purple-500/20 text-purple-600 dark:bg-purple-500/30 dark:text-purple-400 border border-purple-500/30 dark:border-purple-500/50',
+      pink: 'bg-pink-500/20 text-pink-600 dark:bg-pink-500/30 dark:text-pink-400 border border-pink-500/30 dark:border-pink-500/50',
+      green: 'bg-green-500/20 text-green-600 dark:bg-green-500/30 dark:text-green-400 border border-green-500/30 dark:border-green-500/50',
+      orange: 'bg-orange-500/20 text-orange-600 dark:bg-orange-500/30 dark:text-orange-400 border border-orange-500/30 dark:border-orange-500/50',
+      red: 'bg-red-500/20 text-red-600 dark:bg-red-500/30 dark:text-red-400 border border-red-500/30 dark:border-red-500/50',
+      teal: 'bg-teal-500/20 text-teal-600 dark:bg-teal-500/30 dark:text-teal-400 border border-teal-500/30 dark:border-teal-500/50',
+      indigo: 'bg-indigo-500/20 text-indigo-600 dark:bg-indigo-500/30 dark:text-indigo-400 border border-indigo-500/30 dark:border-indigo-500/50',
+    };
+    
+    return colorMap[color || 'blue'] || colorMap.blue;
+  }, []);
 
   /**
    * Animation variants for the container
@@ -149,12 +166,18 @@ export const BlogIndex: React.FC = () => {
                   className={`flex items-center gap-4 p-4 transition-all duration-300 ${getColorClass('hover:bg-slate-100', 'dark:hover:bg-slate-700/50')} ${styles.text}`}
                   variants={hoverVariants}
                 >
-                  {/* Date */}
+                  {/* Combined Date and Tag */}
                   <div className="flex-shrink-0">
-                    <div className={`flex items-center gap-2 text-sm ${styles.textMuted}`}>
-                      <Calendar size={16} />
-                      <span className="whitespace-nowrap">{formatDate(post.date)}</span>
-                    </div>
+                    {post.tag?.text ? (
+                      <div className={`flex items-center gap-2 text-xs px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
+                        <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
+                        <span className="font-medium">{post.tag.text}</span>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-black dark:text-slate-300 font-medium">
+                        {formatDate(post.date)}
+                      </div>
+                    )}
                   </div>
 
                   {/* Title */}

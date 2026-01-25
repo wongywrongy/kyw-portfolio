@@ -48,6 +48,10 @@ export const allBlogPostsQuery = `*[_type == "blogPost"] | order(date desc) {
   excerpt,
   date,
   readTime,
+  tag {
+    text,
+    color
+  },
   "featuredImage": featuredImage {
     asset-> {
       _id,

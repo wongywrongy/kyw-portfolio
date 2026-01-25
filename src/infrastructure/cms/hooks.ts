@@ -119,6 +119,7 @@ export function useBlogPosts() {
             excerpt: post.excerpt,
             date: post.date,
             readTime: post.readTime || '5 min read',
+            tag: post.tag || undefined,
             featuredImage,
             content: [], // Will be populated when viewing individual post
           };

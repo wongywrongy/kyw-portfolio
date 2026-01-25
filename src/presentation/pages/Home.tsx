@@ -8,7 +8,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Calendar, Mail, Linkedin, Github, ChevronDown } from 'lucide-react';
+import { Mail, Linkedin, Github, ChevronDown } from 'lucide-react';
 import { ROUTES, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
 import { useBlogPosts } from '../../infrastructure/cms/hooks';
 import { useHomeContent } from '../../infrastructure/cms/hooks';
@@ -69,6 +69,35 @@ export const Home: React.FC = () => {
     section: 'min-h-screen py-8 sm:py-12 md:py-20 flex items-center',
     card: `${getColorClass(COLORS.cardBg.light, COLORS.cardBg.dark)} border ${getColorClass(COLORS.cardBorder.light, COLORS.cardBorder.dark)}`,
   }), []);
+
+  /**
+   * Gets color classes for tag based on color option
+   */
+  const getTagColorClasses = useCallback((color?: string) => {
+    const colorMap: Record<string, string> = {
+      blue: 'bg-blue-500/20 text-blue-600 dark:bg-blue-500/30 dark:text-blue-400 border border-blue-500/30 dark:border-blue-500/50',
+      purple: 'bg-purple-500/20 text-purple-600 dark:bg-purple-500/30 dark:text-purple-400 border border-purple-500/30 dark:border-purple-500/50',
+      pink: 'bg-pink-500/20 text-pink-600 dark:bg-pink-500/30 dark:text-pink-400 border border-pink-500/30 dark:border-pink-500/50',
+      green: 'bg-green-500/20 text-green-600 dark:bg-green-500/30 dark:text-green-400 border border-green-500/30 dark:border-green-500/50',
+      orange: 'bg-orange-500/20 text-orange-600 dark:bg-orange-500/30 dark:text-orange-400 border border-orange-500/30 dark:border-orange-500/50',
+      red: 'bg-red-500/20 text-red-600 dark:bg-red-500/30 dark:text-red-400 border border-red-500/30 dark:border-red-500/50',
+      teal: 'bg-teal-500/20 text-teal-600 dark:bg-teal-500/30 dark:text-teal-400 border border-teal-500/30 dark:border-teal-500/50',
+      indigo: 'bg-indigo-500/20 text-indigo-600 dark:bg-indigo-500/30 dark:text-indigo-400 border border-indigo-500/30 dark:border-indigo-500/50',
+    };
+    
+    return colorMap[color || 'blue'] || colorMap.blue;
+  }, []);
+
+  /**
+   * Formats date for display in mm/dd/yy format
+   */
+  const formatDate = useCallback((dateString: string): string => {
+    const date = new Date(dateString);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const year = date.getFullYear().toString().slice(-2);
+    return `${month}/${day}/${year}`;
+  }, []);
 
   /**
    * Animation variants
@@ -220,20 +249,18 @@ export const Home: React.FC = () => {
                 >
                   <Link to={`${ROUTES.BLOG}/${post.slug}`} className="block">
                     <div className={`flex items-center gap-4 p-4 transition-all duration-300 ${getColorClass('hover:bg-slate-100', 'dark:hover:bg-slate-700/50')} hover:translate-x-2`}>
-                      {/* Date */}
+                      {/* Combined Date and Tag */}
                       <div className="flex-shrink-0">
-                        <div className={`flex items-center gap-2 text-sm ${styles.textMuted}`}>
-                          <Calendar size={16} />
-                          <span className="whitespace-nowrap">
-                            {(() => {
-                              const date = new Date(post.date);
-                              const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                              const day = date.getDate().toString().padStart(2, '0');
-                              const year = date.getFullYear().toString().slice(-2);
-                              return `${month}/${day}/${year}`;
-                            })()}
-                          </span>
-                        </div>
+                        {post.tag?.text ? (
+                          <div className={`flex items-center gap-2 text-xs px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
+                            <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
+                            <span className="font-medium">{post.tag.text}</span>
+                          </div>
+                        ) : (
+                          <div className="text-sm text-black dark:text-slate-300 font-medium">
+                            {formatDate(post.date)}
+                          </div>
+                        )}
                       </div>
 
                       {/* Title */}
