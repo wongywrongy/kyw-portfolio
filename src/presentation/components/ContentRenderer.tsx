@@ -73,7 +73,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
           {paragraphs.map((paragraph: string, paraIndex: number) => (
             <p
               key={paraIndex}
-              className={`mb-4 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere whitespace-pre-line ${
+              className={`mb-4 leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl break-words overflow-wrap-anywhere whitespace-pre-line ${
                 getThemeClasses('text-slate-700', 'text-slate-300')
               }`}
             >
@@ -87,7 +87,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
     // If no newlines, just render as a single paragraph
     return (
       <motion.p
-        className={`mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere ${
+        className={`mb-4 sm:mb-6 leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl break-words overflow-wrap-anywhere ${
           getThemeClasses('text-slate-700', 'text-slate-300')
         }`}
         initial={{ opacity: 0, y: 20 }}
@@ -106,12 +106,12 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
     const level = item.level || 2;
     const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
     
-    // Define heading styles based on level
+    // Define heading styles based on level with large screen scaling
     const headingStyles = {
-      1: 'mt-8 sm:mt-12 mb-4 sm:mb-6 first:mt-0 text-3xl sm:text-4xl md:text-5xl font-bold',
-      2: 'mt-6 sm:mt-10 mb-3 sm:mb-4 first:mt-0 text-2xl sm:text-3xl md:text-4xl font-bold',
-      3: 'mt-6 sm:mt-8 mb-2 sm:mb-3 first:mt-0 text-xl sm:text-2xl md:text-3xl font-semibold',
-      4: 'mt-4 sm:mt-6 mb-2 first:mt-0 text-lg sm:text-xl md:text-2xl font-semibold',
+      1: 'mt-8 sm:mt-12 mb-4 sm:mb-6 first:mt-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold',
+      2: 'mt-6 sm:mt-10 mb-3 sm:mb-4 first:mt-0 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold',
+      3: 'mt-6 sm:mt-8 mb-2 sm:mb-3 first:mt-0 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold',
+      4: 'mt-4 sm:mt-6 mb-2 first:mt-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold',
     };
     
     const baseStyles = headingStyles[level as keyof typeof headingStyles] || headingStyles[2];
@@ -200,7 +200,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
           {item.items.map((listItem, listIndex) => (
             <motion.li
               key={listIndex}
-              className={`leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere whitespace-pre-line ${
+              className={`leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl break-words overflow-wrap-anywhere whitespace-pre-line ${
                 getThemeClasses('text-slate-700', 'text-slate-300')
               }`}
               initial={{ opacity: 0, x: -10 }}

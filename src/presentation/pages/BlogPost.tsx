@@ -122,7 +122,7 @@ export const BlogPost: React.FC = () => {
             to="/blog" 
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-colors ${styles.backButton}`}
           >
-            <ArrowLeft size={16} />
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             Back to Blog
           </Link>
         </div>
@@ -169,12 +169,12 @@ export const BlogPost: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
             >
               {post.tag?.text ? (
-                <div className={`inline-flex items-center gap-2 text-sm px-4 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
+                <div className={`inline-flex items-center gap-2 ${TYPOGRAPHY.bodySmall} px-4 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
                   <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
                   <span className="font-semibold">{post.tag.text}</span>
                 </div>
               ) : (
-                <div className="text-sm text-black dark:text-slate-300 font-medium">
+                <div className={`${TYPOGRAPHY.bodySmall} text-black dark:text-slate-300 font-medium`}>
                   {formatDate(post.date)}
                 </div>
               )}
@@ -209,15 +209,15 @@ export const BlogPost: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className={`text-sm ${styles.textMuted}`}>
+              <div className={`${TYPOGRAPHY.bodySmall} ${styles.textMuted}`}>
                 Published on {formatDate(post.date)}
               </div>
               
               <Link 
                 to="/blog" 
-                className={`inline-flex items-center gap-2 ${getColorClass(COLORS.textSecondary.light, COLORS.textSecondary.dark)} ${getColorClass(COLORS.linkHover.light, COLORS.linkHover.dark)} transition-colors`}
+                className={`inline-flex items-center gap-2 ${TYPOGRAPHY.body} ${getColorClass(COLORS.textSecondary.light, COLORS.textSecondary.dark)} ${getColorClass(COLORS.linkHover.light, COLORS.linkHover.dark)} transition-colors`}
               >
-                <ArrowLeft size={16} />
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                 <span>Back to Blog</span>
               </Link>
             </div>

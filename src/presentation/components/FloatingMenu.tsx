@@ -87,7 +87,7 @@ export const FloatingMenu: React.FC = () => {
    * Gets theme-aware text button styles
    */
   const getTextButtonStyles = useCallback(() => {
-    const baseStyles = 'px-3 py-2.5 text-sm font-normal lowercase transition-colors duration-200';
+    const baseStyles = 'px-3 py-2.5 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-normal lowercase transition-colors duration-200';
     const textStyles = isLight 
       ? 'text-slate-600 hover:text-c3' 
       : 'text-slate-400 hover:text-c3';
@@ -216,9 +216,9 @@ export const FloatingMenu: React.FC = () => {
                 style={{ minWidth: '44px', minHeight: '44px' }}
               >
                 {isLight ? (
-                  <Moon className="w-5 h-5" />
+                  <Moon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
                 ) : (
-                  <Sun className="w-5 h-5" />
+                  <Sun className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
                 )}
               </motion.button>
             </motion.div>
@@ -239,7 +239,7 @@ export const FloatingMenu: React.FC = () => {
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ChevronUp className="w-6 h-6" />
+            <ChevronUp className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" />
           </motion.div>
         </motion.button>
       </div>

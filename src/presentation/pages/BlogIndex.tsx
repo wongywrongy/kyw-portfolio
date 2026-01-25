@@ -200,7 +200,7 @@ export const BlogIndex: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className={`text-lg ${styles.textSecondary}`}>
+              <div className={`${TYPOGRAPHY.bodyLarge} ${styles.textSecondary}`}>
                 No posts found.
               </div>
             </motion.div>
@@ -213,7 +213,7 @@ export const BlogIndex: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <p className={`text-sm ${styles.textMuted}`}>
+            <p className={`${TYPOGRAPHY.bodySmall} ${styles.textMuted}`}>
               Showing {posts.length} posts
             </p>
           </motion.div>

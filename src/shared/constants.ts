@@ -152,20 +152,20 @@ export const CSS_VARIABLES = {
  * Defines consistent font sizes and styles across the application
  */
 export const TYPOGRAPHY = {
-  /** Page titles (h1) - mobile optimized */
-  h1: 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl',
-  /** Section titles (h2) - mobile optimized */
-  h2: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl',
-  /** Subsection titles (h3) - mobile optimized */
-  h3: 'text-xl sm:text-2xl md:text-3xl lg:text-4xl',
-  /** Body text large - mobile optimized */
-  bodyLarge: 'text-sm sm:text-base md:text-lg lg:text-xl',
-  /** Body text default - mobile optimized */
-  body: 'text-sm md:text-base lg:text-lg',
-  /** Body text small - mobile optimized */
-  bodySmall: 'text-xs sm:text-sm md:text-base',
+  /** Page titles (h1) - mobile optimized with large screen scaling */
+  h1: 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl',
+  /** Section titles (h2) - mobile optimized with large screen scaling */
+  h2: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl',
+  /** Subsection titles (h3) - mobile optimized with large screen scaling */
+  h3: 'text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl',
+  /** Body text large - mobile optimized with large screen scaling */
+  bodyLarge: 'text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl',
+  /** Body text default - mobile optimized with large screen scaling */
+  body: 'text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl',
+  /** Body text small - mobile optimized with large screen scaling */
+  bodySmall: 'text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl',
   /** Caption text */
-  caption: 'text-xs',
+  caption: 'text-xs sm:text-sm',
   /** Font weights */
   weights: {
     light: 'font-light',

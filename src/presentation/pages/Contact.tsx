@@ -170,19 +170,19 @@ export const Contact: React.FC = () => {
                     {/* Icon */}
                     <div className="flex items-center justify-center mb-4">
                       <div className={`p-3 rounded-full ${styles.iconContainer}`}>
-                        <Icon size={24} />
+                        <Icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10" />
                       </div>
                     </div>
 
                     {/* Content */}
                     <div className="text-center">
-                      <h3 className={`text-lg font-semibold mb-2 group-hover:text-c1 transition-colors ${styles.text}`}>
+                      <h3 className={`text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold mb-2 group-hover:text-c1 transition-colors ${styles.text}`}>
                         {contact.label}
                       </h3>
-                      <p className={`text-sm ${styles.textSecondary}`}>
+                      <p className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${styles.textSecondary}`}>
                         {contact.value}
                       </p>
-                      <p className={`text-xs mt-2 ${styles.textMuted}`}>
+                      <p className={`${TYPOGRAPHY.bodySmall} mt-2 ${styles.textMuted}`}>
                         {contact.description}
                       </p>
                     </div>

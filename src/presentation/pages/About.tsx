@@ -112,7 +112,7 @@ export const About: React.FC = () => {
                   </h2>
                   
                   <div className={`prose prose-lg max-w-none ${getContentStyles()}`}>
-                    <p className="leading-relaxed">
+                    <p className="leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
                       {section.content}
                     </p>
                   </div>

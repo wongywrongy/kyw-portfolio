@@ -140,7 +140,7 @@ export const Home: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto w-full">
           {/* Main Heading with Gradient Text */}
           <motion.h1 
-            className={`${TYPOGRAPHY.h1} font-bold mb-2 bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 bg-clip-text text-transparent py-4 sm:py-6 md:py-8 drop-shadow-lg`}
+            className={`${TYPOGRAPHY.h1} font-bold mb-1 sm:mb-2 bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 bg-clip-text text-transparent py-4 sm:py-6 md:py-8 drop-shadow-lg`}
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
@@ -171,7 +171,7 @@ export const Home: React.FC = () => {
               whileHover={{ y: 4 }}
               aria-label="Scroll to about section"
             >
-              <ChevronDown size={24} className="animate-bounce" />
+              <ChevronDown className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 animate-bounce" />
             </motion.button>
           </motion.div>
         </div>
@@ -204,7 +204,7 @@ export const Home: React.FC = () => {
               {homeContent.about.paragraphs.map((paragraph, index) => (
                 <p 
                   key={index}
-                  className={`leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl ${index < homeContent.about.paragraphs.length - 1 ? 'mb-4 sm:mb-6' : ''} ${styles.textSecondary}`}
+                  className={`leading-relaxed ${TYPOGRAPHY.bodyLarge} ${index < homeContent.about.paragraphs.length - 1 ? 'mb-4 sm:mb-6' : ''} ${styles.textSecondary}`}
                 >
                   {paragraph}
                 </p>
@@ -252,12 +252,12 @@ export const Home: React.FC = () => {
                       {/* Combined Date and Tag */}
                       <div className="flex-shrink-0">
                         {post.tag?.text ? (
-                          <div className={`flex items-center gap-2 text-xs px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
+                          <div className={`flex items-center gap-2 ${TYPOGRAPHY.bodySmall} px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
                             <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
                             <span className="font-medium">{post.tag.text}</span>
                           </div>
                         ) : (
-                          <div className="text-sm text-black dark:text-slate-300 font-medium">
+                          <div className={`${TYPOGRAPHY.bodySmall} text-black dark:text-slate-300 font-medium`}>
                             {formatDate(post.date)}
                           </div>
                         )}
@@ -286,7 +286,7 @@ export const Home: React.FC = () => {
             >
               <Link 
                 to={ROUTES.BLOG}
-                className={`${TYPOGRAPHY.caption} ${styles.textSecondary} hover:text-c1 transition-colors`}
+                className={`${TYPOGRAPHY.body} ${styles.textSecondary} hover:text-c1 transition-colors`}
               >
                 View all posts
               </Link>
@@ -358,10 +358,10 @@ export const Home: React.FC = () => {
                         </div>
                       </div>
                       <div className="text-center">
-                        <h3 className={`text-lg font-semibold mb-2 group-hover:text-c1 transition-colors ${styles.text}`}>
+                        <h3 className={`text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold mb-2 group-hover:text-c1 transition-colors ${styles.text}`}>
                           {contactItem.label}
                         </h3>
-                        <p className={`text-sm ${styles.textSecondary}`}>
+                        <p className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${styles.textSecondary}`}>
                           {contactItem.value}
                         </p>
                       </div>

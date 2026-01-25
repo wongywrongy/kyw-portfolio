@@ -81,7 +81,7 @@ export const Resume: React.FC = () => {
             {resume.title}
           </h1>
           {resume.introText && (
-            <p className={`text-sm ${styles.textSecondary}`}>
+            <p className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${styles.textSecondary}`}>
               {resume.introText}
             </p>
           )}
@@ -113,7 +113,7 @@ export const Resume: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <p className={`text-xs ${styles.textSecondary}`}>
+            <p className={`${TYPOGRAPHY.bodySmall} ${styles.textSecondary}`}>
               <a 
                 href={resume.pdfUrl} 
                 target="_blank" 
