@@ -11,7 +11,7 @@ export default defineType({
   name: 'home',
   title: 'Home Page',
   type: 'document',
-  description: 'Main landing page content. Edit the hero section, about preview, blog section, and contact information here.',
+  description: 'Main landing page content. Edit the hero section, about preview, mindspace section, and contact information here.',
   fields: [
     {
       name: 'hero',
@@ -60,22 +60,22 @@ export default defineType({
     },
     {
       name: 'blog',
-      title: 'Blog Section',
+      title: 'Mindspace Section',
       type: 'object',
-      description: 'The blog section that appears on the homepage.',
+      description: 'The mindspace section that appears on the homepage.',
       fields: [
         {
           name: 'title',
           title: 'Section Title',
           type: 'string',
-          description: 'The title for the blog section (e.g., "Blog").',
+          description: 'The title for the mindspace section (e.g., "Mindspace").',
           validation: (Rule) => Rule.required(),
         },
         {
           name: 'subtitle',
           title: 'Section Subtitle',
           type: 'string',
-          description: 'A brief description of what visitors will find in your blog (e.g., "Explore my research, projects, and thoughts").',
+          description: 'A brief description of what visitors will find in your mindspace (e.g., "Explore my research, projects, and thoughts").',
           validation: (Rule) => Rule.required(),
         },
       ],

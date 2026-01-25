@@ -44,7 +44,7 @@ export const homeContent: HomeContent = {
     ],
   },
   blog: {
-    title: "Blog",
+    title: "Mindspace",
     subtitle: "Explore my research, projects, and thoughts",
   },
   contact: {

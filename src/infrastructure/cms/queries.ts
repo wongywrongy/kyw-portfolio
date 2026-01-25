@@ -60,7 +60,8 @@ export const allBlogPostsQuery = `*[_type == "blogPost"] | order(date desc) {
     },
     alt,
     caption
-  }
+  },
+  "contentPreview": content[type == "text"][0].content
 }`;
 
 // Single blog post query (by slug) - parameterized to prevent injection

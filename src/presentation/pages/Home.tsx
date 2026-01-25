@@ -19,7 +19,7 @@ import { useHomeContent } from '../../infrastructure/cms/hooks';
  * The main landing page with section-based scrolling that includes:
  * - Hero section
  * - About section
- * - Blog preview section
+ * - Mindspace preview section
  * - Resume section
  * - Contact section
  * 
@@ -177,119 +177,130 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Content Section */}
+      {/* Combined About & Mindspace Section */}
       <section id="about" className={`min-h-screen ${LAYOUT.pagePaddingY} ${LAYOUT.pagePaddingX} scroll-mt-24 snap-start snap-always`}>
         <div className={`${LAYOUT.containerMaxWidth} mx-auto w-full h-full flex flex-col justify-center`}>
-          {/* Section Header */}
-          <motion.div 
-            className={`text-center ${LAYOUT.headerMarginBottom}`}
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <h2 className={`${TYPOGRAPHY.h2} font-bold mb-4 ${styles.text}`}>
-              {homeContent.about.title}
-            </h2>
-          </motion.div>
-
-          <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)}`}>
+          {/* Combined Section Layout - Side by Side in Columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            {/* About Section */}
             <motion.div
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="prose prose-lg max-w-none"
             >
-              {homeContent.about.paragraphs.map((paragraph, index) => (
-                <p 
-                  key={index}
-                  className={`leading-relaxed ${TYPOGRAPHY.bodyLarge} ${index < homeContent.about.paragraphs.length - 1 ? 'mb-4 sm:mb-6' : ''} ${styles.textSecondary}`}
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      </section>
+              {/* Section Header */}
+              <motion.div 
+                className={`text-center lg:text-left ${LAYOUT.headerMarginBottom}`}
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                <h2 className={`${TYPOGRAPHY.h2} font-bold mb-4 ${styles.text}`}>
+                  {homeContent.about.title}
+                </h2>
+              </motion.div>
 
-      {/* Blog Preview Section - Medium Style */}
-      <section id="blog" className={`min-h-screen ${LAYOUT.pagePaddingY} ${LAYOUT.pagePaddingX} scroll-mt-24 snap-start snap-always`}>
-        <div className={`${LAYOUT.containerMaxWidth} mx-auto w-full h-full flex flex-col justify-center`}>
-          {/* Section Header */}
-          <motion.div 
-            className={`text-center ${LAYOUT.headerMarginBottom}`}
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <h2 className={`${TYPOGRAPHY.h2} font-bold mb-4 ${styles.text}`}>
-              {homeContent.blog.title}
-            </h2>
-            <p className={`${TYPOGRAPHY.bodyLarge} ${styles.textSecondary}`}>
-              {homeContent.blog.subtitle}
-            </p>
-          </motion.div>
-
-          <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)}`}>
-            {/* Blog Posts - One Line Format */}
-            <div className="space-y-4 mb-12">
-            {blogPosts.slice(0, 3).map((post, index) => {
-              return (
-                <motion.article
-                  key={post.id}
+              <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)} h-full`}>
+                <motion.div
                   variants={fadeInUp}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: "-100px" }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group"
+                  className="prose prose-lg max-w-none"
                 >
-                  <Link to={`${ROUTES.BLOG}/${post.slug}`} className="block">
-                    <div className={`flex items-center gap-4 p-4 transition-all duration-300 ${getColorClass('hover:bg-slate-100', 'dark:hover:bg-slate-700/50')} hover:translate-x-2`}>
-                      {/* Combined Date and Tag */}
-                      <div className="flex-shrink-0">
-                        {post.tag?.text ? (
-                          <div className={`flex items-center gap-2 ${TYPOGRAPHY.bodySmall} px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
-                            <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
-                            <span className="font-medium">{post.tag.text}</span>
-                          </div>
-                        ) : (
-                          <div className={`${TYPOGRAPHY.bodySmall} text-black dark:text-slate-300 font-medium`}>
-                            {formatDate(post.date)}
-                          </div>
-                        )}
-                      </div>
+                  {homeContent.about.paragraphs.map((paragraph, index) => (
+                    <p 
+                      key={index}
+                      className={`leading-relaxed ${TYPOGRAPHY.bodyLarge} ${index < homeContent.about.paragraphs.length - 1 ? 'mb-4 sm:mb-6' : ''} ${styles.textSecondary}`}
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
 
-                      {/* Title */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className={`${TYPOGRAPHY.bodyLarge} font-semibold group-hover:text-c1 transition-colors truncate ${styles.text}`}>
-                          {post.title}
-                        </h3>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.article>
-              );
-            })}
-          </div>
-
-            {/* View All Link */}
+            {/* Mindspace Preview Section */}
             <motion.div
-              className="text-center mt-4"
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
             >
-              <Link 
-                to={ROUTES.BLOG}
-                className={`${TYPOGRAPHY.body} ${styles.textSecondary} hover:text-c1 transition-colors`}
+              {/* Section Header */}
+              <motion.div 
+                className={`text-center lg:text-left ${LAYOUT.headerMarginBottom}`}
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
               >
-                View all posts
-              </Link>
+                <h2 className={`${TYPOGRAPHY.h2} font-bold mb-4 ${styles.text}`}>
+                  {homeContent.blog.title}
+                </h2>
+              </motion.div>
+
+              <div className={`${getColorClass(COLORS.contentBg.light, COLORS.contentBg.dark)} backdrop-blur-sm ${LAYOUT.contentPadding} shadow-lg border ${getColorClass(COLORS.contentBorder.light, COLORS.contentBorder.dark)} h-full flex flex-col`}>
+                {/* Mindspace Posts - One Line Format */}
+                <div className="space-y-4 mb-12 flex-1">
+                {blogPosts.slice(0, 3).map((post, index) => {
+                  return (
+                    <motion.article
+                      key={post.id}
+                      variants={fadeInUp}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ delay: index * 0.1 }}
+                      className="group"
+                    >
+                      <Link to={`${ROUTES.MINDSPACE}/${post.slug}`} className="block">
+                        <div className={`flex items-center gap-4 p-4 transition-all duration-300 ${getColorClass('hover:bg-slate-100', 'dark:hover:bg-slate-700/50')} hover:translate-x-2`}>
+                          {/* Combined Date and Tag */}
+                          <div className="flex-shrink-0">
+                            {post.tag?.text ? (
+                              <div className={`flex items-center gap-2 ${TYPOGRAPHY.bodySmall} px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
+                                <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
+                                <span className="font-medium">{post.tag.text}</span>
+                              </div>
+                            ) : (
+                              <div className={`${TYPOGRAPHY.bodySmall} text-black dark:text-slate-300 font-medium`}>
+                                {formatDate(post.date)}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Title */}
+                          <div className="flex-1 min-w-0">
+                            <h3 className={`${TYPOGRAPHY.bodyLarge} font-semibold group-hover:text-c1 transition-colors truncate ${styles.text}`}>
+                              {post.title}
+                            </h3>
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.article>
+                  );
+                })}
+              </div>
+
+                {/* View All Link */}
+                <motion.div
+                  className="text-center mt-4"
+                  variants={fadeInUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                >
+                  <Link 
+                    to={ROUTES.MINDSPACE}
+                    className={`${TYPOGRAPHY.body} ${styles.textSecondary} hover:text-c1 transition-colors`}
+                  >
+                    View all posts
+                  </Link>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>

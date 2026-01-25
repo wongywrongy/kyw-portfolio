@@ -7,7 +7,7 @@
 
 import type { BlogPost } from '../../shared/types';
 import { BlogPost as BlogPostEntity } from '../entities/BlogPost';
-import { BLOG_CONFIG } from '../../shared/constants';
+import { MINDSPACE_CONFIG } from '../../shared/constants';
 
 /**
  * Blog Service Interface

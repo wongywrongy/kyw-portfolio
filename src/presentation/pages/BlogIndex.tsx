@@ -1,19 +1,19 @@
 /**
- * Blog Index Page Component
+ * Mindspace Index Page Component
  * 
- * Displays a list of blog posts in a simplified format.
+ * Displays a list of mindspace posts in a simplified format.
  */
 
 import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useBlogPosts } from '../../infrastructure/cms/hooks';
-import { BLOG_CONFIG, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
+import { MINDSPACE_CONFIG, TYPOGRAPHY, LAYOUT, COLORS, getColorClass } from '../../shared/constants';
 
 /**
- * Blog Index Page Component
+ * Mindspace Index Page Component
  * 
- * Displays blog posts in a simple list format.
+ * Displays mindspace posts in a simple list format.
  */
 export const BlogIndex: React.FC = () => {
   const { posts, loading, error } = useBlogPosts();
@@ -114,11 +114,11 @@ export const BlogIndex: React.FC = () => {
 
   // Error state
   if (error) {
-    console.error('Blog posts error:', error);
+    console.error('Mindspace posts error:', error);
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-500">Failed to load blog posts. Check console for details.</p>
+          <p className="text-red-500">Failed to load mindspace posts. Check console for details.</p>
         </div>
       </div>
     );
@@ -135,7 +135,7 @@ export const BlogIndex: React.FC = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h1 className={`${TYPOGRAPHY.h1} font-bold mb-4 ${styles.text}`}>
-            {BLOG_CONFIG.title}
+            {MINDSPACE_CONFIG.title}
           </h1>
           <p className={`${TYPOGRAPHY.bodyLarge} ${styles.textSecondary}`}>
             Explore my research, projects, and thoughts
@@ -158,34 +158,41 @@ export const BlogIndex: React.FC = () => {
               className="group"
             >
               <Link 
-                to={`/blog/${post.slug}`}
+                to={`/mindspace/${post.slug}`}
                 className="block"
                 aria-label={`Read ${post.title}`}
               >
                 <motion.div
-                  className={`flex items-center gap-4 p-4 transition-all duration-300 ${getColorClass('hover:bg-slate-100', 'dark:hover:bg-slate-700/50')} ${styles.text}`}
+                  className={`p-4 transition-all duration-300 ${getColorClass('hover:bg-slate-100', 'dark:hover:bg-slate-700/50')} ${styles.text}`}
                   variants={hoverVariants}
                 >
                   {/* Combined Date and Tag */}
-                  <div className="flex-shrink-0">
-                    {post.tag?.text ? (
-                      <div className={`flex items-center gap-2 text-xs px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
-                        <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
-                        <span className="font-medium">{post.tag.text}</span>
-                      </div>
-                    ) : (
-                      <div className="text-sm text-black dark:text-slate-300 font-medium">
-                        {formatDate(post.date)}
-                      </div>
-                    )}
-                  </div>
+                  <div className="flex items-center gap-4 mb-3">
+                    <div className="flex-shrink-0">
+                      {post.tag?.text ? (
+                        <div className={`flex items-center gap-2 ${TYPOGRAPHY.bodySmall} px-3 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
+                          <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
+                          <span className="font-medium">{post.tag.text}</span>
+                        </div>
+                      ) : (
+                        <div className={`${TYPOGRAPHY.bodySmall} text-black dark:text-slate-300 font-medium`}>
+                          {formatDate(post.date)}
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Title */}
-                  <div className="flex-1 min-w-0">
-                    <h2 className={`${TYPOGRAPHY.bodyLarge} font-semibold group-hover:text-c1 transition-colors truncate ${styles.text}`}>
+                    {/* Title - Compact and inline */}
+                    <h2 className={`${TYPOGRAPHY.bodyLarge} font-semibold group-hover:text-c1 transition-colors flex-1 min-w-0 ${styles.text}`}>
                       {post.title}
                     </h2>
                   </div>
+
+                  {/* Content Preview */}
+                  {post.excerpt && (
+                    <p className={`${TYPOGRAPHY.bodySmall} ${styles.textMuted} truncate`}>
+                      {post.excerpt.length > 150 ? `${post.excerpt.substring(0, 150)}...` : post.excerpt}
+                    </p>
+                  )}
                 </motion.div>
               </Link>
             </motion.article>

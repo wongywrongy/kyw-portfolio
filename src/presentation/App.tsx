@@ -140,12 +140,12 @@ const App: React.FC = () => {
               {/* Main Routes */}
               <Route path={ROUTES.HOME} element={<div className="h-screen snap-y snap-proximity overflow-y-scroll"><Home /></div>} />
               <Route path={ROUTES.ABOUT} element={<About />} />
-              <Route path={ROUTES.BLOG} element={<BlogIndex />} />
+              <Route path={ROUTES.MINDSPACE} element={<BlogIndex />} />
               <Route path={ROUTES.RESUME} element={<Resume />} />
               <Route path={ROUTES.CONTACT} element={<Contact />} />
               
               {/* Dynamic Routes */}
-              <Route path={ROUTES.BLOG_POST} element={<BlogPost />} />
+              <Route path={ROUTES.MINDSPACE_POST} element={<BlogPost />} />
               
               {/* Fallback Route */}
               <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />

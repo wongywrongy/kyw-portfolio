@@ -9,7 +9,7 @@ import React, { useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { ContentRendererProps, ContentItem } from '../../shared/types';
 import { useThemeClasses } from '../../shared/useTheme';
-import { BLOG_TYPOGRAPHY } from '../../shared/constants';
+import { MINDSPACE_TYPOGRAPHY } from '../../shared/constants';
 import BlogImage from './BlogImage';
 import CodeBlock from './CodeBlock';
 import LaTeX from './LaTeX';
@@ -74,7 +74,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
           {paragraphs.map((paragraph: string, paraIndex: number) => (
             <p
               key={paraIndex}
-              className={`mb-4 leading-relaxed ${BLOG_TYPOGRAPHY.body} break-words overflow-wrap-anywhere whitespace-pre-line ${
+              className={`mb-4 leading-relaxed ${MINDSPACE_TYPOGRAPHY.body} break-words overflow-wrap-anywhere whitespace-pre-line ${
                 getThemeClasses('text-slate-700', 'text-slate-300')
               }`}
             >
@@ -88,7 +88,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
     // If no newlines, just render as a single paragraph
     return (
       <motion.p
-        className={`mb-4 sm:mb-6 leading-relaxed ${BLOG_TYPOGRAPHY.body} break-words overflow-wrap-anywhere ${
+        className={`mb-4 sm:mb-6 leading-relaxed ${MINDSPACE_TYPOGRAPHY.body} break-words overflow-wrap-anywhere ${
           getThemeClasses('text-slate-700', 'text-slate-300')
         }`}
         initial={{ opacity: 0, y: 20 }}
@@ -107,12 +107,12 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
     const level = item.level || 2;
     const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
     
-    // Define heading styles based on level - optimized for blog reading
+    // Define heading styles based on level - optimized for mindspace reading
     const headingStyles = {
-      1: `mt-8 sm:mt-12 mb-4 sm:mb-6 first:mt-0 ${BLOG_TYPOGRAPHY.h1}`,
-      2: `mt-6 sm:mt-10 mb-3 sm:mb-4 first:mt-0 ${BLOG_TYPOGRAPHY.h2}`,
-      3: `mt-6 sm:mt-8 mb-2 sm:mb-3 first:mt-0 ${BLOG_TYPOGRAPHY.h3}`,
-      4: `mt-4 sm:mt-6 mb-2 first:mt-0 ${BLOG_TYPOGRAPHY.h4}`,
+      1: `mt-8 sm:mt-12 mb-4 sm:mb-6 first:mt-0 ${MINDSPACE_TYPOGRAPHY.h1}`,
+      2: `mt-6 sm:mt-10 mb-3 sm:mb-4 first:mt-0 ${MINDSPACE_TYPOGRAPHY.h2}`,
+      3: `mt-6 sm:mt-8 mb-2 sm:mb-3 first:mt-0 ${MINDSPACE_TYPOGRAPHY.h3}`,
+      4: `mt-4 sm:mt-6 mb-2 first:mt-0 ${MINDSPACE_TYPOGRAPHY.h4}`,
     };
     
     const baseStyles = headingStyles[level as keyof typeof headingStyles] || headingStyles[2];
@@ -201,7 +201,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
           {item.items.map((listItem, listIndex) => (
             <motion.li
               key={listIndex}
-              className={`leading-relaxed ${BLOG_TYPOGRAPHY.listItem} break-words overflow-wrap-anywhere whitespace-pre-line ${
+              className={`leading-relaxed ${MINDSPACE_TYPOGRAPHY.listItem} break-words overflow-wrap-anywhere whitespace-pre-line ${
                 getThemeClasses('text-slate-700', 'text-slate-300')
               }`}
               initial={{ opacity: 0, x: -10 }}

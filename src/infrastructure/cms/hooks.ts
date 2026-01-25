@@ -112,11 +112,24 @@ export function useBlogPosts() {
             }
           }
           
+          // Extract preview from contentPreview or excerpt
+          let preview = post.excerpt || '';
+          if (!preview && post.contentPreview) {
+            // Get first 200 characters from content, removing markdown-like formatting
+            preview = post.contentPreview
+              .replace(/\n+/g, ' ') // Replace newlines with spaces
+              .trim()
+              .substring(0, 200);
+            if (post.contentPreview.length > 200) {
+              preview += '...';
+            }
+          }
+
           return {
             id: index + 1,
             title: post.title,
             slug: post.slug?.current || '',
-            excerpt: post.excerpt,
+            excerpt: preview,
             date: post.date,
             readTime: post.readTime || '5 min read',
             tag: post.tag || undefined,

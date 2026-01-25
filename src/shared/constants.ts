@@ -43,14 +43,14 @@ export const ROUTES = {
   HOME: '/',
   /** About page route */
   ABOUT: '/about',
-  /** Blog index page route */
-  BLOG: '/blog',
+  /** Mindspace index page route */
+  MINDSPACE: '/mindspace',
   /** Resume page route */
   RESUME: '/resume',
   /** Contact page route */
   CONTACT: '/contact',
-  /** Dynamic blog post route */
-  BLOG_POST: '/blog/:slug',
+  /** Dynamic mindspace post route */
+  MINDSPACE_POST: '/mindspace/:slug',
 } as const;
 
 // ============================================================================
@@ -72,9 +72,9 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'View my professional experience and skills',
   },
   {
-    label: 'Blog',
-    path: ROUTES.BLOG,
-    description: 'Explore my research, projects, blogs',
+    label: 'Mindspace',
+    path: ROUTES.MINDSPACE,
+    description: 'Explore my research, projects, thoughts',
   },
   {
     label: 'Contact',
@@ -84,15 +84,15 @@ export const MENU_ITEMS: MenuItem[] = [
 ] as const;
 
 // ============================================================================
-// BLOG CONSTANTS
+// MINDSPACE CONSTANTS
 // ============================================================================
 
 /**
- * Blog configuration
+ * Mindspace configuration
  */
-export const BLOG_CONFIG = {
-  /** Blog title */
-  title: 'Blog',
+export const MINDSPACE_CONFIG = {
+  /** Mindspace title */
+  title: 'Mindspace',
   /** Number of posts per page */
   postsPerPage: 12,
   /** Maximum excerpt length */
@@ -185,18 +185,18 @@ export const TYPOGRAPHY = {
 } as const;
 
 /**
- * Blog-specific typography optimized for reading
+ * Mindspace-specific typography optimized for reading
  * Uses more moderate scaling for comfortable reading experience
  */
-export const BLOG_TYPOGRAPHY = {
-  /** Blog body text - optimized for reading (16-20px range) */
+export const MINDSPACE_TYPOGRAPHY = {
+  /** Mindspace body text - optimized for reading (16-20px range) */
   body: 'text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl',
-  /** Blog headings - moderate scaling for readability */
+  /** Mindspace headings - moderate scaling for readability */
   h1: 'text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold',
   h2: 'text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold',
   h3: 'text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-semibold',
   h4: 'text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-semibold',
-  /** Blog list items - same as body for consistency */
+  /** Mindspace list items - same as body for consistency */
   listItem: 'text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl',
 } as const;
 

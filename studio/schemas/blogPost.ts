@@ -35,8 +35,8 @@ export default defineType({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      description: 'A short summary of your post. This appears on the blog listing page to give readers a preview.',
-      validation: (Rule) => Rule.required().max(200),
+      description: 'A short summary of your post. This appears on the blog listing page to give readers a preview. It will be automatically truncated if too long.',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'date',

@@ -1,8 +1,8 @@
 /**
- * Blog Post Page Component
+ * Mindspace Post Page Component
  * 
  * This file contains the BlogPost page component that displays
- * individual blog posts with rich content rendering.
+ * individual mindspace posts with rich content rendering.
  */
 
 import React, { useMemo, useCallback } from 'react';
@@ -17,7 +17,7 @@ import BlogImage from '../components/BlogImage';
 /**
  * Blog Image Component for MDX
  * 
- * Component used by MDX for rendering images within blog posts
+ * Component used by MDX for rendering images within mindspace posts
  */
 const BlogImageComponent: React.FC<{
   src: string;
@@ -30,15 +30,15 @@ const BlogImageComponent: React.FC<{
 }> = (props) => <BlogImage {...props} />;
 
 /**
- * Blog Post Page Component
+ * Mindspace Post Page Component
  * 
- * A comprehensive blog post page that displays individual posts with
+ * A comprehensive mindspace post page that displays individual posts with
  * rich content rendering, metadata, and navigation.
  * 
  * Features:
  * - Rich content rendering with ContentRenderer
  * - Post metadata display (date, read time, category)
- * - Navigation back to blog index
+ * - Navigation back to mindspace index
  * - Theme-aware styling
  * - Responsive design
  * - Smooth animations with Framer Motion
@@ -113,17 +113,17 @@ export const BlogPost: React.FC = () => {
 
   // Error state
   if (error || !post) {
-    console.error('Blog post error:', error);
+    console.error('Mindspace post error:', error);
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-500 mb-4">Failed to load blog post. Check console for details.</p>
+          <p className="text-red-500 mb-4">Failed to load post. Check console for details.</p>
           <Link 
-            to="/blog" 
+            to="/mindspace" 
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-colors ${styles.backButton}`}
           >
                 <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-            Back to Blog
+            Back to Mindspace
           </Link>
         </div>
       </div>
@@ -161,13 +161,22 @@ export const BlogPost: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            {/* Combined Date and Tag */}
+            {/* Combined Date and Tag with Back Button */}
             <motion.div
-              className="mb-4 sm:mb-6"
+              className="mb-4 sm:mb-6 flex items-center gap-4 flex-wrap"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
             >
+              {/* Back to Mindspace Button */}
+              <Link 
+                to="/mindspace" 
+                className={`inline-flex items-center gap-2 ${TYPOGRAPHY.bodySmall} ${getColorClass(COLORS.textSecondary.light, COLORS.textSecondary.dark)} ${getColorClass(COLORS.linkHover.light, COLORS.linkHover.dark)} transition-colors`}
+              >
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Back to Mindspace</span>
+              </Link>
+              
               {post.tag?.text ? (
                 <div className={`inline-flex items-center gap-2 ${TYPOGRAPHY.bodySmall} px-4 py-1.5 ${getTagColorClasses(post.tag.color)}`}>
                   <span className="text-black dark:text-slate-300 font-medium">{formatDate(post.date)}</span>
@@ -214,11 +223,11 @@ export const BlogPost: React.FC = () => {
               </div>
               
               <Link 
-                to="/blog" 
+                to="/mindspace" 
                 className={`inline-flex items-center gap-2 ${TYPOGRAPHY.body} ${getColorClass(COLORS.textSecondary.light, COLORS.textSecondary.dark)} ${getColorClass(COLORS.linkHover.light, COLORS.linkHover.dark)} transition-colors`}
               >
                 <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                <span>Back to Blog</span>
+                <span>Back to Mindspace</span>
               </Link>
             </div>
           </motion.footer>

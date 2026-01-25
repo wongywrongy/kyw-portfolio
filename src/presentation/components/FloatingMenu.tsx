@@ -172,15 +172,15 @@ export const FloatingMenu: React.FC = () => {
                 autobiography
               </motion.button>
 
-              {/* Blog Button */}
+              {/* Mindspace Button */}
               <motion.button
-                onClick={() => handleNavigate(ROUTES.BLOG)}
+                onClick={() => handleNavigate(ROUTES.MINDSPACE)}
                 className={`${getTextButtonStyles()} whitespace-nowrap`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                aria-label="Go to blog"
+                aria-label="Go to mindspace"
               >
-                blog
+                mindspace
               </motion.button>
 
               {/* Resume Button */}
