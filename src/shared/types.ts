@@ -67,7 +67,9 @@ export interface ContentItem {
   alt?: string;
   /** Image caption */
   caption?: string;
-  /** Image width */
+  /** Image size preset */
+  size?: 'small' | 'medium' | 'large' | 'full';
+  /** Image width (overrides size if provided) */
   width?: number | string;
   /** Image height */
   height?: number;

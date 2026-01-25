@@ -171,10 +171,25 @@ export default defineType({
               description: 'Optional caption that appears below the image.',
             },
             {
-              name: 'width',
-              title: 'Width',
+              name: 'size',
+              title: 'Image Size',
               type: 'string',
-              description: 'Image width (e.g., "800px" or "100%"). Leave empty for default.',
+              description: 'Choose how large the image appears relative to the text. Small images are about 50% width, medium is 75%, large is 90%, and full-width uses the entire container.',
+              options: {
+                list: [
+                  { title: 'Small (50% width)', value: 'small' },
+                  { title: 'Medium (75% width)', value: 'medium' },
+                  { title: 'Large (90% width)', value: 'large' },
+                  { title: 'Full Width (100%)', value: 'full' },
+                ],
+              },
+              initialValue: 'medium',
+            },
+            {
+              name: 'width',
+              title: 'Custom Width (Advanced)',
+              type: 'string',
+              description: 'Optional: Override size with a custom width (e.g., "600px" or "80%"). Leave empty to use the size option above.',
             },
             {
               name: 'align',
@@ -184,6 +199,7 @@ export default defineType({
               options: {
                 list: ['left', 'center', 'right'],
               },
+              initialValue: 'center',
             },
           ],
         },

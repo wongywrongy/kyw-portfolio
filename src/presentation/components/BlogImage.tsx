@@ -142,10 +142,8 @@ export const BlogImage: React.FC<BlogImageProps> = ({
   const imageStyles = useMemo(() => ({
     width: width,
     height: height,
-    className: `w-full h-auto object-cover ${
-      getThemeClasses('border border-slate-200', 'border border-slate-700')
-    }`
-  }), [width, height, getThemeClasses]);
+    className: `w-full h-auto object-contain`
+  }), [width, height]);
 
   /**
    * Gets theme-aware caption styles
@@ -168,10 +166,10 @@ export const BlogImage: React.FC<BlogImageProps> = ({
         <div className={`
           w-full h-48 
           ${getThemeClasses(
-            'bg-slate-100 border border-slate-300',
-            'bg-slate-800 border border-slate-600'
+            'bg-slate-100',
+            'bg-slate-800'
           )}
-          rounded-lg flex items-center justify-center
+          flex items-center justify-center
         `}>
           <div className="text-center">
             <p className={`
@@ -202,16 +200,16 @@ export const BlogImage: React.FC<BlogImageProps> = ({
       transition={{ duration: 0.4, ease: "easeOut" }}
     >
       {/* Image Container */}
-      <div className="relative overflow-hidden rounded-lg shadow-lg w-full">
+      <div className="relative w-full">
         {/* Loading State */}
         {imageLoading && (
           <div className={`
             absolute inset-0 
             ${getThemeClasses(
-              'bg-slate-100 border border-slate-300',
-              'bg-slate-800 border border-slate-600'
+              'bg-slate-100',
+              'bg-slate-800'
             )}
-            rounded-lg flex items-center justify-center z-10
+            flex items-center justify-center z-10
           `}>
             <div className="animate-pulse">
               <div className={`

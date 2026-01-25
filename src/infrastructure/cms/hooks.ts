@@ -246,8 +246,9 @@ export function useBlogPost(slug: string) {
                 src: imageUrl,
                 alt: block.alt || '',
                 caption: block.caption,
+                size: block.size || 'medium',
                 width: block.width,
-                align: block.align,
+                align: block.align || 'center',
               };
             case 'code':
               // Use 'code' field from Sanity, fallback to 'content'

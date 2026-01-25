@@ -205,9 +205,43 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
    * Renders images with optimization and accessibility
    */
   const renderImage = useCallback(() => {
+    // Determine image width based on size preset or custom width
+    const getImageWidth = () => {
+      // If custom width is provided, use it
+      if (item.width) {
+        return item.width;
+      }
+      
+      // Otherwise use size preset
+      const size = item.size || 'medium';
+      const sizeMap = {
+        small: '50%',
+        medium: '75%',
+        large: '90%',
+        full: '100%',
+      };
+      
+      return sizeMap[size] || '75%';
+    };
+
+    // Determine alignment classes
+    const getAlignmentClasses = () => {
+      const align = item.align || 'center';
+      const alignMap = {
+        left: 'mr-auto ml-0',
+        center: 'mx-auto',
+        right: 'ml-auto mr-0',
+      };
+      return alignMap[align] || 'mx-auto';
+    };
+
+    const imageWidth = getImageWidth();
+    const alignmentClasses = getAlignmentClasses();
+
     return (
       <motion.div
-        className="my-8 w-full overflow-hidden"
+        className={`my-8 overflow-hidden ${alignmentClasses}`}
+        style={{ width: imageWidth, maxWidth: '100%' }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
@@ -216,7 +250,7 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
           src={item.src || ''}
           alt={item.alt || ''}
           caption={item.caption}
-          width={item.width}
+          width={typeof imageWidth === 'string' ? undefined : imageWidth}
           height={item.height}
           quality={item.quality}
           format={item.format}
@@ -227,8 +261,10 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
     item.src, 
     item.alt, 
     item.caption, 
+    item.size,
     item.width, 
     item.height, 
+    item.align,
     item.quality, 
     item.format, 
     animationDelay

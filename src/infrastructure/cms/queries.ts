@@ -94,6 +94,7 @@ export const blogPostBySlugQuery = `*[_type == "blogPost" && slug.current == $sl
     },
     alt,
     caption,
+    size,
     width,
     align
   }
