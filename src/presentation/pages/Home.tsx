@@ -199,12 +199,12 @@ export const Home: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="prose prose-lg max-w-xl mx-auto"
+              className="prose prose-lg max-w-none"
             >
               {homeContent.about.paragraphs.map((paragraph, index) => (
                 <p 
                   key={index}
-                  className={`leading-relaxed ${index < homeContent.about.paragraphs.length - 1 ? 'mb-4 sm:mb-6' : ''} ${styles.textSecondary}`}
+                  className={`leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl ${index < homeContent.about.paragraphs.length - 1 ? 'mb-4 sm:mb-6' : ''} ${styles.textSecondary}`}
                 >
                   {paragraph}
                 </p>
