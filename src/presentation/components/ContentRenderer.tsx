@@ -52,34 +52,52 @@ const ContentItemRenderer: React.FC<ContentItemRendererProps> = React.memo(({
    */
   const renderText = useCallback(() => {
     const content = item.content || '';
-    // If we have paragraphs array (from Sanity), use that
-    // Otherwise, split on double newlines to create paragraphs
-    const paragraphs = (item as any).paragraphs || content.split(/\n\n+/).filter((p: string) => p.trim());
     
-    if (paragraphs.length === 0) {
-      return null;
-    }
+    // If content has newlines, preserve them by using whitespace-pre-line
+    // Split on double newlines for paragraph breaks, but preserve single newlines within paragraphs
+    if (content.includes('\n')) {
+      // Split on double newlines to create separate paragraphs
+      const paragraphs = content.split(/\n\n+/).filter((p: string) => p.trim());
+      
+      if (paragraphs.length === 0) {
+        return null;
+      }
 
+      return (
+        <motion.div
+          className="mb-4 sm:mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
+        >
+          {paragraphs.map((paragraph: string, paraIndex: number) => (
+            <p
+              key={paraIndex}
+              className={`mb-4 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere whitespace-pre-line ${
+                getThemeClasses('text-slate-700', 'text-slate-300')
+              }`}
+            >
+              {paragraph}
+            </p>
+          ))}
+        </motion.div>
+      );
+    }
+    
+    // If no newlines, just render as a single paragraph
     return (
-      <motion.div
-        className="mb-4 sm:mb-6"
+      <motion.p
+        className={`mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere ${
+          getThemeClasses('text-slate-700', 'text-slate-300')
+        }`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: animationDelay, ease: "easeOut" }}
       >
-        {paragraphs.map((paragraph: string, paraIndex: number) => (
-          <p
-            key={paraIndex}
-            className={`mb-4 leading-relaxed text-sm sm:text-base md:text-lg break-words overflow-wrap-anywhere whitespace-pre-line ${
-              getThemeClasses('text-slate-700', 'text-slate-300')
-            }`}
-          >
-            {paragraph.trim()}
-          </p>
-        ))}
-      </motion.div>
+        {content}
+      </motion.p>
     );
-  }, [item, animationDelay, getThemeClasses]);
+  }, [item.content, animationDelay, getThemeClasses]);
 
   /**
    * Renders heading with appropriate level and styling

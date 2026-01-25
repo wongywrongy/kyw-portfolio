@@ -199,7 +199,7 @@ export const Home: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="prose prose-lg max-w-none"
+              className="prose prose-lg max-w-xl mx-auto"
             >
               {homeContent.about.paragraphs.map((paragraph, index) => (
                 <p 
