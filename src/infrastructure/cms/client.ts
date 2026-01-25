@@ -1,13 +1,13 @@
 /**
- * Sanity CMS Client
+ * Sanity CMS Client with Proxy
  * 
- * This file sets up the Sanity client for fetching content.
- * Using API endpoint (not CDN) to avoid CORS issues.
+ * This file sets up a custom fetch function that uses a proxy
+ * to avoid CORS issues. Data is fetched server-side via proxy on each page load.
  * 
  * Environment variables:
  * - VITE_SANITY_PROJECT_ID: Your Sanity project ID
  * - VITE_SANITY_DATASET: Your dataset name (usually 'production')
- * - VITE_SANITY_TOKEN: Optional read token for production (recommended)
+ * - VITE_PROXY_URL: Optional proxy URL (defaults to corsproxy.io)
  */
 
 import { createClient } from '@sanity/client';
@@ -17,30 +17,72 @@ import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 // Get environment variables with fallbacks
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID || '29s0hb29';
 const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
-const token = import.meta.env.VITE_SANITY_TOKEN;
+
+// API route URL - points to the Express server or serverless function
+// For local dev: uses Express server on port 3001
+// For production: set VITE_API_ROUTE to your deployed server URL
+// If not set in production, will try /api/sanity-proxy (Vercel/Netlify)
+const apiRoute = import.meta.env.VITE_API_ROUTE || 
+  (import.meta.env.DEV 
+    ? 'http://localhost:3001/api/sanity'  // Local Express server
+    : '/api/sanity-proxy');  // Production serverless function (Vercel/Netlify)
 
 // Validate required configuration
 if (!projectId) {
   console.error('VITE_SANITY_PROJECT_ID is required. Please set it in your .env file.');
 } else {
-  console.log('Sanity client configured:', { projectId, dataset, useCdn: false });
+  console.log('Sanity client configured:', { projectId, dataset, apiRoute });
 }
 
-// Create Sanity client
-// Using API endpoint (useCdn: false) to avoid CORS issues
-// The API endpoint has proper CORS headers configured
-const client = createClient({
+/**
+ * Fetch function that uses your API route (like Next.js API routes)
+ * If you have a backend/router API, this will use that instead of proxies
+ */
+async function fetchViaProxy(query: string, params?: Record<string, any>) {
+  // Use your API route (works with Next.js, Express, or any backend)
+  const url = new URL(apiRoute, window.location.origin);
+  url.searchParams.set('query', query);
+  
+  if (params) {
+    url.searchParams.set('params', JSON.stringify(params));
+  }
+  
+  try {
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    // Your API should return { result: ... } or just the data directly
+    return data.result || data;
+  } catch (error) {
+    console.error('API route fetch error:', error);
+    throw error;
+  }
+}
+
+// Create a client-like object that uses the proxy
+const client = {
+  fetch: fetchViaProxy,
+};
+
+// Image URL builder for Sanity images
+// Images can use CDN directly (no CORS issues with images)
+const imageBuilderClient = createClient({
   projectId,
   dataset,
   apiVersion: '2024-01-01',
-  useCdn: false, // Use API endpoint to avoid CORS issues (CDN may have restrictions)
-  token, // Optional: Add read token for production (recommended for security)
-  perspective: 'published', // Only fetch published content in production
+  useCdn: true, // Images can use CDN (no CORS issues with images)
 });
 
-// Image URL builder for Sanity images
-// Images will still use CDN URLs (which is fine for images)
-const builder = imageUrlBuilder(client);
+const builder = imageUrlBuilder(imageBuilderClient);
 
 /**
  * Generate optimized image URL from Sanity image source

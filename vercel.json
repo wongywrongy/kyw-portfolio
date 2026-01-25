@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/sanity-proxy",
+      "destination": "/api/sanity-proxy.js"
+    }
+  ]
+}
