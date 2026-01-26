@@ -46,14 +46,13 @@ app.get('/api/sanity', async (req, res) => {
       }
     }
 
-    // Build Sanity API URL
+    // Build Sanity API URL - Use CDN endpoint for published content
     const sanityUrl = new URL(
-      `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`
+      `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}`
     );
     
     sanityUrl.searchParams.set('query', finalQuery);
     sanityUrl.searchParams.set('perspective', 'published');
-    sanityUrl.searchParams.set('useCdn', 'true');
 
     // Fetch from Sanity API (server-side, no CORS issues)
     const sanityResponse = await fetch(sanityUrl.toString(), {
