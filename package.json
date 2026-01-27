@@ -1,0 +1,14 @@
+{
+  "name": "kyw-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "dev:studio": "npm run dev --prefix backend",
+    "build": "npm run build --prefix frontend",
+    "build:studio": "npm run build --prefix backend",
+    "start": "npm run start --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend"
+  }
+}

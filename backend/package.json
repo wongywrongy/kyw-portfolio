@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "start": "sanity start"
+  },
+  "dependencies": {
+    "@sanity/code-input": "^5.1.2",
+    "@sanity/vision": "^3.72.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanity": "^3.72.2",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "typescript": "^5.6.3"
+  }
+}
