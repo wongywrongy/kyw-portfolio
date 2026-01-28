@@ -27,6 +27,7 @@ export const projectsQuery = `*[_type == "project"] | order(order asc){
   title,
   subtitle,
   description,
+  link,
   tags
 }`
 

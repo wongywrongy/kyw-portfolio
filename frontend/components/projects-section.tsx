@@ -3,6 +3,7 @@ interface Project {
   title: string;
   subtitle: string;
   description?: string;
+  link?: string;
   tags?: string[];
 }
 
@@ -72,12 +73,22 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
         <div className="space-y-6">
           {items.map((project, idx) => (
-            <div
-              key={project._id || idx}
-              className="pb-6 border-b border-border last:border-b-0"
-            >
+            <div key={project._id || idx} className="pb-6 border-b border-border last:border-b-0">
               <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 mb-2">
-                <h3 className="text-lg font-medium">{project.title}</h3>
+                {project.link ? (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg font-medium hover:text-accent transition-colors"
+                  >
+                    {project.title}
+                  </a>
+                ) : (
+                  <h3 className="text-lg font-medium">
+                    {project.title}
+                  </h3>
+                )}
                 {project.tags && project.tags.length > 0 && (
                   <span className="text-sm font-mono text-muted-foreground">
                     {project.tags[0]}

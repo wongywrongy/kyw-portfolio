@@ -9,6 +9,7 @@ interface Project {
   title: string;
   subtitle: string;
   description?: string;
+  link?: string;
   tags?: string[];
 }
 
@@ -35,14 +36,22 @@ export default async function ProjectsAllPage() {
           {projects && projects.length > 0 ? (
             <div className="space-y-8">
               {projects.map((project) => (
-                <article
-                  key={project._id}
-                  className="pb-8 border-b border-border last:border-b-0"
-                >
+                <article key={project._id} className="pb-8 border-b border-border last:border-b-0">
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 mb-2">
-                    <h2 className="text-xl font-medium">
-                      {project.title}
-                    </h2>
+                    {project.link ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xl font-medium hover:text-accent transition-colors"
+                      >
+                        {project.title}
+                      </a>
+                    ) : (
+                      <h2 className="text-xl font-medium">
+                        {project.title}
+                      </h2>
+                    )}
                     {project.tags && project.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag, idx) => (
