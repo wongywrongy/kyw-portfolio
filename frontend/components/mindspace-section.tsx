@@ -48,7 +48,7 @@ export function MindspaceSection({ posts }: MindspaceSectionProps) {
   return (
     <section
       id="mindspace"
-      className="min-h-screen py-16 px-6 border-t border-border flex items-center"
+      className="min-h-screen py-12 px-6 border-t border-border flex items-center pt-24"
     >
       <div className="max-w-4xl mx-auto w-full">
         <div className="flex items-baseline justify-between mb-12">

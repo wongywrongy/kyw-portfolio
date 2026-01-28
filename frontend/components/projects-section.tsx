@@ -80,7 +80,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-lg font-medium hover:text-accent transition-colors"
+                    className="text-lg font-medium hover:text-muted-foreground transition-colors cursor-pointer"
                   >
                     {project.title}
                   </a>

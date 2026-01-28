@@ -43,7 +43,7 @@ export default async function ProjectsAllPage() {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xl font-medium hover:text-accent transition-colors"
+                        className="text-xl font-medium hover:text-muted-foreground transition-colors cursor-pointer"
                       >
                         {project.title}
                       </a>
