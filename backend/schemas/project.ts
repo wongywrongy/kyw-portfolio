@@ -45,6 +45,13 @@ export default defineType({
     }),
     
     defineField({
+      name: 'link',
+      title: 'Project Link',
+      type: 'url',
+      description: 'URL to the project (e.g., https://example.com or GitHub repo)',
+    }),
+    
+    defineField({
       name: 'tags',
       title: 'Tags',
       type: 'array',
