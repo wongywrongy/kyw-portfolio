@@ -1,20 +1,19 @@
 import Link from 'next/link';
 import { Navigation } from '@/components/navigation';
 import { getProjects } from '@/lib/sanity';
+import type { Project } from '@/lib/sanity/types';
 
-export const revalidate = 60;
-
-interface Project {
-  _id: string;
-  title: string;
-  subtitle: string;
-  description?: string;
-  link?: string;
-  tags?: string[];
-}
+// Revalidate every hour (3600 seconds)
+export const revalidate = 3600;
 
 export default async function ProjectsAllPage() {
-  const projects: Project[] = await getProjects();
+  let projects: Project[] = [];
+
+  try {
+    projects = await getProjects();
+  } catch (error) {
+    console.error('Failed to fetch projects:', error);
+  }
 
   return (
     <>

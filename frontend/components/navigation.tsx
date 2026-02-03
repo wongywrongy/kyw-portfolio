@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+
+const SECTION_IDS = ['home', 'work', 'projects', 'mindspace'] as const;
 
 export function Navigation() {
   const [activeSection, setActiveSection] = useState('');
@@ -12,26 +14,26 @@ export function Navigation() {
 
   const isHomePage = pathname === '/';
 
+  // Memoized scroll handler
+  const handleScroll = useCallback(() => {
+    const current = SECTION_IDS.find((section) => {
+      const element = document.getElementById(section);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        return rect.top <= 100;
+      }
+      return false;
+    });
+    setActiveSection(current || '');
+  }, []);
+
   // Handle scroll tracking (only on homepage)
   useEffect(() => {
     if (!isHomePage) return;
 
-    const handleScroll = () => {
-      const sections = ['home', 'work', 'projects', 'mindspace'];
-      const current = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100;
-        }
-        return false;
-      });
-      setActiveSection(current || '');
-    };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHomePage]);
+  }, [isHomePage, handleScroll]);
 
   // Initialize theme on mount
   useEffect(() => {
@@ -46,29 +48,29 @@ export function Navigation() {
     }
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme((prevTheme) => {
+      const newTheme = prevTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      return newTheme;
+    });
+  }, []);
 
-  const navigateToSection = (id: string) => {
+  const navigateToSection = useCallback((id: string) => {
     if (isHomePage) {
-      // On homepage, just scroll
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // On other pages, navigate to homepage with hash
       router.push(`/#${id}`);
     }
-  };
+  }, [isHomePage, router]);
 
   // Prevent hydration mismatch
   if (!mounted) {

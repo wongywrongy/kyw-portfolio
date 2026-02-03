@@ -2,7 +2,9 @@
 
 import Image from 'next/image';
 import { PortableText as PortableTextReact, PortableTextComponents } from '@portabletext/react';
+import type { PortableTextBlock } from '@portabletext/types';
 import { urlFor } from '@/lib/sanity';
+import type { SanityImageAsset } from '@/lib/sanity/types';
 
 interface CodeBlockProps {
   value: {
@@ -32,21 +34,19 @@ function CodeBlock({ value }: CodeBlockProps) {
 }
 
 interface ImageBlockProps {
-  value: {
-    asset?: any;
-    alt?: string;
-    caption?: string;
-  };
+  value: SanityImageAsset;
 }
 
 function ImageBlock({ value }: ImageBlockProps) {
   if (!value?.asset) return null;
 
+  const altText = value.alt || 'Blog post image';
+
   return (
     <figure className="my-8">
       <Image
-        src={urlFor(value).width(1200).url()}
-        alt={value.alt || ''}
+        src={urlFor(value).width(1200).auto('format').quality(80).url()}
+        alt={altText}
         width={1200}
         height={675}
         className="w-full h-auto rounded-lg"
@@ -87,7 +87,18 @@ const components: PortableTextComponents = {
   marks: {
     link: ({ children, value }) => {
       const href = value?.href || '';
-      const isExternal = href.startsWith('http');
+      // Validate URL to prevent javascript: protocol injection
+      const isValidUrl = href.startsWith('http://') ||
+                         href.startsWith('https://') ||
+                         href.startsWith('mailto:') ||
+                         href.startsWith('tel:') ||
+                         href.startsWith('/');
+
+      if (!isValidUrl) {
+        return <span>{children}</span>;
+      }
+
+      const isExternal = href.startsWith('http://') || href.startsWith('https://');
       return (
         <a
           href={href}
@@ -120,7 +131,7 @@ const components: PortableTextComponents = {
 };
 
 interface PortableTextProps {
-  value: any[];
+  value: PortableTextBlock[];
 }
 
 export function PortableText({ value }: PortableTextProps) {

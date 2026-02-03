@@ -3,10 +3,12 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Navigation } from '@/components/navigation';
 import { getBlogPosts, getBlogPost, urlFor } from '@/lib/sanity';
+import type { BlogPost } from '@/lib/sanity/types';
 import { PortableText } from '@/components/portable-text';
 import { calculateReadTime } from '@/lib/utils/text';
 
-export const revalidate = 60;
+// Revalidate every hour (3600 seconds)
+export const revalidate = 3600;
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -14,17 +16,29 @@ interface Props {
 
 // Generate static paths for all posts
 export async function generateStaticParams() {
-  const posts = await getBlogPosts();
-  return posts
-    .filter((post: any) => post.slug?.current)
-    .map((post: any) => ({
-      slug: post.slug.current,
-    }));
+  try {
+    const posts: BlogPost[] = await getBlogPosts();
+    return posts
+      .filter((post) => post.slug?.current)
+      .map((post) => ({
+        slug: post.slug!.current,
+      }));
+  } catch (error) {
+    console.error('Failed to generate static params:', error);
+    return [];
+  }
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getBlogPost(slug);
+
+  let post;
+  try {
+    post = await getBlogPost(slug);
+  } catch (error) {
+    console.error('Failed to fetch blog post:', error);
+    notFound();
+  }
 
   if (!post) {
     notFound();
@@ -66,7 +80,7 @@ export default async function BlogPostPage({ params }: Props) {
           {post.featuredImage && (
             <div className="mb-8">
               <Image
-                src={urlFor(post.featuredImage).width(1200).height(600).url()}
+                src={urlFor(post.featuredImage).width(1200).height(600).auto('format').quality(80).url()}
                 alt={post.featuredImage.alt || post.title}
                 width={1200}
                 height={600}

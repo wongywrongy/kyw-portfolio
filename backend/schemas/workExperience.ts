@@ -52,7 +52,21 @@ export default defineType({
       type: 'string',
       description: 'Brief summary of what you did (1 sentence)',
     }),
-    
+
+    // ----------------------------------------
+    // RESUME / DOCUMENTS
+    // ----------------------------------------
+
+    defineField({
+      name: 'resume',
+      title: 'Resume/CV (PDF)',
+      type: 'file',
+      description: 'Upload your resume or CV as a PDF file',
+      options: {
+        accept: '.pdf',
+      },
+    }),
+
     // ----------------------------------------
     // ORDERING
     // ----------------------------------------

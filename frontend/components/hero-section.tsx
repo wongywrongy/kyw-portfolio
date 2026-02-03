@@ -1,23 +1,17 @@
-interface HeroData {
-  greeting?: string;
-  name?: string;
-  tagline?: string;
-  email?: string;
-  linkedin?: string;
-  github?: string;
-}
+import type { Hero } from '@/lib/sanity/types';
 
 interface HeroSectionProps {
-  data?: HeroData | null;
+  data?: Hero | null;
 }
 
 export function HeroSection({ data }: HeroSectionProps) {
-  const greeting = data?.greeting || "Hey, I'm";
+  // Provide sensible fallbacks for the hero section since it's the first thing visitors see
   const name = data?.name || 'Your Name';
-  const tagline = data?.tagline || 'Designer & developer creating thoughtful digital experiences. I focus on building clean, intentional interfaces that solve real problems.';
+  const title = data?.title || "Hey, I'm";
+  const bio = data?.bio || 'Designer & developer creating thoughtful digital experiences.';
   const email = data?.email || 'hello@example.com';
-  const linkedin = data?.linkedin || 'https://linkedin.com';
-  const github = data?.github || 'https://github.com';
+  const linkedin = data?.linkedin;
+  const github = data?.github;
 
   return (
     <section
@@ -26,11 +20,11 @@ export function HeroSection({ data }: HeroSectionProps) {
     >
       <div className="max-w-5xl mx-auto">
         <h1 className="text-5xl md:text-7xl font-light tracking-tight">
-          {greeting}
+          {title}
           <br />
           <span className="font-medium">{name}</span>
           <span className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed block mt-4 max-w-2xl">
-            {tagline}
+            {bio}
           </span>
         </h1>
 

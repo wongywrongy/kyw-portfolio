@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface ProjectCardProps {
   title: string;
   description: string;
@@ -28,10 +30,12 @@ export function ProjectCard({
         }`}
       >
         {image && (
-          <img
-            src={image || "/placeholder.svg"}
+          <Image
+            src={image}
             alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+            fill
+            sizes={featured ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}
+            className="object-cover group-hover:scale-105 transition duration-300"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />

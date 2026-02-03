@@ -2,23 +2,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Navigation } from '@/components/navigation';
 import { getBlogPosts, urlFor } from '@/lib/sanity';
+import type { BlogPost } from '@/lib/sanity/types';
 import { truncateWords, calculateReadTime } from '@/lib/utils/text';
 
-export const revalidate = 60;
-
-interface BlogPost {
-  _id: string;
-  title: string;
-  slug?: { current: string };
-  date: string;
-  excerpt: string;
-  category?: string;
-  wordCount?: number;
-  featuredImage?: any;
-}
+// Revalidate every hour (3600 seconds)
+export const revalidate = 3600;
 
 export default async function MindspaceAllPage() {
-  const posts: BlogPost[] = await getBlogPosts();
+  let posts: BlogPost[] = [];
+
+  try {
+    posts = await getBlogPosts();
+  } catch (error) {
+    console.error('Failed to fetch blog posts:', error);
+  }
 
   return (
     <>
@@ -53,7 +50,7 @@ export default async function MindspaceAllPage() {
                       {post.featuredImage && (
                         <div className="mb-4 overflow-hidden">
                           <Image
-                            src={urlFor(post.featuredImage).width(800).height(400).url()}
+                            src={urlFor(post.featuredImage).width(800).height(400).auto('format').quality(80).url()}
                             alt={post.featuredImage.alt || post.title}
                             width={800}
                             height={400}

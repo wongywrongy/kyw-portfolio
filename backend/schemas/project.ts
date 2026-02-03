@@ -63,7 +63,43 @@ export default defineType({
         },
       ],
     }),
-    
+
+    // ----------------------------------------
+    // PROJECT IMAGE
+    // ----------------------------------------
+
+    defineField({
+      name: 'image',
+      title: 'Project Image',
+      type: 'image',
+      description: 'Cover image for this project',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Describe the image for accessibility',
+        },
+      ],
+    }),
+
+    // ----------------------------------------
+    // CASE STUDY / DOCUMENTATION
+    // ----------------------------------------
+
+    defineField({
+      name: 'caseStudy',
+      title: 'Case Study (PDF)',
+      type: 'file',
+      description: 'Upload a detailed case study document',
+      options: {
+        accept: '.pdf',
+      },
+    }),
+
     // ----------------------------------------
     // ORDERING
     // ----------------------------------------

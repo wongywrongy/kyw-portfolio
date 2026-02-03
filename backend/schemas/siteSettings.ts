@@ -73,6 +73,45 @@ export default defineType({
       type: 'image',
       description: 'Image shown when your site is shared on social media (recommended: 1200x630 pixels)',
     }),
+
+    // ----------------------------------------
+    // DOWNLOADABLE DOCUMENTS
+    // ----------------------------------------
+
+    defineField({
+      name: 'resume',
+      title: 'Global Resume/CV',
+      type: 'file',
+      description: 'Your main resume/CV that can be downloaded from the site',
+      options: {
+        accept: '.pdf',
+      },
+    }),
+
+    defineField({
+      name: 'documents',
+      title: 'Other Documents',
+      type: 'array',
+      description: 'Additional downloadable documents (policies, certifications, etc.)',
+      of: [
+        {
+          type: 'file',
+          title: 'Document',
+          options: {
+            accept: '.pdf,.doc,.docx',
+          },
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Document Title',
+              description: 'Display name for this document',
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+        },
+      ],
+    }),
   ],
   
   preview: {

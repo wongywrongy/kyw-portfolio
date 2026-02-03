@@ -237,9 +237,43 @@ export default defineType({
     }),
     
     // ----------------------------------------
+    // ATTACHMENTS
+    // ----------------------------------------
+
+    defineField({
+      name: 'attachments',
+      title: 'Attachments',
+      type: 'array',
+      description: 'Add PDF files or other documents to this post',
+      of: [
+        {
+          type: 'file',
+          title: 'File',
+          options: {
+            accept: '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip',
+          },
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Title',
+              description: 'Display name for this file',
+            },
+            {
+              name: 'description',
+              type: 'string',
+              title: 'Description',
+              description: 'Brief description of the file contents',
+            },
+          ],
+        },
+      ],
+    }),
+
+    // ----------------------------------------
     // ORDERING
     // ----------------------------------------
-    
+
     defineField({
       name: 'order',
       title: 'Display Order',

@@ -5,10 +5,14 @@
   "scripts": {
     "dev": "npm run dev --prefix frontend",
     "dev:studio": "npm run dev --prefix backend",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:studio\"",
     "build": "npm run build --prefix frontend",
     "build:studio": "npm run build --prefix backend",
     "start": "npm run start --prefix frontend",
     "lint": "npm run lint --prefix frontend",
     "install:all": "npm install --prefix frontend && npm install --prefix backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
   }
 }
