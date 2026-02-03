@@ -10,7 +10,7 @@ export const revalidate = 3600;
 
 export default async function Home() {
   try {
-    const { hero, workExperiences, projects, blogPosts } = await getHomepageData();
+    const { hero, workExperiences, projects, blogPosts, siteSettings } = await getHomepageData();
 
     return (
       <>
@@ -22,7 +22,7 @@ export default async function Home() {
 
           <div className="lg:grid lg:grid-cols-2 lg:snap-start">
             <div className="snap-start lg:snap-align-none">
-              <WorkSection experiences={workExperiences} />
+              <WorkSection experiences={workExperiences} resumeUrl={siteSettings?.resumeUrl} />
             </div>
             <div className="snap-start lg:snap-align-none">
               <ProjectsSection projects={projects} />

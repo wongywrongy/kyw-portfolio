@@ -5,6 +5,7 @@ import {
   projectsQuery,
   blogPostsQuery,
   blogPostBySlugQuery,
+  siteSettingsQuery,
 } from './queries'
 
 export async function getHero() {
@@ -27,14 +28,19 @@ export async function getBlogPost(slug: string) {
   return client.fetch(blogPostBySlugQuery, { slug })
 }
 
+export async function getSiteSettings() {
+  return client.fetch(siteSettingsQuery)
+}
+
 // Fetch all homepage data at once
 export async function getHomepageData() {
-  const [hero, workExperiences, projects, blogPosts] = await Promise.all([
+  const [hero, workExperiences, projects, blogPosts, siteSettings] = await Promise.all([
     getHero(),
     getWorkExperiences(),
     getProjects(),
     getBlogPosts(),
+    getSiteSettings(),
   ])
-  
-  return { hero, workExperiences, projects, blogPosts }
+
+  return { hero, workExperiences, projects, blogPosts, siteSettings }
 }

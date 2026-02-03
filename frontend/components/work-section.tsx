@@ -2,9 +2,10 @@ import type { WorkExperience } from '@/lib/sanity/types';
 
 interface WorkSectionProps {
   experiences?: WorkExperience[];
+  resumeUrl?: string;
 }
 
-export function WorkSection({ experiences = [] }: WorkSectionProps) {
+export function WorkSection({ experiences = [], resumeUrl }: WorkSectionProps) {
   if (experiences.length === 0) {
     return (
       <section
@@ -16,12 +17,16 @@ export function WorkSection({ experiences = [] }: WorkSectionProps) {
             <h2 className="text-3xl md:text-4xl font-light tracking-tight">
               Work Experience
             </h2>
-            <a
-              href="/resume.pdf"
-              className="text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Resume
-            </a>
+            {resumeUrl && (
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Resume
+              </a>
+            )}
           </div>
           <p className="text-muted-foreground">No work experience added yet.</p>
         </div>
@@ -39,12 +44,16 @@ export function WorkSection({ experiences = [] }: WorkSectionProps) {
           <h2 className="text-3xl md:text-4xl font-light tracking-tight">
             Work Experience
           </h2>
-          <a
-            href="/resume.pdf"
-            className="text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Resume
-          </a>
+          {resumeUrl && (
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Resume
+            </a>
+          )}
         </div>
 
         <div className="space-y-6">

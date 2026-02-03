@@ -55,3 +55,10 @@ export const blogPostBySlugQuery = `*[_type == "blogPost" && slug.current == $sl
   content,
   "wordCount": length(pt::text(content))
 }`
+
+// Site settings (includes resume)
+export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
+  siteName,
+  siteDescription,
+  "resumeUrl": resume.asset->url
+}`
