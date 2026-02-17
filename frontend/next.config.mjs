@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     remotePatterns: [],
   },
+  serverExternalPackages: ['sharp'],
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],
