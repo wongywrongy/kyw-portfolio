@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from '@/lib/payload/revalidate'
 
 export const WorkExperiences: CollectionConfig = {
   slug: 'work-experiences',
@@ -8,6 +9,10 @@ export const WorkExperiences: CollectionConfig = {
   },
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterChange: [revalidateAfterChange(['/'])],
+    afterDelete: [revalidateAfterDelete(['/'])],
   },
   fields: [
     {

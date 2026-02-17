@@ -1,6 +1,8 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Hero, WorkExperience, Project, BlogPost, SiteSettings } from './types'
+import type { Media } from '@/payload-types'
+import { countWordsFromLexical } from '@/lib/utils/text'
 
 async function getPayloadClient() {
   return getPayload({ config })
@@ -52,6 +54,16 @@ export async function getHomepageData() {
   return { hero, workExperiences, projects, siteSettings }
 }
 
+function extractFeaturedImage(image: string | Media | null | undefined) {
+  if (!image || typeof image === 'string') return null
+  return {
+    url: image.url || '',
+    alt: image.alt || '',
+    width: image.width || undefined,
+    height: image.height || undefined,
+  }
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const payload = await getPayloadClient()
 
@@ -64,28 +76,17 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     },
   })
 
-  return data.docs.map((doc) => {
-    const featuredImage = doc.featuredImage && typeof doc.featuredImage === 'object'
-      ? {
-          url: (doc.featuredImage as { url?: string }).url || '',
-          alt: (doc.featuredImage as { alt?: string }).alt || '',
-          width: (doc.featuredImage as { width?: number }).width || 1200,
-          height: (doc.featuredImage as { height?: number }).height || 675,
-        }
-      : null
-
-    return {
-      _id: String(doc.id),
-      title: doc.title,
-      slug: doc.slug,
-      date: doc.publishedAt || '',
-      excerpt: doc.excerpt,
-      category: doc.category || undefined,
-      wordCount: undefined,
-      featuredImage,
-      content: doc.content as Record<string, unknown> | undefined,
-    }
-  })
+  return data.docs.map((doc) => ({
+    _id: String(doc.id),
+    title: doc.title,
+    slug: doc.slug,
+    date: doc.publishedAt || '',
+    excerpt: doc.excerpt,
+    category: doc.category || undefined,
+    wordCount: countWordsFromLexical(doc.content as Record<string, unknown> | undefined),
+    featuredImage: extractFeaturedImage(doc.featuredImage),
+    content: doc.content as Record<string, unknown> | undefined,
+  }))
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
@@ -102,15 +103,6 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const doc = data.docs[0]
   if (!doc) return null
 
-  const featuredImage = doc.featuredImage && typeof doc.featuredImage === 'object'
-    ? {
-        url: (doc.featuredImage as { url?: string }).url || '',
-        alt: (doc.featuredImage as { alt?: string }).alt || '',
-        width: (doc.featuredImage as { width?: number }).width || 1200,
-        height: (doc.featuredImage as { height?: number }).height || 675,
-      }
-    : null
-
   return {
     _id: String(doc.id),
     title: doc.title,
@@ -118,8 +110,8 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     date: doc.publishedAt || '',
     excerpt: doc.excerpt,
     category: doc.category || undefined,
-    wordCount: undefined,
-    featuredImage,
+    wordCount: countWordsFromLexical(doc.content as Record<string, unknown> | undefined),
+    featuredImage: extractFeaturedImage(doc.featuredImage),
     content: doc.content as Record<string, unknown> | undefined,
   }
 }

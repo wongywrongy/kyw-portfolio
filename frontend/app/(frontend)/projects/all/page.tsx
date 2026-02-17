@@ -3,7 +3,7 @@ import { Navigation } from '@/components/layout';
 import { getProjects } from '@/lib/payload';
 import type { Project } from '@/lib/payload/types';
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function ProjectsAllPage() {
   let projects: Project[] = [];
@@ -20,7 +20,7 @@ export default async function ProjectsAllPage() {
       <main className="min-h-screen pt-[52px] px-6 pb-20 fade-in">
         <div className="max-w-[720px] mx-auto">
           <div className="flex items-baseline justify-between mb-10">
-            <h1 className="font-[family-name:var(--font-display)] text-[36px] font-medium text-[var(--text-primary)]">
+            <h1 className="font-sans text-[36px] font-medium text-[var(--text-primary)]">
               Projects
             </h1>
             <Link
@@ -55,9 +55,9 @@ export default async function ProjectsAllPage() {
                     )}
                     {project.tags && project.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag, idx) => (
+                        {project.tags.map((tag) => (
                           <span
-                            key={idx}
+                            key={tag}
                             className="text-[11px] font-mono text-[var(--text-tertiary)] border border-[var(--border)] px-2 py-0.5"
                           >
                             {tag}

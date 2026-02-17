@@ -40,7 +40,7 @@ export interface BlogPost {
     width?: number
     height?: number
   } | null
-  content?: Record<string, unknown>
+  content?: Record<string, unknown> & { root?: unknown }
 }
 
 export interface SiteSettings {

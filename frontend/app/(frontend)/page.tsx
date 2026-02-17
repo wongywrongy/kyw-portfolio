@@ -2,7 +2,7 @@ import { Navigation } from '@/components/layout';
 import { HeroSection, WorkSection, ProjectsSection } from '@/components/sections';
 import { getHomepageData } from '@/lib/payload';
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function Home() {
   try {

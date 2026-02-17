@@ -7,7 +7,7 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ projects = [] }: ProjectsSectionProps) {
   return (
-    <div>
+    <section>
       <div className="flex items-baseline justify-between pb-3.5 mb-0">
         <h2 className="font-sans text-[21px] font-medium text-[var(--text-primary)]">
           Projects
@@ -62,6 +62,6 @@ export function ProjectsSection({ projects = [] }: ProjectsSectionProps) {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 }

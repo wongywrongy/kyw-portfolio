@@ -1,4 +1,7 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from '@/lib/payload/revalidate'
+
+const revalidatePaths = ['/', '/projects/all']
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -8,6 +11,10 @@ export const Projects: CollectionConfig = {
   },
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterChange: [revalidateAfterChange(revalidatePaths)],
+    afterDelete: [revalidateAfterDelete(revalidatePaths)],
   },
   fields: [
     {

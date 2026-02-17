@@ -4,7 +4,7 @@ import { getBlogPosts } from '@/lib/payload';
 import type { BlogPost } from '@/lib/payload/types';
 import { truncateWords, calculateReadTime } from '@/lib/utils/text';
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function MindspaceAllPage() {
   let posts: BlogPost[] = [];

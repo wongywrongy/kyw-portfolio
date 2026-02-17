@@ -8,7 +8,7 @@ import { RichText } from '@/components/blog';
 import { calculateReadTime } from '@/lib/utils/text';
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -81,7 +81,7 @@ export default async function BlogPostPage({ params }: Props) {
                 width={post.featuredImage.width || 1200}
                 height={post.featuredImage.height || 600}
                 className="w-full h-auto"
-                priority
+                priority={false}
               />
               {post.featuredImage.alt && (
                 <p className="text-[11px] text-[var(--text-tertiary)] mt-2 text-center">
@@ -93,7 +93,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {post.content && (
             <div className="max-w-none">
-              <RichText content={post.content as unknown as SerializedEditorState} />
+              <RichText content={post.content as SerializedEditorState} />
             </div>
           )}
 

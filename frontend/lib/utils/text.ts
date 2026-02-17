@@ -12,3 +12,25 @@ export function calculateReadTime(wordCount: number): string {
   const minutes = Math.ceil(wordCount / 200);
   return `${minutes} min read`;
 }
+
+// Extract plain text from Lexical editor state and count words
+export function countWordsFromLexical(content: Record<string, unknown> | null | undefined): number {
+  if (!content) return 0
+  const text = extractTextFromNode(content)
+  const words = text.trim().split(/\s+/).filter(Boolean)
+  return words.length
+}
+
+function extractTextFromNode(node: Record<string, unknown>): string {
+  if (node.type === 'text' && typeof node.text === 'string') {
+    return node.text
+  }
+
+  const root = node.root as Record<string, unknown> | undefined
+  const children = node.children || root?.children
+  if (Array.isArray(children)) {
+    return children.map((child: Record<string, unknown>) => extractTextFromNode(child)).join(' ')
+  }
+
+  return ''
+}

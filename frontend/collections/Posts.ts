@@ -1,4 +1,7 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from '@/lib/payload/revalidate'
+
+const revalidatePaths = ['/', '/mindspace/all', '/mindspace/[slug]']
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -8,6 +11,10 @@ export const Posts: CollectionConfig = {
   },
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterChange: [revalidateAfterChange(revalidatePaths)],
+    afterDelete: [revalidateAfterDelete(revalidatePaths)],
   },
   fields: [
     {
