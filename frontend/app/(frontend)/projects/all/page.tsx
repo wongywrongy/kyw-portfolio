@@ -17,8 +17,8 @@ export default async function ProjectsAllPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen pt-[52px] px-6 pb-20 fade-in">
-        <div className="max-w-[720px] mx-auto">
+      <main className="min-h-screen pt-14 px-6 pb-20 fade-in">
+        <div className="max-w-[var(--w-wide)] mx-auto">
           <div className="flex items-baseline justify-between mb-10">
             <h1 className="font-sans text-[36px] font-medium text-[var(--text-primary)]">
               Projects

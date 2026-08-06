@@ -1,4 +1,5 @@
 import type { Hero } from '@/lib/payload/types';
+import { safeMailto, safeUrl } from '@/lib/utils/url';
 
 interface HeroSectionProps {
   data?: Hero | null;
@@ -8,13 +9,13 @@ export function HeroSection({ data }: HeroSectionProps) {
   const name = data?.name || 'Your Name';
   const greeting = data?.greeting || "Hey, I'm";
   const tagline = data?.tagline || 'Designer & developer creating thoughtful digital experiences.';
-  const email = data?.email || 'hello@example.com';
-  const linkedin = data?.linkedin;
-  const github = data?.github;
+  const emailHref = safeMailto(data?.email) || 'mailto:hello@example.com';
+  const linkedin = safeUrl(data?.linkedin);
+  const github = safeUrl(data?.github);
 
   return (
     <section id="home" className="pt-14 pb-8 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-[var(--w-wide)] mx-auto">
         <div className="mb-6">
           <p
             className="font-[family-name:var(--font-display)] font-light text-[32px] md:text-[48px] leading-tight text-[var(--text-secondary)]"
@@ -22,7 +23,7 @@ export function HeroSection({ data }: HeroSectionProps) {
             {greeting}
           </p>
           <h1
-            className="font-[family-name:var(--font-display)] italic font-semibold text-[56px] md:text-[88px] leading-[1.0] tracking-[0.01em] text-white dark:text-white text-[var(--text-primary)]"
+            className="font-[family-name:var(--font-display)] italic font-semibold text-[56px] md:text-[88px] leading-[1.0] tracking-[0.01em] text-[var(--text-primary)]"
             style={{ transform: 'skewX(-1.5deg)', transformOrigin: 'left bottom' }}
           >
             {name}
@@ -36,8 +37,8 @@ export function HeroSection({ data }: HeroSectionProps) {
 
           <div className="flex gap-6">
             <a
-              href={`mailto:${email}`}
-              className="text-[12px] font-sans uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+              href={emailHref}
+              className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
             >
               Email
             </a>
@@ -46,7 +47,7 @@ export function HeroSection({ data }: HeroSectionProps) {
                 href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[12px] font-sans uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+                className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
               >
                 LinkedIn
               </a>
@@ -56,7 +57,7 @@ export function HeroSection({ data }: HeroSectionProps) {
                 href={github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[12px] font-sans uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+                className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
               >
                 GitHub
               </a>

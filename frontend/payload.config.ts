@@ -15,6 +15,16 @@ import { SiteSettings } from './globals/SiteSettings'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+function requireEnv(name: string): string {
+  const value = process.env[name]
+  if (!value) {
+    throw new Error(
+      `Missing required environment variable ${name}. Set it in frontend/.env.local (see .env.example).`,
+    )
+  }
+  return value
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -25,12 +35,12 @@ export default buildConfig({
   collections: [Users, Media, WorkExperiences, Projects, Posts],
   globals: [SiteSettings],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: requireEnv('PAYLOAD_SECRET'),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url: process.env.MONGODB_URI || '',
+    url: requireEnv('MONGODB_URI'),
   }),
   sharp,
   plugins: [],

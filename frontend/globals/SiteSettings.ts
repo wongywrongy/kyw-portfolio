@@ -7,7 +7,8 @@ export const SiteSettings: GlobalConfig = {
     read: () => true,
   },
   hooks: {
-    afterChange: [revalidateGlobalAfterChange(['/'])],
+    // `/work/all` also renders resumeUrl, so it goes stale with the homepage.
+    afterChange: [revalidateGlobalAfterChange(['/', '/work/all'])],
   },
   fields: [
     {

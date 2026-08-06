@@ -18,8 +18,8 @@ export default async function MindspaceAllPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen pt-[52px] px-6 pb-20 fade-in">
-        <div className="max-w-[720px] mx-auto">
+      <main className="min-h-screen pt-14 px-6 pb-20 fade-in">
+        <div className="max-w-[var(--w-wide)] mx-auto">
           <div className="flex items-baseline justify-between mb-10">
             <h1 className="font-sans text-[36px] font-medium text-[var(--text-primary)]">
               Mindspace
@@ -38,37 +38,51 @@ export default async function MindspaceAllPage() {
                 const readTime = calculateReadTime(post.wordCount || 0);
                 const truncatedExcerpt = truncateWords(post.excerpt, 30);
 
+                const article = (
+                  <article className="py-[18px] border-b border-[var(--border)] pl-0 group-hover:pl-2 transition-all duration-[250ms] ease-out">
+                    <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-2">
+                      <h2 className="text-[16px] font-medium text-[var(--text-primary)] group-hover:text-[var(--text-secondary)] transition-colors">
+                        {post.title}
+                      </h2>
+                      <span className="text-[11px] font-mono text-[var(--text-tertiary)] whitespace-nowrap">
+                        {post.date}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3 mb-2">
+                      {post.category && (
+                        <span className="text-[10px] font-medium uppercase tracking-wider text-[var(--text-secondary)] border border-[var(--border)] px-2 py-0.5">
+                          {post.category}
+                        </span>
+                      )}
+                      <span className="text-[12px] text-[var(--text-secondary)]">
+                        {readTime}
+                      </span>
+                    </div>
+
+                    <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed">
+                      {truncatedExcerpt}
+                    </p>
+                  </article>
+                );
+
+                // The post route resolves by slug only, so linking a post
+                // without one would render a guaranteed 404.
+                if (!post.slug) {
+                  return (
+                    <div key={post._id} className="block group">
+                      {article}
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={post._id}
-                    href={`/mindspace/${post.slug || post._id}`}
+                    href={`/mindspace/${post.slug}`}
                     className="block group"
                   >
-                    <article className="py-[22px] border-b border-[var(--border)] pl-0 group-hover:pl-2 transition-all duration-[250ms] ease-out">
-                      <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-2">
-                        <h2 className="text-[16px] font-medium text-[var(--text-primary)] group-hover:text-[var(--text-secondary)] transition-colors">
-                          {post.title}
-                        </h2>
-                        <span className="text-[11px] font-mono text-[var(--text-tertiary)] whitespace-nowrap">
-                          {post.date}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-3 mb-2">
-                        {post.category && (
-                          <span className="text-[10px] font-medium uppercase tracking-wider text-[var(--text-secondary)] border border-[var(--border)] px-2 py-0.5">
-                            {post.category}
-                          </span>
-                        )}
-                        <span className="text-[12px] text-[var(--text-secondary)]">
-                          {readTime}
-                        </span>
-                      </div>
-
-                      <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed">
-                        {truncatedExcerpt}
-                      </p>
-                    </article>
+                    {article}
                   </Link>
                 );
               })}

@@ -1,0 +1,57 @@
+# Runs on neo. The app is published on loopback only — host nginx proxies to
+# it, and nothing reaches the container directly from the network.
+#
+#   cp .env.example .env   # set PAYLOAD_SECRET
+#   docker compose up -d --build
+
+# Pinned so the volume is always `wongworks_mongo-data` regardless of what the
+# checkout directory is called. Backup and restore commands depend on this.
+name: wongworks
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    # Payload uses transactions where available, and mongoose transactions
+    # require a replica set. A single-node set gives us that without a cluster.
+    command: ['--replSet', 'rs0', '--bind_ip_all']
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      # Idempotent: reports ok once initiated, initiates on first boot. `app`
+      # waits on this, so it never starts against an uninitiated set.
+      test:
+        [
+          'CMD',
+          'mongosh',
+          '--quiet',
+          '--eval',
+          "try { rs.status().ok } catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}).ok }",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
+    # Deliberately no `ports:` — the database is reachable only on the compose
+    # network, never from the host or the tailnet.
+
+  app:
+    build:
+      context: ./frontend
+      args:
+        # Compiled into the bundle. Changing it needs a rebuild, not a restart.
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://kyle.wongworks.dev}
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/wongworks?replicaSet=rs0
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:?set PAYLOAD_SECRET in .env}
+    ports:
+      # Loopback-bound. `3000:3000` would publish it on every interface and
+      # bypass nginx entirely, including on the tailnet.
+      - '127.0.0.1:3000:3000'
+
+volumes:
+  mongo-data:

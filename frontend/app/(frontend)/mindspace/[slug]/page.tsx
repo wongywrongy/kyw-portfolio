@@ -48,11 +48,11 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen pt-[52px] px-6 pb-20 fade-in">
-        <article className="max-w-[720px] mx-auto">
+      <main className="min-h-screen pt-14 px-6 pb-20 fade-in">
+        <article className="max-w-[var(--w-text)] mx-auto">
           <Link
             href="/mindspace/all"
-            className="text-[11px] font-sans uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200 inline-block mb-8"
+            className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200 inline-block mb-8"
           >
             All Posts
           </Link>
@@ -100,7 +100,7 @@ export default async function BlogPostPage({ params }: Props) {
           <footer className="mt-16 pt-8 border-t border-[var(--border)]">
             <Link
               href="/mindspace/all"
-              className="text-[12px] font-sans uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+              className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
             >
               Back to all posts
             </Link>

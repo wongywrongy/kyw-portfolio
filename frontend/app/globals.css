@@ -3,6 +3,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Layout widths. Two deliberate values, not an accident of history:
+   --w-wide  the homepage two-column grid, and the list pages reached from its
+             "View All" links, so that transition doesn't resize the column.
+   --w-text  prose. Held near a 70-character measure; widening it past this
+             hurts readability, which is why article pages stay narrow. */
+:root {
+  --w-wide: 64rem;
+  --w-text: 720px;
+}
+
 /* Light mode */
 :root {
   --background: #ffffff;
@@ -11,9 +21,11 @@
   --border-hover: #d0d0d0;
   --text-primary: #1a1a1a;
   --text-body: #3a3a3a;
-  --text-secondary: #6a6a6a;
-  --text-tertiary: #999999;
-  --muted-foreground: #6a6a6a;
+  /* secondary 7.00:1, tertiary 4.61:1 on white. tertiary carries 11-12px nav
+     links, dates and tags, so it has to clear AA on its own. */
+  --text-secondary: #595959;
+  --text-tertiary: #757575;
+  --muted-foreground: #595959;
 }
 
 /* Dark mode */
@@ -24,9 +36,10 @@
   --border-hover: #282828;
   --text-primary: #f0efed;
   --text-body: #c8c6c1;
-  --text-secondary: #8a8882;
-  --text-tertiary: #555550;
-  --muted-foreground: #8a8882;
+  /* secondary 7.48:1, tertiary 4.77:1 on black; warm cast preserved. */
+  --text-secondary: #9c9a96;
+  --text-tertiary: #7a7874;
+  --muted-foreground: #9c9a96;
 }
 
 @theme inline {
@@ -79,7 +92,11 @@
   left: 50%;
   transform: translateX(-50%);
   width: 1px;
-  height: calc(100% - 80px);
+  /* Padding is 48px top / 80px bottom, so the rule overhangs the column
+     content by 48-16=32px at the top. Height is set to leave the same 32px at
+     the bottom: 100% - 80 + 32 - 16. Previously `100% - 80px`, which left only
+     16px and made the divider sit visibly high. */
+  height: calc(100% - 64px);
   background: var(--border);
 }
 

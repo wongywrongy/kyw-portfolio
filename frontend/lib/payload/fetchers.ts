@@ -3,6 +3,7 @@ import config from '@payload-config'
 import type { Hero, WorkExperience, Project, BlogPost, SiteSettings } from './types'
 import type { Media } from '@/payload-types'
 import { countWordsFromLexical } from '@/lib/utils/text'
+import { safeUrl } from '@/lib/utils/url'
 
 async function getPayloadClient() {
   return getPayload({ config })
@@ -22,14 +23,14 @@ export async function getHomepageData() {
     greeting: siteSettingsData.hero?.greeting || "Hey, I'm",
     tagline: siteSettingsData.hero?.tagline || '',
     email: siteSettingsData.links?.email || '',
-    linkedin: siteSettingsData.links?.linkedinUrl || '',
-    github: siteSettingsData.links?.githubUrl || '',
+    linkedin: safeUrl(siteSettingsData.links?.linkedinUrl) || '',
+    github: safeUrl(siteSettingsData.links?.githubUrl) || '',
   }
 
   const siteSettings: SiteSettings = {
     siteTitle: siteSettingsData.site?.siteTitle || '',
     siteDescription: siteSettingsData.site?.siteDescription || '',
-    resumeUrl: siteSettingsData.site?.resumeUrl || '',
+    resumeUrl: safeUrl(siteSettingsData.site?.resumeUrl) || '',
   }
 
   const workExperiences: WorkExperience[] = workData.docs.map((doc) => ({
@@ -46,7 +47,7 @@ export async function getHomepageData() {
     title: doc.title,
     subtitle: doc.subtitle,
     description: doc.description || undefined,
-    link: doc.link || undefined,
+    link: safeUrl(doc.link),
     tags: doc.tags?.map((t: { tag: string }) => t.tag) || [],
     order: doc.order || 0,
   }))
@@ -95,7 +96,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const data = await payload.find({
     collection: 'posts',
     where: {
-      slug: { equals: slug },
+      and: [{ slug: { equals: slug } }, { status: { equals: 'published' } }],
     },
     limit: 1,
   })
@@ -116,6 +117,36 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   }
 }
 
+export async function getSiteSettings(): Promise<SiteSettings> {
+  const payload = await getPayloadClient()
+  const data = await payload.findGlobal({ slug: 'site-settings' })
+
+  return {
+    siteTitle: data.site?.siteTitle || '',
+    siteDescription: data.site?.siteDescription || '',
+    resumeUrl: safeUrl(data.site?.resumeUrl) || '',
+  }
+}
+
+export async function getWorkExperiences(): Promise<WorkExperience[]> {
+  const payload = await getPayloadClient()
+
+  const data = await payload.find({
+    collection: 'work-experiences',
+    sort: 'order',
+    limit: 100,
+  })
+
+  return data.docs.map((doc) => ({
+    _id: String(doc.id),
+    company: doc.company,
+    role: doc.role,
+    period: doc.period,
+    description: doc.description || undefined,
+    order: doc.order || 0,
+  }))
+}
+
 export async function getProjects(): Promise<Project[]> {
   const payload = await getPayloadClient()
 
@@ -130,7 +161,7 @@ export async function getProjects(): Promise<Project[]> {
     title: doc.title,
     subtitle: doc.subtitle,
     description: doc.description || undefined,
-    link: doc.link || undefined,
+    link: safeUrl(doc.link),
     tags: doc.tags?.map((t: { tag: string }) => t.tag) || [],
     order: doc.order || 0,
   }))

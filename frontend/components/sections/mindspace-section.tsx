@@ -10,7 +10,7 @@ export function MindspaceSection({ posts = [] }: MindspaceSectionProps) {
   if (posts.length === 0) {
     return (
       <section id="mindspace" className="py-12 px-6">
-        <div className="max-w-[720px] mx-auto">
+        <div className="max-w-[var(--w-text)] mx-auto">
           <div className="flex items-baseline justify-between pb-3.5">
             <h2 className="font-[family-name:var(--font-display)] text-[21px] font-medium text-[var(--text-primary)]">
               Mindspace
@@ -30,7 +30,7 @@ export function MindspaceSection({ posts = [] }: MindspaceSectionProps) {
 
   return (
     <section id="mindspace" className="py-12 px-6">
-      <div className="max-w-[720px] mx-auto">
+      <div className="max-w-[var(--w-text)] mx-auto">
         <div className="flex items-baseline justify-between pb-3.5">
           <h2 className="font-[family-name:var(--font-display)] text-[21px] font-medium text-[var(--text-primary)]">
             Mindspace

@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+
+# Never bake secrets into an image layer. Runtime values come from compose.
+.env
+.env.local
+.env.*.local
+
+dev.log
+*.log
+.DS_Store
+Dockerfile
+.dockerignore

@@ -14,9 +14,14 @@ export default async function Home() {
         <main className="fade-in">
           <HeroSection data={hero} />
 
-          <div className="mx-6 h-px bg-[var(--border)]" />
+          {/* Padding outside, width cap inside — this is what makes the rule
+              land on exactly the same edges as the hero and the columns at
+              every viewport size. `mx-6` alone spanned the full viewport. */}
+          <div className="px-6">
+            <div className="max-w-[var(--w-wide)] mx-auto h-px bg-[var(--border)]" />
+          </div>
 
-          <div className="two-col max-w-5xl mx-auto px-6">
+          <div className="two-col max-w-[var(--w-wide)] mx-auto px-6">
             <div className="pr-0 md:pr-9">
               <WorkSection experiences={workExperiences} resumeUrl={siteSettings?.resumeUrl} />
             </div>

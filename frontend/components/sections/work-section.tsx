@@ -1,27 +1,39 @@
+import Link from 'next/link';
 import type { WorkExperience } from '@/lib/payload/types';
+import { safeUrl } from '@/lib/utils/url';
 
 interface WorkSectionProps {
   experiences?: WorkExperience[];
   resumeUrl?: string;
 }
 
-export function WorkSection({ experiences = [], resumeUrl }: WorkSectionProps) {
+export function WorkSection({ experiences = [], resumeUrl: rawResumeUrl }: WorkSectionProps) {
+  const resumeUrl = safeUrl(rawResumeUrl);
+
   return (
     <section>
       <div className="flex items-baseline justify-between pb-3.5 mb-0">
         <h2 className="font-sans text-[21px] font-medium text-[var(--text-primary)]">
           Work Experience
         </h2>
-        {resumeUrl && (
-          <a
-            href={resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="flex items-baseline gap-4">
+          {resumeUrl && (
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+            >
+              Resume
+            </a>
+          )}
+          <Link
+            href="/work/all"
             className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors duration-200"
           >
-            Resume
-          </a>
-        )}
+            View All
+          </Link>
+        </div>
       </div>
 
       {experiences.length === 0 ? (

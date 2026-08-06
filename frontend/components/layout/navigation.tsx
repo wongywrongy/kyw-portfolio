@@ -11,7 +11,7 @@ export function Navigation() {
 
   const { theme, toggleTheme, mounted } = useTheme();
 
-  const linkStyle = "text-[12px] font-sans uppercase tracking-wider transition-colors duration-200";
+  const linkStyle = "text-[11px] font-mono uppercase tracking-wider transition-colors duration-200";
   const inactiveStyle = `${linkStyle} text-[var(--text-tertiary)] hover:text-[var(--text-primary)]`;
   const activeStyle = `${linkStyle} text-[var(--text-primary)]`;
   const separatorStyle = "w-px h-3 bg-[var(--border)]";

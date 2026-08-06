@@ -10,7 +10,14 @@ export const Posts: CollectionConfig = {
     defaultColumns: ['title', 'category', 'status', 'order'],
   },
   access: {
-    read: () => true,
+    // Anonymous callers (including the public REST/GraphQL API) only ever see
+    // published posts; authenticated admins still see drafts.
+    read: ({ req: { user } }) => {
+      if (user) return true
+      return {
+        status: { equals: 'published' },
+      }
+    },
   },
   hooks: {
     afterChange: [revalidateAfterChange(revalidatePaths)],
