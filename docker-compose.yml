@@ -1,5 +1,6 @@
-# Runs on neo. The app is published on loopback only — host nginx proxies to
-# it, and nothing reaches the container directly from the network.
+# Runs on neo. The app is published on loopback only — the nginx service in
+# this stack proxies to it, and nothing reaches the container directly from
+# the network.
 #
 #   cp .env.example .env   # set PAYLOAD_SECRET
 #   docker compose up -d --build
@@ -52,6 +53,25 @@ services:
       # Loopback-bound. `3000:3000` would publish it on every interface and
       # bypass nginx entirely, including on the tailnet.
       - '127.0.0.1:3000:3000'
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    volumes:
+      # Dropped into conf.d, which the stock image's nginx.conf includes from
+      # inside its http block — the same context a host install would use.
+      - ./deploy/nginx/kyle.wongworks.dev.conf:/etc/nginx/conf.d/kyle.wongworks.dev.conf:ro
+    ports:
+      # Public: loopback only. This is what the Cloudflare Tunnel connects to.
+      # Publishing it on 0.0.0.0 would expose the site on the LAN, bypassing
+      # the edge.
+      - '127.0.0.1:8080:8080'
+      # Admin: tailnet interface only. TAILNET_IP is this machine's `tailscale
+      # ip -4` address and is set in .env, never committed — hardcoding it here
+      # would hand neo's address to the next machine that checks this out.
+      - '${TAILNET_IP:?set TAILNET_IP in .env (tailscale ip -4)}:8081:8081'
 
 volumes:
   mongo-data:
