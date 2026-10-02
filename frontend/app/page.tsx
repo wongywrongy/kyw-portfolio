@@ -1,49 +1,132 @@
-import { Navigation } from '@/components/layout';
-import { HeroSection, WorkSection, ProjectsSection } from '@/components/sections';
-import { getHomepageData } from '@/lib/payload';
+/* eslint-disable @next/next/no-img-element */
+import { site } from '@/content/site'
+import { work } from '@/content/work'
+import { projects } from '@/content/projects'
+import { getPosts, formatShortDate } from '@/lib/posts'
+import { Section } from '@/components/section'
+import { Row, Arrow } from '@/components/row'
 
-export const revalidate = 60;
+export default function Home() {
+  const posts = getPosts()
+  const links = [
+    site.links.email && { label: 'Email', href: `mailto:${site.links.email}` },
+    site.links.github && { label: 'GitHub', href: site.links.github },
+    site.links.linkedin && { label: 'LinkedIn', href: site.links.linkedin },
+    site.links.resume && { label: 'Resume', href: site.links.resume },
+  ].filter((l): l is { label: string; href: string } => Boolean(l))
 
-export default async function Home() {
-  try {
-    const { hero, workExperiences, projects, siteSettings } = await getHomepageData();
+  return (
+    <>
+      <header className="fade-up" style={{ '--i': 0 } as React.CSSProperties}>
+        <img
+          src={site.avatar}
+          alt={site.name}
+          width={56}
+          height={56}
+          className="size-14 rounded-full border border-line object-cover"
+        />
+        <h1 className="mt-5 font-serif text-[40px] italic leading-[1.1] tracking-[-0.01em]">
+          {site.name}
+        </h1>
+        <p className="mt-1 text-secondary">{site.role}</p>
+        <div className="mt-6 space-y-4">
+          {site.bio.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </div>
+      </header>
 
-    return (
-      <>
-        <Navigation />
-        <main className="fade-in">
-          <HeroSection data={hero} />
+      {links.length > 0 && (
+        <nav
+          aria-label="Links"
+          className="fade-up mt-6 flex flex-wrap gap-x-5 gap-y-1"
+          style={{ '--i': 1 } as React.CSSProperties}
+        >
+          {links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="link"
+              {...(l.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      )}
 
-          {/* Padding outside, width cap inside — this is what makes the rule
-              land on exactly the same edges as the hero and the columns at
-              every viewport size. `mx-6` alone spanned the full viewport. */}
-          <div className="px-6">
-            <div className="max-w-[var(--w-wide)] mx-auto h-px bg-[var(--border)]" />
-          </div>
+      <Section label="Work" index={2}>
+        <ul>
+          {work.map((job) => (
+            <li key={job.company}>
+              <Row href={job.href}>
+                <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                  <p>
+                    <span>{job.company}</span>
+                    <span className="text-secondary"> · {job.role}</span>
+                    {job.href && <Arrow />}
+                  </p>
+                  {job.period && (
+                    <span className="shrink-0 text-[13px] tabular-nums text-tertiary group-hover:text-secondary">
+                      {job.period}
+                    </span>
+                  )}
+                </div>
+                {job.description && <p className="mt-0.5 text-secondary">{job.description}</p>}
+              </Row>
+            </li>
+          ))}
+        </ul>
+      </Section>
 
-          <div className="two-col max-w-[var(--w-wide)] mx-auto px-6">
-            <div className="pr-0 md:pr-9">
-              <WorkSection experiences={workExperiences} resumeUrl={siteSettings?.resumeUrl} />
-            </div>
-            <div className="pl-0 md:pl-9 border-t border-[var(--border)] md:border-t-0 pt-8 md:pt-0">
-              <ProjectsSection projects={projects} />
-            </div>
-          </div>
-        </main>
-      </>
-    );
-  } catch (error) {
-    console.error('Failed to load homepage data:', error);
-    return (
-      <>
-        <Navigation />
-        <main className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="font-[family-name:var(--font-display)] text-2xl font-light mb-4">Unable to load content</h1>
-            <p className="text-[var(--text-secondary)]">Please try again later.</p>
-          </div>
-        </main>
-      </>
-    );
-  }
+      <Section label="Projects" index={3}>
+        <ul>
+          {projects.map((p) => (
+            <li key={p.name}>
+              <Row href={p.href}>
+                <p>
+                  {p.name}
+                  {p.href && <Arrow />}
+                </p>
+                <p className="text-secondary">{p.description}</p>
+                {p.stack && p.stack.length > 0 && (
+                  <p className="mt-1 font-mono text-xs text-tertiary group-hover:text-secondary">
+                    {p.stack.join(' · ')}
+                  </p>
+                )}
+              </Row>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {posts.length > 0 && (
+        <Section label="Mindspace" index={4}>
+          <ul>
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <Row href={`/mindspace/${post.slug}`} internal>
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span>{post.title}</span>
+                    <span className="shrink-0 text-[13px] tabular-nums text-tertiary group-hover:text-secondary">
+                      {formatShortDate(post.date)}
+                    </span>
+                  </div>
+                </Row>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      <footer
+        className="fade-up mt-14 border-t border-line pt-6 text-[13px] text-tertiary"
+        style={{ '--i': 5 } as React.CSSProperties}
+      >
+        <p>
+          © {new Date().getFullYear()} {site.name}
+        </p>
+      </footer>
+    </>
+  )
 }

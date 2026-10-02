@@ -1,28 +1,15 @@
 import type { MetadataRoute } from 'next'
-import { getBlogPosts } from '@/lib/payload'
-import { SITE_URL } from '@/lib/site'
+import { site } from '@/content/site'
+import { getPosts } from '@/lib/posts'
 
-export const revalidate = 3600
+export const dynamic = 'force-static'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = ['', '/work/all', '/projects/all', '/mindspace/all'].map((route) => ({
-    url: `${SITE_URL}${route}`,
-    changeFrequency: 'weekly' as const,
-  }))
-
-  let postRoutes: MetadataRoute.Sitemap = []
-  try {
-    const posts = await getBlogPosts()
-    postRoutes = posts
-      .filter((post) => post.slug)
-      .map((post) => ({
-        url: `${SITE_URL}/mindspace/${post.slug}`,
-        changeFrequency: 'monthly' as const,
-      }))
-  } catch (error) {
-    // A database hiccup should degrade the sitemap, not fail the whole build.
-    console.error('Failed to build sitemap post entries:', error)
-  }
-
-  return [...staticRoutes, ...postRoutes]
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    { url: site.url, lastModified: new Date() },
+    ...getPosts().map((p) => ({
+      url: `${site.url}/mindspace/${p.slug}`,
+      lastModified: new Date(`${p.date}T00:00:00Z`),
+    })),
+  ]
 }

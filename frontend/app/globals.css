@@ -1,0 +1,201 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #ffffff;
+  --fg: #171717;
+  --secondary: #616161;
+  --tertiary: #737373;
+  --line: #ebebeb;
+  --surface: #f5f5f5;
+
+  --sh-class: #1d6f8f;
+  --sh-identifier: #171717;
+  --sh-sign: #616161;
+  --sh-property: #8a4b08;
+  --sh-entity: #1d6f8f;
+  --sh-jsxliterals: #6f42c1;
+  --sh-string: #1a7f4b;
+  --sh-keyword: #c2255c;
+  --sh-comment: #737373;
+
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0a0a0a;
+  --fg: #ededed;
+  --secondary: #a1a1a1;
+  --tertiary: #8b8b8b;
+  --line: #1f1f1f;
+  --surface: #151515;
+
+  --sh-class: #7dd3fc;
+  --sh-identifier: #ededed;
+  --sh-sign: #a1a1a1;
+  --sh-property: #f0b866;
+  --sh-entity: #7dd3fc;
+  --sh-jsxliterals: #c4a7f5;
+  --sh-string: #7ee2a8;
+  --sh-keyword: #ff8fb1;
+  --sh-comment: #8b8b8b;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+
+::selection {
+  background: var(--surface);
+}
+
+:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Plain text link: underline with an offset, colour shifts on hover. */
+.link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--tertiary);
+  transition: text-decoration-color 150ms ease;
+}
+.link:hover {
+  text-decoration-color: var(--fg);
+}
+
+/* Load animation: each section fades up, staggered with --i. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fade-up 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Post body */
+.prose-post {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 62ch;
+}
+.prose-post > * + * {
+  margin-top: 1.25em;
+}
+.prose-post h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 2.2em;
+  letter-spacing: -0.01em;
+}
+.prose-post h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1.8em;
+}
+.prose-post ul,
+.prose-post ol {
+  padding-left: 1.4em;
+}
+.prose-post ul {
+  list-style: disc;
+}
+.prose-post ol {
+  list-style: decimal;
+}
+.prose-post li + li {
+  margin-top: 0.4em;
+}
+.prose-post li::marker {
+  color: var(--tertiary);
+}
+.prose-post blockquote {
+  border-left: 2px solid var(--line);
+  padding-left: 1em;
+  color: var(--secondary);
+}
+.prose-post a {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--tertiary);
+  transition: text-decoration-color 150ms ease;
+}
+.prose-post a:hover {
+  text-decoration-color: var(--fg);
+}
+.prose-post :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+}
+.prose-post pre {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+.prose-post img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.prose-post hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin-block: 2em;
+}
