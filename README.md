@@ -1,60 +1,36 @@
-# Portfolio Website
+# kyle.wongworks.dev
 
-A personal portfolio website built with Next.js and Payload CMS.
+Personal site. A static, file-based Next.js export: content lives in the repo, `next build` writes plain files to `frontend/out/`, and nginx serves them.
 
-## Tech Stack
-
-- Next.js 15
-- React 19
-- Tailwind CSS
-- Payload CMS v3 (embedded, self-hosted)
-- MongoDB Atlas
-
-## Structure
-
-```
-frontend/    → Next.js website + Payload CMS admin (/admin)
-```
-
-## Getting Started
-
-1. Copy `frontend/.env.example` to `frontend/.env.local` and fill in your MongoDB URI and Payload secret
-2. Run `npm run dev` from the root or `npm run dev` inside `frontend/`
-3. Visit `/admin` to create your first user and manage content
-
-## Environment
-
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `MONGODB_URI` | yes | MongoDB connection string. The app refuses to boot without it. |
-| `PAYLOAD_SECRET` | yes | Signs Payload auth tokens. The app refuses to boot without it. |
-| `NEXT_PUBLIC_SITE_URL` | no | Public origin for canonical URLs, `robots.txt` and `sitemap.xml`. Defaults to `https://kyle.wongworks.dev`. |
-
-## Deployment
-
-**→ [`docs/DEPLOY.md`](docs/DEPLOY.md) is the setup guide.** Follow it start to
-finish; it's self-contained.
-
-`https://kyle.wongworks.dev` runs as a container on neo, behind the host's
-nginx, reached through a Cloudflare Tunnel.
-[`docs/hosting.md`](docs/hosting.md) covers why it's built this way; deployed
-artifacts live in [`deploy/`](deploy/).
+## Develop
 
 ```bash
-cp .env.example .env          # set PAYLOAD_SECRET: openssl rand -base64 32
-docker compose up -d --build
+cd frontend
+npm ci
+npm run dev      # http://localhost:3000, drafts visible
+npm run lint
+npm run build    # writes frontend/out/
 ```
 
-The app binds to `127.0.0.1:3000`; nginx proxies to it. MongoDB publishes no
-ports.
+## Add content
 
-Notes:
+Everything is under `frontend/content/`.
 
-- **Two nginx server blocks.** The public one 404s `/admin` and `/api`; a
-  tailnet-only block serves them. Proxying the public hostname straight through
-  would expose the CMS.
-- `NEXT_PUBLIC_SITE_URL` is compiled into the bundle — changing it requires
-  `--build`, not a restart.
-- `frontend/.npmrc` (`legacy-peer-deps=true`) is required for `npm ci` to
-  succeed. It masks a real Next/Payload peer conflict — see the open items in
-  `docs/hosting.md`.
+- **Project**: add an object to `projects.ts`. `name` and `description` are required; `stack` and `href` are optional. With an `href` the row becomes a link.
+- **Job**: add an object to `work.ts`. `company` and `role` are required; `period`, `description` and `href` are optional.
+- **Post**: add `content/posts/<slug>.mdx` with `title`, `date` (YYYY-MM-DD), `summary` and `draft` in the frontmatter. Images go in `public/images/`. Drafts only show up in `npm run dev`; set `draft: false` to publish. See `how-to-write-a-post.mdx` for an example.
+- **Bio, role, links**: `site.ts`. A link with an empty value is hidden.
+
+Order in the lists is the order in the files. Posts sort newest first.
+
+## Deploy
+
+On neo: `git pull && docker compose up -d --build`. See [docs/DEPLOY.md](docs/DEPLOY.md).
+
+## Layout
+
+```
+frontend/   Next.js app, content/, Dockerfile
+deploy/     nginx site config
+docs/       deploy notes
+```
