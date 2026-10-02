@@ -19,6 +19,7 @@
   --sh-string: #1a7f4b;
   --sh-keyword: #c2255c;
   --sh-comment: #737373;
+  --sh-space: var(--fg);
 
   color-scheme: light;
 }
