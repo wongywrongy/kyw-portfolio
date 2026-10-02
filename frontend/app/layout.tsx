@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import '@fontsource/instrument-serif/latin-400-italic.css'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { site } from '@/content/site'
 import './globals.css'

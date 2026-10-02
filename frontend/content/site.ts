@@ -5,7 +5,6 @@ export const site = {
     'I study computer science at San José State and build software people actually use: a tournament scheduler several Bay Area schools run their badminton events on, internal tools for a construction company, and a few services on my home server.',
     'I’ve played and coached badminton for over ten years, which is why half the projects below involve shuttlecocks.',
   ],
-  avatar: '/images/profile.jpg',
   // Leave a value empty to hide that link.
   links: {
     email: '',

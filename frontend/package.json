@@ -9,7 +9,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@fontsource/instrument-serif": "^5.2.0",
     "geist": "^1.5.0",
     "gray-matter": "^4.0.3",
     "next": "^16.0.0",

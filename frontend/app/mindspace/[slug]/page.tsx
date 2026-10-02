@@ -47,10 +47,10 @@ export default async function PostPage({ params }: Props) {
         ← Back
       </Link>
       <header className="fade-up mt-10" style={{ '--i': 0 } as React.CSSProperties}>
-        <h1 className="font-serif text-[36px] italic leading-[1.15] tracking-[-0.01em] sm:text-[40px]">
+        <h1 className="text-2xl font-semibold leading-[1.2] tracking-[-0.02em] sm:text-[28px]">
           {post.title}
         </h1>
-        <p className="mt-3 text-[13px] tabular-nums text-tertiary">
+        <p className="meta mt-3">
           {formatLongDate(post.date)} · {post.readingTime} min read
         </p>
       </header>

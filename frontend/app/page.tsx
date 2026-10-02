@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { site } from '@/content/site'
 import { work } from '@/content/work'
 import { projects } from '@/content/projects'
@@ -18,17 +17,10 @@ export default function Home() {
   return (
     <>
       <header className="fade-up" style={{ '--i': 0 } as React.CSSProperties}>
-        <img
-          src={site.avatar}
-          alt={site.name}
-          width={56}
-          height={56}
-          className="size-14 rounded-full border border-line object-cover"
-        />
-        <h1 className="mt-5 font-serif text-[40px] italic leading-[1.1] tracking-[-0.01em]">
+        <h1 className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[34px]">
           {site.name}
         </h1>
-        <p className="mt-1 text-secondary">{site.role}</p>
+        <p className="mt-1 text-[15px] text-secondary">{site.role}</p>
         <div className="mt-6 space-y-4">
           {site.bio.map((p) => (
             <p key={p}>{p}</p>
@@ -62,12 +54,12 @@ export default function Home() {
               <Row href={job.href}>
                 <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                   <p>
-                    <span>{job.company}</span>
+                    <span className="font-medium">{job.company}</span>
                     <span className="text-secondary"> · {job.role}</span>
                     {job.href && <Arrow />}
                   </p>
                   {job.period && (
-                    <span className="shrink-0 text-[13px] tabular-nums text-tertiary group-hover:text-secondary">
+                    <span className="meta shrink-0 group-hover:text-secondary">
                       {job.period}
                     </span>
                   )}
@@ -84,13 +76,13 @@ export default function Home() {
           {projects.map((p) => (
             <li key={p.name}>
               <Row href={p.href}>
-                <p>
+                <p className="font-medium">
                   {p.name}
                   {p.href && <Arrow />}
                 </p>
                 <p className="text-secondary">{p.description}</p>
                 {p.stack && p.stack.length > 0 && (
-                  <p className="mt-1 font-mono text-xs text-tertiary group-hover:text-secondary">
+                  <p className="meta mt-1 group-hover:text-secondary">
                     {p.stack.join(' · ')}
                   </p>
                 )}
@@ -108,7 +100,7 @@ export default function Home() {
                 <Row href={`/mindspace/${post.slug}`} internal>
                   <div className="flex items-baseline justify-between gap-4">
                     <span>{post.title}</span>
-                    <span className="shrink-0 text-[13px] tabular-nums text-tertiary group-hover:text-secondary">
+                    <span className="meta shrink-0 group-hover:text-secondary">
                       {formatShortDate(post.date)}
                     </span>
                   </div>
