@@ -9,7 +9,7 @@ export function Section({
 }) {
   return (
     <section className="fade-up mt-14" style={{ '--i': index } as React.CSSProperties}>
-      <h2 className="mb-4 text-[13px] font-medium text-secondary">{label}</h2>
+      <h2 className="mb-2 border-b border-line pb-2 text-[13px] font-medium text-secondary">{label}</h2>
       {children}
     </section>
   )

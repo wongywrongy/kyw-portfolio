@@ -12,21 +12,20 @@ export const work: Job[] = [
   {
     company: 'Yunavero',
     href: '',
-    role: 'Software Engineer',
+    period: 'Present',
+    role: 'Software Engineer Intern',
   },
   {
     company: 'JK Baker Construction',
     href: '',
-    role: 'Software Engineering Contractor',
-    description:
-      'Internal tools for a San Jose general contractor: document collection, lease abstraction, and a self-hosted bank-document pipeline.',
+    role: 'Software Engineer Intern',
+    period: 'Jun 2024 to Aug 2024',
   },
   {
     company: 'Spartan Racing',
     href: '',
     role: 'Software Engineer',
-    period: 'Aug 2025 – Mar 2026',
-    description: 'Torque vectoring and the AMK motor/inverter integration, in C on Linux.',
+    period: 'Aug 2025 to Mar 2026',
   },
 ]
 
