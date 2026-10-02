@@ -1,5 +1,0 @@
-export { Users } from './Users'
-export { Media } from './Media'
-export { WorkExperiences } from './WorkExperiences'
-export { Projects } from './Projects'
-export { Posts } from './Posts'
