@@ -97,7 +97,7 @@ export default function Home() {
           <ul>
             {posts.map((post) => (
               <li key={post.slug}>
-                <Row href={`/mindspace/${post.slug}`} internal>
+                <Row href={`/mindspace/${post.slug}`}>
                   <div className="flex items-baseline justify-between gap-4">
                     <span>{post.title}</span>
                     <span className="meta shrink-0 group-hover:text-secondary">

@@ -14,7 +14,7 @@ npm run build    # writes frontend/out/
 
 ## Add content
 
-Everything is under `frontend/content/`.
+Everything is under `frontend/content/`; templates and linking are in [EDITING.md](EDITING.md).
 
 - **Project**: add an object to `projects.ts`. `name` and `description` are required; `stack` and `href` are optional. With an `href` the row becomes a link.
 - **Job**: add an object to `work.ts`. `company` and `role` are required; `period`, `description` and `href` are optional.
