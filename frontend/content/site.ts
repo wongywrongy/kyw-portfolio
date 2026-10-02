@@ -13,6 +13,6 @@ export const site = {
     resume: '', // e.g. '/resume.pdf' with the file in public/
   },
   url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kyle.wongworks.dev').replace(/\/$/, ''),
-  title: 'Kyle Wong',
+  title: 'Kyle’s Portfolio',
   description: 'Kyle Wong — software engineer and CS student at San José State.',
 }

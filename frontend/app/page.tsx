@@ -83,7 +83,7 @@ export default function Home() {
                 <p className="text-secondary">{p.description}</p>
                 {p.stack && p.stack.length > 0 && (
                   <p className="meta mt-1 group-hover:text-secondary">
-                    {p.stack.join(' · ')}
+                    {p.stack.join(', ')}
                   </p>
                 )}
               </Row>
