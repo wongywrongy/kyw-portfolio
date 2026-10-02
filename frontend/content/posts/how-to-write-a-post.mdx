@@ -1,0 +1,48 @@
+---
+title: How to write a post
+date: 2026-10-01
+summary: The post format, in one page.
+draft: true
+---
+
+Posts are MDX files in `frontend/content/posts/`. The file name becomes the URL, so `my-post.mdx` is served at `/mindspace/my-post`.
+
+## Frontmatter
+
+Every post starts with a block like this:
+
+```yaml
+---
+title: My post
+date: 2026-10-01
+summary: One line that shows up in link previews.
+draft: false
+---
+```
+
+- `title` and `date` are required. The build fails with the file name if either is missing.
+- `date` is `YYYY-MM-DD`.
+- `summary` is used for the page description.
+- `draft: true` hides the post from the homepage, the sitemap and the build. Drafts only show up under `npm run dev`.
+
+## Images
+
+Put images in `frontend/public/images/` and reference them from the root:
+
+```md
+![Alt text](/images/my-photo.jpg)
+```
+
+## Code
+
+Fenced blocks are highlighted automatically:
+
+```ts
+type Post = { slug: string; title: string; date: string }
+
+export function newest(posts: Post[]) {
+  return [...posts].sort((a, b) => b.date.localeCompare(a.date))
+}
+```
+
+Flip `draft` to `false` when you're ready to publish.

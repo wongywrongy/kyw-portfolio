@@ -1,210 +1,202 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* Layout widths. Two deliberate values, not an accident of history:
-   --w-wide  the homepage two-column grid, and the list pages reached from its
-             "View All" links, so that transition doesn't resize the column.
-   --w-text  prose. Held near a 70-character measure; widening it past this
-             hurts readability, which is why article pages stay narrow. */
 :root {
-  --w-wide: 64rem;
-  --w-text: 720px;
+  --bg: #ffffff;
+  --fg: #171717;
+  --secondary: #616161;
+  --tertiary: #737373;
+  --line: #ebebeb;
+  --surface: #f5f5f5;
+
+  --sh-class: #1d6f8f;
+  --sh-identifier: #171717;
+  --sh-sign: #616161;
+  --sh-property: #8a4b08;
+  --sh-entity: #1d6f8f;
+  --sh-jsxliterals: #6f42c1;
+  --sh-string: #1a7f4b;
+  --sh-keyword: #c2255c;
+  --sh-comment: #737373;
+  --sh-space: var(--fg);
+
+  color-scheme: light;
 }
 
-/* Light mode */
-:root {
-  --background: #ffffff;
-  --foreground: #1a1a1a;
-  --border: #e5e5e5;
-  --border-hover: #d0d0d0;
-  --text-primary: #1a1a1a;
-  --text-body: #3a3a3a;
-  /* secondary 7.00:1, tertiary 4.61:1 on white. tertiary carries 11-12px nav
-     links, dates and tags, so it has to clear AA on its own. */
-  --text-secondary: #595959;
-  --text-tertiary: #757575;
-  --muted-foreground: #595959;
-}
-
-/* Dark mode */
 .dark {
-  --background: #000000;
-  --foreground: #f0efed;
-  --border: #181818;
-  --border-hover: #282828;
-  --text-primary: #f0efed;
-  --text-body: #c8c6c1;
-  /* secondary 7.48:1, tertiary 4.77:1 on black; warm cast preserved. */
-  --text-secondary: #9c9a96;
-  --text-tertiary: #7a7874;
-  --muted-foreground: #9c9a96;
+  --bg: #0a0a0a;
+  --fg: #ededed;
+  --secondary: #a1a1a1;
+  --tertiary: #8b8b8b;
+  --line: #1f1f1f;
+  --surface: #151515;
+
+  --sh-class: #7dd3fc;
+  --sh-identifier: #ededed;
+  --sh-sign: #a1a1a1;
+  --sh-property: #f0b866;
+  --sh-entity: #7dd3fc;
+  --sh-jsxliterals: #c4a7f5;
+  --sh-string: #7ee2a8;
+  --sh-keyword: #ff8fb1;
+  --sh-comment: #8b8b8b;
+
+  color-scheme: dark;
 }
 
 @theme inline {
-  --font-sans: var(--font-sans, 'DM Sans', sans-serif);
-  --font-mono: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-border: var(--border);
-  --color-muted-foreground: var(--muted-foreground);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
 }
 
-@layer base {
-  * {
-    border-color: var(--border);
-  }
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-  }
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
 }
 
-/* Fade-in animation */
-@keyframes fadeIn {
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+
+::selection {
+  background: var(--surface);
+}
+
+:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Plain text link: underline with an offset, colour shifts on hover. */
+.link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--tertiary);
+  transition: text-decoration-color 150ms ease;
+}
+.link:hover {
+  text-decoration-color: var(--fg);
+}
+
+/* Load animation: each section fades up, staggered with --i. */
+@keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fade-up 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
   }
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease-out;
-}
-
-/* Two-column layout with vertical T-intersection divider */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 48px 0 80px;
-  position: relative;
-}
-
-.two-col::before {
-  content: '';
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1px;
-  /* Padding is 48px top / 80px bottom, so the rule overhangs the column
-     content by 48-16=32px at the top. Height is set to leave the same 32px at
-     the bottom: 100% - 80 + 32 - 16. Previously `100% - 80px`, which left only
-     16px and made the divider sit visibly high. */
-  height: calc(100% - 64px);
-  background: var(--border);
-}
-
-@media (max-width: 767px) {
-  .two-col {
-    grid-template-columns: 1fr;
-    padding: 32px 0 48px;
-  }
-  .two-col::before {
-    display: none;
-  }
-}
-
-/* Rich text (Lexical) prose styles */
-.prose-portfolio h2 {
-  font-family: var(--font-display, 'Cormorant Garamond', serif);
-  font-size: 24px;
-  font-weight: 500;
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-}
-
-.prose-portfolio h3 {
-  font-family: var(--font-display, 'Cormorant Garamond', serif);
-  font-size: 20px;
-  font-weight: 500;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-}
-
-.prose-portfolio h4 {
+/* Post body */
+.prose-post {
   font-size: 16px;
-  font-weight: 500;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  line-height: 1.7;
+  max-width: 62ch;
 }
-
-.prose-portfolio p {
-  margin: 1rem 0;
-  font-size: 14px;
-  line-height: 1.625;
-  color: var(--text-body);
+.prose-post > * + * {
+  margin-top: 1.25em;
 }
-
-.prose-portfolio blockquote {
-  border-left: 2px solid var(--border);
-  padding-left: 1rem;
-  margin: 1.5rem 0;
-  font-style: italic;
-  color: var(--text-secondary);
+.prose-post h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 2.2em;
+  letter-spacing: -0.01em;
 }
-
-.prose-portfolio a {
-  color: var(--text-primary);
-  text-decoration: underline;
+.prose-post h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1.8em;
+}
+.prose-post ul,
+.prose-post ol {
+  padding-left: 1.4em;
+}
+.prose-post ul {
+  list-style: disc;
+}
+.prose-post ol {
+  list-style: decimal;
+}
+.prose-post li + li {
+  margin-top: 0.4em;
+}
+.prose-post li::marker {
+  color: var(--tertiary);
+}
+.prose-post blockquote {
+  border-left: 2px solid var(--line);
+  padding-left: 1em;
+  color: var(--secondary);
+}
+.prose-post a {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
   text-underline-offset: 4px;
-  transition: color 0.2s;
+  text-decoration-color: var(--tertiary);
+  transition: text-decoration-color 150ms ease;
 }
-
-.prose-portfolio a:hover {
-  color: var(--text-secondary);
+.prose-post a:hover {
+  text-decoration-color: var(--fg);
 }
-
-.prose-portfolio code {
-  background: var(--border);
-  padding: 2px 6px;
-  font-size: 13px;
+.prose-post :not(pre) > code {
   font-family: var(--font-mono);
-  color: var(--text-body);
+  font-size: 0.875em;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
 }
-
-.prose-portfolio pre {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  overflow-x: auto;
-  border: 1px solid var(--border);
-}
-
-.prose-portfolio pre code {
-  background: none;
-  padding: 0;
+.prose-post pre {
+  font-family: var(--font-mono);
   font-size: 13px;
+  line-height: 1.65;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow-x: auto;
 }
-
-.prose-portfolio ul {
-  margin: 1rem 0;
-  margin-left: 1.5rem;
-  list-style-type: disc;
-}
-
-.prose-portfolio ol {
-  margin: 1rem 0;
-  margin-left: 1.5rem;
-  list-style-type: decimal;
-}
-
-.prose-portfolio li {
-  font-size: 14px;
-  line-height: 1.625;
-  color: var(--text-body);
-  margin-bottom: 0.5rem;
-}
-
-.prose-portfolio img {
+.prose-post img {
+  display: block;
   width: 100%;
   height: auto;
-  margin: 2rem 0;
+  border-radius: 10px;
+}
+.prose-post hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin-block: 2em;
 }
