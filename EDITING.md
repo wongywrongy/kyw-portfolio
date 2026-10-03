@@ -27,7 +27,7 @@ Project, in `content/projects.ts`:
 },
 ```
 
-Posts are `content/posts/<slug>.mdx`; see `how-to-write-a-post.mdx`.
+Posts are `content/posts/<slug>.mdx`; see `content/how-to-write-a-post.mdx`.
 
 ## Link a job or project
 
