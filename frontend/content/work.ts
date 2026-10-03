@@ -10,12 +10,6 @@ export type Job = {
 
 export const work: Job[] = [
   {
-    company: 'Yunavero',
-    href: '',
-    period: 'Present',
-    role: 'Software Engineer Intern',
-  },
-  {
     company: 'JK Baker Construction',
     href: '',
     role: 'Software Engineer Intern',
@@ -24,7 +18,7 @@ export const work: Job[] = [
   {
     company: 'Spartan Racing',
     href: '',
-    role: 'Software Engineer',
+    role: 'Junior Software Engineer',
     period: 'Aug 2025 to Mar 2026',
   },
 ]
