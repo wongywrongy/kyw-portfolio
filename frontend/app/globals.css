@@ -78,6 +78,8 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-wrap: break-word;
+  /* Korean wraps at spaces like English, not mid-word. */
+  word-break: keep-all;
 }
 
 ::selection {
