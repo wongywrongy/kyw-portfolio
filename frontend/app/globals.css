@@ -10,6 +10,10 @@
   --line: #ebebeb;
   --surface: #f5f5f5;
 
+  --shelf: #e5e5e5;
+  --px-accent: #3b7ddd;
+  --px-warm: #c98a2e;
+
   --sh-class: #1d6f8f;
   --sh-identifier: #171717;
   --sh-sign: #616161;
@@ -31,6 +35,10 @@
   --tertiary: #8b8b8b;
   --line: #1f1f1f;
   --surface: #151515;
+
+  --shelf: #2a2a2a;
+  --px-accent: #6ea8ff;
+  --px-warm: #e8b46a;
 
   --sh-class: #7dd3fc;
   --sh-identifier: #ededed;
@@ -116,8 +124,64 @@ body {
   animation: fade-up 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--i, 0) * 70ms);
 }
+/* Section header: a pixel folder tab on a shelf line, sprite at the right end. */
+.shelf {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--shelf);
+}
+.shelf-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 5px;
+  background: var(--shelf);
+  clip-path: polygon(0 3px, 3px 3px, 3px 0, calc(100% - 3px) 0, calc(100% - 3px) 3px, 100% 3px, 100% 100%, 0 100%);
+}
+.shelf-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+}
+.shelf-label {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--fg);
+}
+.shelf-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--secondary);
+}
+.shelf-sprite {
+  position: absolute;
+  right: 4px;
+  bottom: 0;
+}
+
+/* The monitor cursor is the only thing that blinks. */
+@keyframes px-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.px-blink {
+  animation: px-blink 1s steps(1, end) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade-up {
+    animation: none;
+  }
+  .px-blink {
     animation: none;
   }
   * {

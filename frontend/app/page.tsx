@@ -4,6 +4,7 @@ import { projects } from '@/content/projects'
 import { getPosts, formatShortDate } from '@/lib/posts'
 import { Section } from '@/components/section'
 import { Row, Arrow } from '@/components/row'
+import { briefcase, monitor, books } from '@/lib/sprites'
 
 export default function Home() {
   const posts = getPosts()
@@ -47,7 +48,7 @@ export default function Home() {
         </nav>
       )}
 
-      <Section label="Work" index={2}>
+      <Section label="Work" index={2} count={work.length} dot="accent" sprite={briefcase} gap={8}>
         <ul>
           {work.map((job) => (
             <li key={job.company}>
@@ -71,7 +72,7 @@ export default function Home() {
         </ul>
       </Section>
 
-      <Section label="Projects" index={3}>
+      <Section label="Projects" index={3} count={projects.length} dot="warm" sprite={monitor} gap={16}>
         <ul>
           {projects.map((p) => (
             <li key={p.name}>
@@ -93,7 +94,7 @@ export default function Home() {
       </Section>
 
       {posts.length > 0 && (
-        <Section label="Mindspace" index={4}>
+        <Section label="Mindspace" index={4} count={posts.length} dot="accent" sprite={books} gap={16}>
           <ul>
             {posts.map((post) => (
               <li key={post.slug}>
