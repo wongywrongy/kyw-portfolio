@@ -1,38 +1,53 @@
-import type { Sprite } from '@/lib/sprites'
-import { PixelSprite, SCALE } from '@/components/pixel-sprite'
+import { Card } from '@/components/card'
 
+export type Item = {
+  title: string
+  href?: string
+  meta?: string
+  sub: string[]
+}
+
+/** A homepage section: square, heading and fading rule, then one card per item. */
 export function Section({
-  label,
+  title,
+  tone,
   index,
-  count,
-  dot,
-  sprite,
-  gap,
-  children,
+  items,
 }: {
-  label: string
+  title: string
+  tone: 'accent' | 'warm'
   index: number
-  count: number
-  dot: 'accent' | 'warm'
-  sprite: Sprite
-  gap: 8 | 16
-  children: React.ReactNode
+  items: Item[]
 }) {
-  // Keep the tab clear of the sprite: its width plus its 4px inset and a gap.
-  const spriteWidth = (sprite.grid[0]?.length ?? 0) * SCALE
   return (
-    <section className="fade-up mt-14" style={{ '--i': index } as React.CSSProperties}>
-      <div className="shelf" style={{ marginBottom: gap, paddingRight: spriteWidth + 4 + 8 }}>
-        <div className="shelf-tab">
-          <span className="shelf-dot" style={{ background: `var(--px-${dot})` }} />
-          <h2 className="shelf-label">{label}</h2>
-          <span className="shelf-count">{String(count).padStart(2, '0')}</span>
-        </div>
-        <div className="shelf-sprite" aria-hidden="true">
-          <PixelSprite {...sprite} />
-        </div>
+    <section className="fade-up" style={{ '--i': index } as React.CSSProperties}>
+      <div className="section-head">
+        <span className="section-mark" style={{ background: `var(--${tone})` }} />
+        <h2>{title}</h2>
+        <span className="section-rule" />
       </div>
-      {children}
+      <ul className="cards">
+        {items.map((item) => (
+          <li key={item.title}>
+            <Card href={item.href} tone={tone}>
+              <p className="card-title">
+                <span>{item.title}</span>
+                {item.href && (
+                  <span aria-hidden="true" className="card-arrow">
+                    ↗
+                  </span>
+                )}
+              </p>
+              {item.meta && <p className="card-meta">{item.meta}</p>}
+              {item.sub.map((s) => (
+                <p key={s} className="card-sub">
+                  {s}
+                </p>
+              ))}
+            </Card>
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }

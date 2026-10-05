@@ -2,9 +2,9 @@ import { site } from '@/content/site'
 import { work } from '@/content/work'
 import { projects } from '@/content/projects'
 import { getPosts, formatShortDate } from '@/lib/posts'
+import { FlickerBand } from '@/components/flicker-band'
+import { ActivityCard } from '@/components/activity'
 import { Section } from '@/components/section'
-import { Row, Arrow } from '@/components/row'
-import { briefcase, monitor, books } from '@/lib/sprites'
 
 export default function Home() {
   const posts = getPosts()
@@ -16,110 +16,84 @@ export default function Home() {
   ].filter((l): l is { label: string; href: string } => Boolean(l))
 
   return (
-    <>
-      <header className="fade-up" style={{ '--i': 0 } as React.CSSProperties}>
-        <h1 className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[34px]">
-          {site.name}
-        </h1>
-        <p className="mt-1 text-[15px] text-secondary">{site.role}</p>
-        <div className="mt-6 space-y-4">
-          {site.bio.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
-        </div>
-      </header>
+    <div className="page">
+      {/* Dots come first so the band paints over them where the two cross-fade. */}
+      <div className="dots" aria-hidden="true" />
+      <FlickerBand />
 
-      {links.length > 0 && (
-        <nav
-          aria-label="Links"
-          className="fade-up mt-6 flex flex-wrap gap-x-5 gap-y-1"
-          style={{ '--i': 1 } as React.CSSProperties}
-        >
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              className="link"
-              {...(l.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-      )}
-
-      <Section label="Work" index={2} count={work.length} dot="accent" sprite={briefcase} gap={8}>
-        <ul>
-          {work.map((job) => (
-            <li key={job.company}>
-              <Row href={job.href}>
-                <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                  <p>
-                    <span className="font-medium">{job.company}</span>
-                    <span className="text-secondary"> · {job.role}</span>
-                    {job.href && <Arrow />}
-                  </p>
-                  {job.period && (
-                    <span className="meta shrink-0 group-hover:text-secondary">
-                      {job.period}
-                    </span>
-                  )}
-                </div>
-                {job.description && <p className="mt-0.5 text-secondary">{job.description}</p>}
-              </Row>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section label="Projects" index={3} count={projects.length} dot="warm" sprite={monitor} gap={16}>
-        <ul>
-          {projects.map((p) => (
-            <li key={p.name}>
-              <Row href={p.href}>
-                <p className="font-medium">
-                  {p.name}
-                  {p.href && <Arrow />}
-                </p>
-                <p className="text-secondary">{p.description}</p>
-                {p.stack && p.stack.length > 0 && (
-                  <p className="meta mt-1 group-hover:text-secondary">
-                    {p.stack.join(', ')}
-                  </p>
-                )}
-              </Row>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      {posts.length > 0 && (
-        <Section label="Mindspace" index={4} count={posts.length} dot="accent" sprite={books} gap={16}>
-          <ul>
-            {posts.map((post) => (
-              <li key={post.slug}>
-                <Row href={`/mindspace/${post.slug}`}>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <span>{post.title}</span>
-                    <span className="meta shrink-0 group-hover:text-secondary">
-                      {formatShortDate(post.date)}
-                    </span>
-                  </div>
-                </Row>
-              </li>
+      <div className="col">
+        <header className="fade-up" style={{ '--i': 0 } as React.CSSProperties}>
+          <h1 className="name">{site.name}</h1>
+          <p className="role">{site.role}</p>
+          <div className="bio">
+            {site.bio.map((p) => (
+              <p key={p}>{p}</p>
             ))}
-          </ul>
-        </Section>
-      )}
+          </div>
 
-      <footer
-        className="fade-up mt-14 border-t border-line pt-6 text-[13px] text-tertiary"
-        style={{ '--i': 5 } as React.CSSProperties}
-      >
-        <p>
-          © {new Date().getFullYear()} {site.name}
-        </p>
-      </footer>
-    </>
+          {links.length > 0 && (
+            <nav aria-label="Links" className="links">
+              {links.map((l) => (
+                <a
+                  key={l.label}
+                  href={l.href}
+                  className="link"
+                  {...(l.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+                >
+                  {l.label}
+                  <span aria-hidden="true"> ↗</span>
+                </a>
+              ))}
+            </nav>
+          )}
+
+          <ActivityCard />
+        </header>
+
+        <Section
+          title="Work"
+          tone="accent"
+          index={1}
+          items={work.map((job) => ({
+            title: job.company,
+            href: job.href,
+            meta: job.period,
+            sub: [job.role, ...(job.description ? [job.description] : [])],
+          }))}
+        />
+
+        <Section
+          title="Projects"
+          tone="warm"
+          index={2}
+          items={projects.map((p) => ({
+            title: p.name,
+            href: p.href,
+            meta: p.stack?.join(', '),
+            sub: [p.description],
+          }))}
+        />
+
+        {posts.length > 0 && (
+          <Section
+            title="Mindspace"
+            tone="accent"
+            index={3}
+            items={posts.map((post) => ({
+              title: post.title,
+              href: `/mindspace/${post.slug}`,
+              meta: formatShortDate(post.date),
+              sub: [],
+            }))}
+          />
+        )}
+
+        <footer className="footer fade-up" style={{ '--i': 4 } as React.CSSProperties}>
+          <p>
+            © {new Date().getFullYear()} {site.name}
+          </p>
+        </footer>
+      </div>
+    </div>
   )
 }

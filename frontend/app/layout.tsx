@@ -24,14 +24,12 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
+  themeColor: '#0a0a0a',
 }
 
-// Runs before first paint so the page never flashes the wrong theme.
-const themeScript = `(function(){var d=document.documentElement,t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}if(t==='dark')d.classList.add('dark')})()`
+// Runs before first paint so the page never flashes the wrong theme. Dark
+// unless the visitor picked light with the toggle.
+const themeScript = `(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light')document.documentElement.classList.add('dark')})()`
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -41,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeToggle />
-        <main className="mx-auto max-w-[640px] px-6 pb-24 pt-16 md:pt-24">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   )

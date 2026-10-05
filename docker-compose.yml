@@ -15,8 +15,16 @@ services:
       args:
         # Compiled into the pages. Changing it needs a rebuild, not a restart.
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://kyle.wongworks.dev}
+      # Build-time only, mounted for `npm run build` and not kept in the image.
+      secrets:
+        - github_token
     restart: unless-stopped
     ports:
       # Loopback only. `8080:8080` would publish it on every interface and
       # bypass the tunnel.
       - '127.0.0.1:8080:8080'
+
+secrets:
+  github_token:
+    # GITHUB_TOKEN from .env or the shell; see .env.example.
+    environment: GITHUB_TOKEN

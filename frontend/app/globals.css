@@ -4,15 +4,19 @@
 
 :root {
   --bg: #ffffff;
-  --fg: #171717;
-  --secondary: #616161;
-  --tertiary: #737373;
-  --line: #ebebeb;
-  --surface: #f5f5f5;
-
-  --shelf: #e5e5e5;
-  --px-accent: #3b7ddd;
-  --px-warm: #c98a2e;
+  --text: #171717;
+  --text-body: #2e2e2e;
+  --text-2: #616161;
+  --text-3: #737373;
+  --card: #fafafa;
+  --card-border: #ebebeb;
+  --card-border-hover: #d4d4d4;
+  --cell-off: #ededed;
+  --rule-start: #c8c8c8;
+  --rule-mid: #e5e5e5;
+  --dot: rgba(0, 0, 0, 0.05);
+  --accent: #3b7ddd;
+  --warm: #c98a2e;
 
   --sh-class: #1d6f8f;
   --sh-identifier: #171717;
@@ -23,22 +27,26 @@
   --sh-string: #1a7f4b;
   --sh-keyword: #c2255c;
   --sh-comment: #737373;
-  --sh-space: var(--fg);
+  --sh-space: var(--text);
 
   color-scheme: light;
 }
 
 .dark {
   --bg: #0a0a0a;
-  --fg: #ededed;
-  --secondary: #a1a1a1;
-  --tertiary: #8b8b8b;
-  --line: #1f1f1f;
-  --surface: #151515;
-
-  --shelf: #2a2a2a;
-  --px-accent: #6ea8ff;
-  --px-warm: #e8b46a;
+  --text: #ededed;
+  --text-body: #d4d4d4;
+  --text-2: #a1a1a1;
+  --text-3: #8b8b8b;
+  --card: #0c0c0c;
+  --card-border: #1a1a1a;
+  --card-border-hover: #2a2a2a;
+  --cell-off: #151515;
+  --rule-start: #3a3a3a;
+  --rule-mid: #1f1f1f;
+  --dot: rgba(255, 255, 255, 0.045);
+  --accent: #6ea8ff;
+  --warm: #e8b46a;
 
   --sh-class: #7dd3fc;
   --sh-identifier: #ededed;
@@ -54,12 +62,10 @@
 }
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-fg: var(--fg);
-  --color-secondary: var(--secondary);
-  --color-tertiary: var(--tertiary);
-  --color-line: var(--line);
-  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-card-border: var(--card-border);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
@@ -71,7 +77,7 @@ html {
 
 body {
   background: var(--bg);
-  color: var(--fg);
+  color: var(--text);
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.6;
@@ -83,35 +89,293 @@ body {
 }
 
 ::selection {
-  background: var(--surface);
+  background: var(--cell-off);
 }
 
 :focus-visible {
-  outline: 2px solid var(--secondary);
+  outline: 2px solid var(--text-2);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Plain text link: underline with an offset, colour shifts on hover. */
 .meta {
   font-family: var(--font-mono);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
-  color: var(--tertiary);
+  color: var(--text-3);
 }
 
+/* Plain text link: underline with an offset, colour shifts on hover. */
 .link {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
-  text-decoration-color: var(--tertiary);
+  text-decoration-color: var(--rule-start);
   transition: text-decoration-color 150ms ease;
 }
 .link:hover {
-  text-decoration-color: var(--fg);
+  text-decoration-color: var(--text);
 }
 
-/* Load animation: each section fades up, staggered with --i. */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text-2);
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+.theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--card-border-hover);
+}
+
+/* --- Homepage ------------------------------------------------------------ */
+
+.page {
+  position: relative;
+  padding: 0 24px 80px;
+}
+
+/* Dot field: continues the band's 10px grid from where the band starts to fade
+   (72px) and is fully in by the band's end (240px), so the two cross-fade. */
+.dots {
+  position: absolute;
+  top: 72px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.3px);
+  background-size: 10px 10px;
+  background-position: 3px 1px;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 168px);
+}
+
+/* Flicker band: 4px cells on a 10px pitch, drawn as --cell-off with 6px
+   stripes of --bg over it. Full-bleed through the page padding. */
+.band {
+  position: relative;
+  height: 240px;
+  margin: 0 -24px;
+  overflow: hidden;
+  background-color: var(--cell-off);
+  background-image:
+    linear-gradient(90deg, var(--bg) 6px, transparent 6px),
+    linear-gradient(var(--bg) 6px, transparent 6px);
+  background-size: 10px 10px;
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 100%);
+}
+.sq {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: color-mix(in srgb, var(--sq) var(--a), transparent);
+  animation: flick 4s steps(1, end) infinite;
+}
+.sq-accent {
+  --sq: var(--accent);
+}
+.sq-warm {
+  --sq: var(--warm);
+}
+@keyframes flick {
+  0%,
+  48%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+  50%,
+  58% {
+    opacity: 0.1;
+  }
+}
+
+.col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  max-width: 592px;
+  margin: -88px auto 0;
+}
+
+.name {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+.role {
+  margin-top: 6px;
+  color: var(--text-2);
+}
+.bio {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+  color: var(--text-body);
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 24px;
+  font-size: 14px;
+}
+
+/* Shared card: activity graph, work and projects. */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card);
+  --x: 50%;
+  --y: 50%;
+}
+.card-accent {
+  --tint: var(--accent);
+}
+.card-warm {
+  --tint: var(--warm);
+}
+/* Spotlight: --x/--y come from the pointer (components/card.tsx). */
+@media (hover: hover) {
+  .card-accent:hover,
+  .card-warm:hover {
+    background:
+      radial-gradient(260px circle at var(--x) var(--y), color-mix(in srgb, var(--tint) 15%, transparent), transparent 70%),
+      var(--card);
+    border-color: var(--card-border-hover);
+  }
+}
+a.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+.card-arrow {
+  color: var(--accent);
+}
+.card-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+.card-sub {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.section-mark {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+}
+.section-head h2 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.section-rule {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--rule-start), var(--rule-mid) 60%, transparent);
+}
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* GitHub activity: 7 rows × 52 weeks; cells stay square at any width. */
+.activity {
+  display: block;
+  margin-top: 24px;
+}
+.activity-grid {
+  display: grid;
+  grid-template-rows: repeat(7, auto);
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 2px;
+  width: 100%;
+}
+.cell {
+  aspect-ratio: 1;
+  border-radius: 1px;
+}
+.lvl-0 {
+  background: var(--cell-off);
+}
+.lvl-1 {
+  background: color-mix(in srgb, var(--accent) 25.1%, transparent);
+}
+.lvl-2 {
+  background: color-mix(in srgb, var(--accent) 45.1%, transparent);
+}
+.lvl-3 {
+  background: color-mix(in srgb, var(--accent) 70.2%, transparent);
+}
+.lvl-4 {
+  background: var(--accent);
+}
+.activity-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+}
+.activity-key {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.activity-key .cell {
+  width: 8px;
+  height: 8px;
+}
+
+.footer {
+  padding-top: 24px;
+  border-top: 1px solid var(--card-border);
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+/* Load animation: each block fades up, staggered with --i. */
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -126,64 +390,10 @@ body {
   animation: fade-up 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--i, 0) * 70ms);
 }
-/* Section header: a pixel folder tab on a shelf line, sprite at the right end. */
-.shelf {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  border-bottom: 2px solid var(--shelf);
-}
-.shelf-tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px 5px;
-  background: var(--shelf);
-  clip-path: polygon(0 3px, 3px 3px, 3px 0, calc(100% - 3px) 0, calc(100% - 3px) 3px, 100% 3px, 100% 100%, 0 100%);
-}
-.shelf-dot {
-  width: 6px;
-  height: 6px;
-  flex-shrink: 0;
-}
-.shelf-label {
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--fg);
-}
-.shelf-count {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.2;
-  color: var(--secondary);
-}
-.shelf-sprite {
-  position: absolute;
-  right: 4px;
-  bottom: 0;
-}
-
-/* The monitor cursor is the only thing that blinks. */
-@keyframes px-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-.px-blink {
-  animation: px-blink 1s steps(1, end) infinite;
-}
 
 @media (prefers-reduced-motion: reduce) {
-  .fade-up {
-    animation: none;
-  }
-  .px-blink {
+  .fade-up,
+  .sq {
     animation: none;
   }
   * {
@@ -230,28 +440,28 @@ body {
   margin-top: 0.4em;
 }
 .prose-post li::marker {
-  color: var(--tertiary);
+  color: var(--text-3);
 }
 .prose-post blockquote {
-  border-left: 2px solid var(--line);
+  border-left: 2px solid var(--card-border);
   padding-left: 1em;
-  color: var(--secondary);
+  color: var(--text-2);
 }
 .prose-post a {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
-  text-decoration-color: var(--tertiary);
+  text-decoration-color: var(--text-3);
   transition: text-decoration-color 150ms ease;
 }
 .prose-post a:hover {
-  text-decoration-color: var(--fg);
+  text-decoration-color: var(--text);
 }
 .prose-post :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.875em;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--card);
+  border: 1px solid var(--card-border);
   border-radius: 6px;
   padding: 0.1em 0.35em;
 }
@@ -259,8 +469,8 @@ body {
   font-family: var(--font-mono);
   font-size: 13px;
   line-height: 1.65;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--card);
+  border: 1px solid var(--card-border);
   border-radius: 10px;
   padding: 14px 16px;
   overflow-x: auto;
@@ -273,6 +483,6 @@ body {
 }
 .prose-post hr {
   border: 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--card-border);
   margin-block: 2em;
 }

@@ -31,7 +31,7 @@ Posts are `content/posts/<slug>.mdx`; see `content/how-to-write-a-post.mdx`.
 
 ## Link a job or project
 
-Leave `href` as `''` and the row is plain text with no hover state. Set it and the whole row becomes a link, with a hover background and a ↗.
+Leave `href` as `''` and the card is plain text. Set it and the whole card becomes a link with a ↗.
 
 ```ts
 // Another site: full URL, opens in a new tab
@@ -45,4 +45,14 @@ Anything else (`mailto:`, `javascript:`, a bare `example.com`) fails the build w
 
 ```
 content/projects.ts: "Ara" href must start with https:// or / (got "ara.dev")
+```
+
+## GitHub activity
+
+The contribution graph on the homepage is fetched from GitHub when the site builds, using `GITHUB_TOKEN` from the stack's `.env` on neo (see `.env.example`). Without a token the graph renders blank and the build still succeeds.
+
+The graph updates on each deploy that changes the site. A rebuild with no changes reuses Docker's cached build and keeps the old graph, so to refresh it on its own, build without the cache. To keep it current, add a daily cron on neo:
+
+```
+0 6 * * * cd /opt/stacks/wongworks && docker compose build --no-cache && docker compose up -d
 ```

@@ -11,6 +11,8 @@ git pull && docker compose up -d --build
 
 The image build runs `npm ci && npm run build`, so a content change is a rebuild, not a restart. `NEXT_PUBLIC_SITE_URL` (default `https://kyle.wongworks.dev`) can be overridden in `.env`; it is compiled into the pages.
 
+`GITHUB_TOKEN` in `.env` feeds the homepage activity graph. It is passed to the build as a BuildKit secret, so it is never stored in the image; see the GitHub activity section of [EDITING.md](../EDITING.md).
+
 ## One-time cleanup (moving from the CMS setup)
 
 Before the first `up` on the new version, remove the old containers:

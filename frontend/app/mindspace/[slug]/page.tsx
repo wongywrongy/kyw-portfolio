@@ -42,8 +42,8 @@ export default async function PostPage({ params }: Props) {
   if (!post) notFound()
 
   return (
-    <article>
-      <Link href="/" className="link text-[13px] text-secondary">
+    <article className="mx-auto max-w-[640px] px-6 pb-24 pt-16 md:pt-24">
+      <Link href="/" className="link text-[13px] text-text-2">
         ← Back
       </Link>
       <header className="fade-up mt-10" style={{ '--i': 0 } as React.CSSProperties}>
@@ -57,8 +57,8 @@ export default async function PostPage({ params }: Props) {
       <div className="fade-up prose-post mt-10" style={{ '--i': 1 } as React.CSSProperties}>
         <Mdx source={post.content} />
       </div>
-      <footer className="mt-16 border-t border-line pt-6">
-        <Link href="/" className="link text-[13px] text-secondary">
+      <footer className="mt-16 border-t border-card-border pt-6">
+        <Link href="/" className="link text-[13px] text-text-2">
           ← Back
         </Link>
       </footer>

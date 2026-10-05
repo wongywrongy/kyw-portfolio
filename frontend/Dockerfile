@@ -16,7 +16,11 @@ COPY frontend/ ./
 # NEXT_PUBLIC_* is inlined at build time, so this has to be a build arg.
 ARG NEXT_PUBLIC_SITE_URL=https://kyle.wongworks.dev
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-RUN npm run build
+
+# The GitHub token for the activity graph is mounted as a BuildKit secret for
+# this one step, so it never lands in an image layer. Optional: without it the
+# graph renders empty.
+RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN npm run build
 
 # --- serve: nginx with the exported site ------------------------------------
 FROM nginx:1.27-alpine
