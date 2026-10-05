@@ -1,6 +1,6 @@
 /** Lit squares in the band. Positions come from a fixed seed, so every build is identical. */
-const COUNT = 120
-const COLS = 150
+const COUNT = 255 // 120 per 150 columns, scaled to 320
+const COLS = 320 // up to 3200px wide; the band clips the rest
 const ROWS = 24
 const SEED = 0x6b7977
 const ALPHAS = ['20%', '33.3%', '53.3%', '73.3%'] // 0x33, 0x55, 0x88, 0xbb
