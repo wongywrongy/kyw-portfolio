@@ -5,15 +5,18 @@ export type Project = {
   description: string
   stack?: string[]
   href?: string
+  /** Optional cover, a path under public/ such as /images/projects/yunavero.jpg. */
+  image?: string
 }
 
+/** Order here is the order on the site; the first six are on the homepage. */
 export const projects: Project[] = [
   {
     name: 'Yunavero',
     href: 'https://yunavero.com',
     description:
       'Tournament operations software for badminton, used for events between SJSU, UC Berkeley, UCSC and Stanford.',
-    stack: ['OR-Tools CP-SAT, FastAPI, PostgreSQL, React'],
+    stack: ['OR-Tools CP-SAT', 'FastAPI', 'PostgreSQL', 'React'],
   },
   {
     name: 'CommonGround',
@@ -26,21 +29,20 @@ export const projects: Project[] = [
     href: '',
     description:
       'Three-node home and office infrastructure that hosts my projects, including Yunavero and this site.',
-    stack: ['Docker, Tailscale, Cloudflare Tunnel, SigNoz'],
+    stack: ['Docker', 'Tailscale', 'Cloudflare Tunnel', 'SigNoz'],
   },
   {
     name: 'Fixture Plan Analyzer',
     href: '',
     description:
       'Extracts fixtures and specs from construction floor plans, built at JK Baker Construction.',
-    stack: ['OCR, Computer Vision, Local LLMs'],
+    stack: ['OCR', 'Computer Vision', 'Local LLMs'],
   },
   {
     name: 'Debian',
     href: '',
-    description:
-      'Triaged FFmpeg package bugs across x86 and ARM for Debian maintainers.',
-    stack: ['C, Bash, Linux'],
+    description: 'Triaged FFmpeg package bugs across x86 and ARM for Debian maintainers.',
+    stack: ['C', 'Bash', 'Linux'],
   },
 ]
 
