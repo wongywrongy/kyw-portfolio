@@ -5,6 +5,8 @@ summary: The post format, in one page.
 draft: true
 ---
 
+The easiest way is the editor at `http://<neo tailnet IP>:3100/keystatic`: write, drop in images, save, then run `./publish.sh` on neo. This page is for writing a post by hand.
+
 Posts are MDX files in `frontend/content/posts/`. The file name becomes the URL, so `my-post.mdx` is served at `/mindspace/my-post`.
 
 ## Frontmatter
@@ -24,13 +26,15 @@ draft: false
 - `date` is `YYYY-MM-DD`.
 - `summary` is used for the page description.
 - `draft: true` hides the post from the homepage, the sitemap and the build. Drafts only show up under `npm run dev`.
+- `cover` is optional: a path under `public/`. The homepage card shows it in duotone; the post shows it in full colour.
+- Quote the title if it contains a colon.
 
 ## Images
 
-Put images in `frontend/public/images/` and reference them from the root:
+Put images in `frontend/public/images/posts/` and reference them from the root:
 
 ```md
-![Alt text](/images/my-photo.jpg)
+![Alt text](/images/posts/my-post/photo.jpg)
 ```
 
 ## Code

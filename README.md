@@ -1,36 +1,44 @@
 # kyle.wongworks.dev
 
-Personal site. A static, file-based Next.js export: content lives in the repo, `next build` writes plain files to `frontend/out/`, and nginx serves them.
+Personal site. A static, file-based Next.js export: content lives in the repo, `next build` writes plain files to `frontend/out/`, and nginx serves them. Posts are written in a self-hosted editor (Keystatic) that runs on the same server and is only reachable over Tailscale.
 
 ## Develop
 
 ```bash
 cd frontend
 npm ci
-npm run dev      # http://localhost:3000, drafts visible
+npm run dev        # http://localhost:3000, drafts visible
 npm run lint
-npm run build    # writes frontend/out/
+npm run build      # the public site → frontend/out/
+EDITOR=1 npm run build && EDITOR=1 npx next start -p 3100   # the editor at /keystatic
 ```
 
-## Add content
+## Content
 
-Everything is under `frontend/content/`; templates and linking are in [EDITING.md](EDITING.md).
+Everything is under `frontend/content/`; see [EDITING.md](EDITING.md).
 
-- **Project**: add an object to `projects.ts`. `name` and `description` are required; `stack` and `href` are optional. With an `href` the card becomes a link.
-- **Job**: add an object to `work.ts`. `company` and `role` are required; `period`, `description` and `href` are optional.
-- **Post**: add `content/posts/<slug>.mdx` with `title`, `date` (YYYY-MM-DD), `summary` and `draft` in the frontmatter. Images go in `public/images/`. Drafts only show up in `npm run dev`; set `draft: false` to publish. See `content/how-to-write-a-post.mdx` for an example.
-- **Bio, role, links**: `site.ts`. A link with an empty value is hidden.
-
-Order in the lists is the order in the files. Posts sort newest first.
+- **Posts** – the editor, or `content/posts/<slug>.mdx`.
+- **Experience** – `content/experience.ts` (work and education).
+- **Projects** – `content/projects.ts`.
+- **Bio, role, links** – `content/site.ts`.
 
 ## Deploy
 
-On neo: `git pull && docker compose up -d --build`. See [docs/DEPLOY.md](docs/DEPLOY.md).
+On neo: `./publish.sh` after writing, `./deploy.sh` after code changes. See [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Layout
 
 ```
-frontend/   Next.js app, content/, Dockerfile
-deploy/     nginx site config
-docs/       deploy notes
+frontend/
+  app/            pages: /, /projects, /experience, /mindspace, /mindspace/<slug>
+  app/keystatic/  the editor (only built with EDITOR=1)
+  components/     tiles, cards, thread, activity, chrome
+  content/        everything you edit
+  lib/            posts loader, dates, GitHub activity, card patterns
+  Dockerfile          the public site (nginx)
+  Dockerfile.editor   the editor (Next.js server)
+deploy/           nginx site config
+docs/             deploy notes
+deploy.sh         pull + rebuild the site
+publish.sh        commit content + push + rebuild the site
 ```

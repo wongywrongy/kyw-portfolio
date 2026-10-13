@@ -1,5 +1,10 @@
-# Runs on neo. nginx serves the exported site; the Cloudflare Tunnel points at
-# the loopback port below.
+# Runs on neo. Two services:
+#
+#   web     nginx serving the static export. The Cloudflare Tunnel points at
+#           127.0.0.1:8080. Rebuild to publish: ./deploy.sh
+#   editor  Keystatic at http://<neo tailnet IP>:3100/keystatic. Writes posts
+#           and images into this checkout; ./publish.sh commits, pushes and
+#           rebuilds web. Never exposed publicly.
 #
 #   docker compose up -d --build
 
@@ -23,6 +28,23 @@ services:
       # Loopback only. `8080:8080` would publish it on every interface and
       # bypass the tunnel.
       - '127.0.0.1:8080:8080'
+
+  editor:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.editor
+    restart: unless-stopped
+    # Run as your user so the files it writes into the checkout are yours,
+    # not root's. PUID/PGID from .env (`id -u`, `id -g`).
+    user: '${PUID:-1000}:${PGID:-1000}'
+    ports:
+      # Bound to the tailnet address from .env; falls back to loopback, which
+      # is only reachable from neo itself.
+      - '${TAILNET_IP:-127.0.0.1}:3100:3100'
+    volumes:
+      # Saves land in the repo, not in the container.
+      - ./frontend/content:/app/content
+      - ./frontend/public/images:/app/public/images
 
 secrets:
   github_token:
