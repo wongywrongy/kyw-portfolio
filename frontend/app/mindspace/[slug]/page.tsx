@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPost, getPosts, formatLongDate } from '@/lib/posts'
 import { Mdx } from '@/components/mdx'
+import { ChevronLeft } from '@/components/icons'
 
 export const dynamicParams = false
 
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url,
       type: 'article',
       publishedTime: post.date,
+      images: post.cover ? [{ url: post.cover }] : undefined,
     },
   }
 }
@@ -42,26 +44,32 @@ export default async function PostPage({ params }: Props) {
   if (!post) notFound()
 
   return (
-    <article className="mx-auto max-w-[640px] px-6 pb-24 pt-16 md:pt-24">
-      <Link href="/" className="link text-[13px] text-text-2">
-        ← Back
-      </Link>
-      <header className="fade-up mt-10" style={{ '--i': 0 } as React.CSSProperties}>
-        <h1 className="text-2xl font-semibold leading-[1.2] tracking-[-0.02em] sm:text-[28px]">
-          {post.title}
-        </h1>
-        <p className="meta mt-3">
-          {formatLongDate(post.date)} · {post.readingTime} min read
-        </p>
-      </header>
-      <div className="fade-up prose-post mt-10" style={{ '--i': 1 } as React.CSSProperties}>
-        <Mdx source={post.content} />
-      </div>
-      <footer className="mt-16 border-t border-card-border pt-6">
-        <Link href="/" className="link text-[13px] text-text-2">
-          ← Back
-        </Link>
-      </footer>
-    </article>
+    <div className="page">
+      <article className="stack">
+        <nav className="crumbs fade-up" style={{ '--i': 0 } as React.CSSProperties} aria-label="Breadcrumb">
+          <Link href="/mindspace" style={{ display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+            <ChevronLeft />
+            Mindspace
+          </Link>
+        </nav>
+        <section className="tile fade-up" style={{ '--i': 1, padding: '20px 28px 32px' } as React.CSSProperties}>
+          {post.cover && (
+            <div className="cover" style={{ margin: '-20px -28px 24px' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={post.cover} alt="" />
+            </div>
+          )}
+          <header style={{ marginTop: post.cover ? 0 : 8 }}>
+            <h1 className="page-title">{post.title}</h1>
+            <p className="meta" style={{ marginTop: 10, fontSize: 13 }}>
+              {formatLongDate(post.date)} · {post.readingTime} min read
+            </p>
+          </header>
+          <div className="prose-post" style={{ marginTop: 28 }}>
+            <Mdx source={post.content} />
+          </div>
+        </section>
+      </article>
+    </div>
   )
 }

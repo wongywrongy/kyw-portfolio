@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { Chrome } from '@/components/chrome'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { site } from '@/content/site'
 import './globals.css'
@@ -24,7 +25,10 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#0a0a0a',
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0f' },
+    { media: '(prefers-color-scheme: light)', color: '#f5f5f7' },
+  ],
 }
 
 // Runs before first paint so the page never flashes the wrong theme. Dark
@@ -38,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
+        <Chrome />
         <ThemeToggle />
         <main>{children}</main>
       </body>

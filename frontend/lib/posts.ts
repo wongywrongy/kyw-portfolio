@@ -11,6 +11,7 @@ export type PostMeta = {
   summary: string
   draft: boolean
   readingTime: number // minutes
+  cover?: string // a path under public/, e.g. /images/posts/my-post/cover.jpg
 }
 
 export type Post = PostMeta & { content: string }
@@ -26,7 +27,16 @@ function normalizeDate(value: unknown, file: string): string {
 
 function readPost(file: string): Post {
   const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8')
-  const { data, content } = matter(raw)
+  let parsed: ReturnType<typeof matter>
+  try {
+    parsed = matter(raw)
+  } catch (e) {
+    // Usually an unquoted colon in the title. Name the file so it is quick to fix.
+    throw new Error(
+      `Post "${file}" has invalid frontmatter (wrap values with ":" in quotes): ${e instanceof Error ? e.message : String(e)}`,
+    )
+  }
+  const { data, content } = parsed
   if (!data.title) throw new Error(`Post "${file}" is missing a title in its frontmatter.`)
   if (!data.date) throw new Error(`Post "${file}" is missing a date in its frontmatter (YYYY-MM-DD).`)
 
@@ -38,6 +48,7 @@ function readPost(file: string): Post {
     summary: data.summary ? String(data.summary) : '',
     draft: data.draft === true,
     readingTime: Math.max(1, Math.round(words / 220)),
+    cover: data.cover ? String(data.cover) : undefined,
     content,
   }
 }

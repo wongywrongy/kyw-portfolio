@@ -13,12 +13,7 @@ export function ThemeToggle() {
   // Icons switch on the `dark` class in CSS, so server and client markup match
   // and there is no state to hydrate.
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label="Toggle theme"
-      className="theme-toggle"
-    >
+    <button type="button" onClick={toggle} aria-label="Toggle theme" className="btn theme-toggle">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="dark:hidden">
         <path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z" />
       </svg>

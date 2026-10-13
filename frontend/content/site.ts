@@ -1,9 +1,9 @@
 export const site = {
   name: 'Kyle Wong',
-  role: 'SWE, CS @ SJSU',
+  role: 'Software engineer · CS at SJSU',
   bio: [
-    'Hey there, I study computer science at San Jose State University and studied artificial intelligence abroad at 성균관대학교 in South Korea for a semester.',
-    'I love developing side projects related to my own passions. Which are badminton, books, travelling, and exploring new technologies.',
+    'I study computer science at San José State University and spent a semester studying artificial intelligence at 성균관대학교 in Seoul.',
+    'I build side projects around the things I care about: badminton, books, travel and new technology.',
   ],
   // Leave a value empty to hide that link.
   links: {
