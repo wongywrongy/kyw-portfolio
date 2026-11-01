@@ -23,6 +23,13 @@ function Img({ alt, ...props }: React.ComponentProps<'img'>) {
   return <img alt={alt ?? ''} loading="lazy" {...props} />
 }
 
-export function Mdx({ source }: { source: string }) {
-  return <MDXRemote source={source} components={{ code: Code, img: Img }} />
+/**
+ * Renders a post body. `.md` posts (what Pages CMS writes) are parsed as plain
+ * Markdown, so a stray { or < in the text stays text instead of breaking the
+ * build. `.mdx` posts keep full MDX.
+ */
+export function Mdx({ source, format }: { source: string; format: 'md' | 'mdx' }) {
+  return (
+    <MDXRemote source={source} components={{ code: Code, img: Img }} options={{ mdxOptions: { format } }} />
+  )
 }

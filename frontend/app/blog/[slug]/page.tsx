@@ -59,7 +59,7 @@ export default async function PostPage({ params }: Props) {
         <img src={post.cover} alt="" className="art art-img fade-up mt-10 aspect-[2/1] w-full" style={{ '--i': 1 } as React.CSSProperties} />
       )}
       <div className="fade-up prose-post mt-10" style={{ '--i': 1 } as React.CSSProperties}>
-        <Mdx source={post.content} />
+        <Mdx source={post.content} format={post.format} />
       </div>
       <footer className="mt-16 border-t border-card-border pt-6">
         <Link href="/" className="link text-[13px] text-text-2">

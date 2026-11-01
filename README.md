@@ -25,7 +25,7 @@ Order in the lists is the order in the files. Posts sort newest first.
 
 ## Deploy
 
-On neo: `git pull && docker compose up -d --build`. See [docs/DEPLOY.md](docs/DEPLOY.md).
+Deploys are automatic on neo once `sudo ./deploy/install-autodeploy.sh` has run; `./deploy/deploy.sh` deploys by hand. See [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Layout
 
