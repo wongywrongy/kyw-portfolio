@@ -2,7 +2,7 @@
 title: Cal Hacks 13.0 Recap
 date: 2026-10-31
 summary: Drones, scrabble, and algorithms
-draft: true
+draft: false
 ---
 ### Cal Hacks 13.0
 
