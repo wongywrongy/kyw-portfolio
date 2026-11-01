@@ -16,7 +16,7 @@ content:
       - { name: title, label: Title, type: string, required: true }
       - { name: date, label: Date, type: date, required: true }
       - { name: summary, label: Summary, type: string, description: 'One line, shown under the newest post and in link previews.' }
-      - { name: cover, label: Cover image, type: image, description: Optional. Without one the post gets generated square art. }
+      - { name: cover, label: Cover image, type: image, description: 'Optional. Shown at the top of the post. Without one, the blog list uses the first image in the post.' }
       - { name: draft, label: Draft, type: boolean, default: true }
       - { name: body, label: Body, type: rich-text, options: { format: markdown } }
 

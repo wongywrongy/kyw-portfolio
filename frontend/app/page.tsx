@@ -2,7 +2,7 @@ import { site } from '@/content/site'
 import { work } from '@/content/work'
 import { projects } from '@/content/projects'
 import { getPosts } from '@/lib/posts'
-import { FlickerBand } from '@/components/flicker-band'
+import { Backdrop } from '@/components/backdrop'
 import { ActivityCard } from '@/components/activity'
 import { Section } from '@/components/section'
 import { BlogRail } from '@/components/blog-rail'
@@ -18,9 +18,7 @@ export default function Home() {
 
   return (
     <div className="page">
-      {/* Dots come first so the band paints over them where the two cross-fade. */}
-      <div className="dots" aria-hidden="true" />
-      <FlickerBand />
+      <Backdrop />
 
       <div className="col">
         <header className="fade-up" style={{ '--i': 0 } as React.CSSProperties}>

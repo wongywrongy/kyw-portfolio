@@ -26,7 +26,7 @@ draft: false
 - `title` and `date` are required. The build fails with the file name if either is missing.
 - `date` is `YYYY-MM-DD`.
 - `summary` shows under the newest post on the homepage and in link previews.
-- `cover` is optional. It shows in the blog list and at the top of the post. Without one, the post gets generated square art that stays the same between builds.
+- `cover` is optional. If set, it shows at the top of the post and in the blog list. If not, the blog list uses the first image in the post, and a post with no images gets generated square art.
 - `draft: true` hides the post from the homepage, the sitemap and the build. Drafts only show up under `npm run dev`.
 
 ## Images
