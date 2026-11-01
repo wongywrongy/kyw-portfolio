@@ -12,9 +12,9 @@ draft: false
 
 I woke up at 8 a.m. on Friday, picked up my team, and drove to the Palace of Fine Arts in San Francisco.
 
+![](/images/calhacks.jpg)
+
 The venue was amazing and there was so many great people. I met people from throughout the States and even those that came internationally from Canada, Europe, and Asia. It was also great to see a lot of familiar faces at the worlds largest collegiate hackathon.
-
-
 
 ## Our thought process
 
