@@ -2,49 +2,65 @@
 
 Everything lives in `frontend/content/`. Run `cd frontend && npm run dev` to preview; `git pull && docker compose up -d --build` on neo to publish.
 
-## Templates
+## From the browser (Pages CMS)
 
-Job, in `content/work.ts`:
+Sign in at [pagescms.org](https://pagescms.org) with GitHub and open this repo. `.pages.yml` gives you four sections:
 
-```ts
+- **Blog**: write, edit and publish posts. New posts start as drafts; untick Draft to publish.
+- **Profile**: name, role, photo, bio and links (`content/site.json`).
+- **Work**: jobs, each with an optional logo (`content/work.json`).
+- **Projects**: `content/projects.json`.
+
+Images you upload land in `frontend/public/images/` and are referenced as `/images/<file>`. Each save is a commit, so the site updates on the next deploy.
+
+## By hand
+
+Job, in `content/work.json`:
+
+```json
 {
-  company: 'Company',
-  href: '',
-  role: 'Role',
-  period: 'Aug 2025 – Mar 2026', // optional
-  description: 'One or two sentences.', // optional
-},
+  "company": "Company",
+  "role": "Role",
+  "period": "Aug 2025 to Mar 2026",
+  "description": "",
+  "href": "",
+  "logo": "/images/company.png"
+}
 ```
 
-Project, in `content/projects.ts`:
+`period`, `description`, `href` and `logo` can be empty. A job with a `logo` gets a 40px tile on the left of its card; square images look best.
 
-```ts
+Project, in `content/projects.json`:
+
+```json
 {
-  name: 'Project',
-  href: '',
-  description: 'One line.',
-  stack: ['Tool', 'Tool'], // optional
-},
+  "name": "Project",
+  "href": "",
+  "description": "One line.",
+  "stack": ["Tool", "Tool"]
+}
 ```
 
-Posts are `content/posts/<slug>.mdx`; see `content/how-to-write-a-post.mdx`.
+Profile photo: set `avatar` in `content/site.json` to an image path, or leave it empty for none.
+
+Posts are `content/posts/<slug>.mdx` and show at `/blog/<slug>`; see `content/how-to-write-a-post.mdx`. The homepage shows the newest five in the Blog rail, with an "All posts" link to `/blog` once there are more.
 
 ## Link a job or project
 
 Leave `href` as `''` and the card is plain text. Set it and the whole card becomes a link with a ↗.
 
-```ts
+```json
 // Another site: full URL, opens in a new tab
-{ name: 'ShuttleWorks', href: 'https://github.com/wongywrongy/shuttleworks', ... }
+{ "name": "ShuttleWorks", "href": "https://github.com/wongywrongy/shuttleworks", ... }
 
 // A page on this site: starts with /, opens in the same tab
-{ name: 'ShuttleWorks', href: '/mindspace/shuttleworks', ... }
+{ "name": "ShuttleWorks", "href": "/blog/shuttleworks", ... }
 ```
 
 Anything else (`mailto:`, `javascript:`, a bare `example.com`) fails the build with a message like:
 
 ```
-content/projects.ts: "Ara" href must start with https:// or / (got "ara.dev")
+content/projects.json: "Ara" href must start with https:// or / (got "ara.dev")
 ```
 
 ## GitHub activity

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
+import { validateImage } from '@/lib/href'
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'posts')
 
@@ -9,6 +10,7 @@ export type PostMeta = {
   title: string
   date: string // YYYY-MM-DD
   summary: string
+  cover: string // optional image path, '' for none
   draft: boolean
   readingTime: number // minutes
 }
@@ -30,12 +32,16 @@ function readPost(file: string): Post {
   if (!data.title) throw new Error(`Post "${file}" is missing a title in its frontmatter.`)
   if (!data.date) throw new Error(`Post "${file}" is missing a date in its frontmatter (YYYY-MM-DD).`)
 
+  const cover = data.cover ? String(data.cover) : ''
+  validateImage(`post "${file}"`, 'cover', cover)
+
   const words = content.trim().split(/\s+/).filter(Boolean).length
   return {
-    slug: file.replace(/\.mdx$/, ''),
+    slug: file.replace(/\.mdx?$/, ''),
     title: String(data.title),
     date: normalizeDate(data.date, file),
     summary: data.summary ? String(data.summary) : '',
+    cover,
     draft: data.draft === true,
     readingTime: Math.max(1, Math.round(words / 220)),
     content,
@@ -48,7 +54,7 @@ export function getPosts(): Post[] {
   const showDrafts = process.env.NODE_ENV === 'development'
   return fs
     .readdirSync(POSTS_DIR)
-    .filter((f) => f.endsWith('.mdx'))
+    .filter((f) => /\.mdx?$/.test(f))
     .map(readPost)
     .filter((p) => showDrafts || !p.draft)
     .sort((a, b) => b.date.localeCompare(a.date))

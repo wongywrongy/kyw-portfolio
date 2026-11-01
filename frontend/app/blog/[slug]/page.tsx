@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = getPost(slug)
   if (!post) return {}
-  const url = `/mindspace/${post.slug}`
+  const url = `/blog/${post.slug}`
   return {
     title: post.title,
     description: post.summary || undefined,
@@ -54,6 +54,10 @@ export default async function PostPage({ params }: Props) {
           {formatLongDate(post.date)} · {post.readingTime} min read
         </p>
       </header>
+      {post.cover && (
+        // eslint-disable-next-line @next/next/no-img-element -- static export, images are unoptimized anyway
+        <img src={post.cover} alt="" className="art art-img fade-up mt-10 aspect-[2/1] w-full" style={{ '--i': 1 } as React.CSSProperties} />
+      )}
       <div className="fade-up prose-post mt-10" style={{ '--i': 1 } as React.CSSProperties}>
         <Mdx source={post.content} />
       </div>

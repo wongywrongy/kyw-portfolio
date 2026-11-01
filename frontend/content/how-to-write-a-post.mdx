@@ -5,7 +5,7 @@ summary: The post format, in one page.
 draft: true
 ---
 
-Posts are MDX files in `frontend/content/posts/`. The file name becomes the URL, so `my-post.mdx` is served at `/mindspace/my-post`.
+Posts are MDX (or plain `.md`) files in `frontend/content/posts/`. The file name becomes the URL, so `my-post.mdx` is served at `/blog/my-post`. You can also write and edit them in Pages CMS under **Blog**.
 
 ## Frontmatter
 
@@ -16,13 +16,15 @@ Every post starts with a block like this:
 title: My post
 date: 2026-10-01
 summary: One line that shows up in link previews.
+cover: /images/my-cover.jpg
 draft: false
 ---
 ```
 
 - `title` and `date` are required. The build fails with the file name if either is missing.
 - `date` is `YYYY-MM-DD`.
-- `summary` is used for the page description.
+- `summary` shows under the newest post on the homepage and in link previews.
+- `cover` is optional. It shows in the blog list and at the top of the post. Without one, the post gets generated square art that stays the same between builds.
 - `draft: true` hides the post from the homepage, the sitemap and the build. Drafts only show up under `npm run dev`.
 
 ## Images

@@ -1,4 +1,5 @@
-import { validateHrefs } from '@/lib/href'
+import data from './work.json'
+import { validateHrefs, validateImage } from '@/lib/href'
 
 export type Job = {
   company: string
@@ -6,21 +7,11 @@ export type Job = {
   period?: string
   description?: string
   href?: string
+  logo?: string
 }
 
-export const work: Job[] = [
-  {
-    company: 'JK Baker Construction',
-    href: '',
-    role: 'Software Engineer Intern',
-    period: 'Jun 2024 to Aug 2024',
-  },
-  {
-    company: 'Spartan Racing',
-    href: '',
-    role: 'Junior Software Engineer',
-    period: 'Aug 2025 to Mar 2026',
-  },
-]
+// Edit work.json (or in Pages CMS).
+export const work: Job[] = data
 
-validateHrefs('content/work.ts', work)
+validateHrefs('content/work.json', work)
+for (const job of work) validateImage('content/work.json', `"${job.company}" logo`, job.logo)
