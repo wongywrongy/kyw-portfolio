@@ -1,10 +1,11 @@
 import { site } from '@/content/site'
 import { work } from '@/content/work'
 import { projects } from '@/content/projects'
-import { getPosts, formatShortDate } from '@/lib/posts'
+import { getPosts } from '@/lib/posts'
 import { FlickerBand } from '@/components/flicker-band'
 import { ActivityCard } from '@/components/activity'
 import { Section } from '@/components/section'
+import { BlogRail } from '@/components/blog-rail'
 
 export default function Home() {
   const posts = getPosts()
@@ -23,8 +24,16 @@ export default function Home() {
 
       <div className="col">
         <header className="fade-up" style={{ '--i': 0 } as React.CSSProperties}>
-          <h1 className="name">{site.name}</h1>
-          <p className="role">{site.role}</p>
+          <div className="who">
+            {site.avatar && (
+              // eslint-disable-next-line @next/next/no-img-element -- static export, images are unoptimized anyway
+              <img src={site.avatar} alt="" width={64} height={64} className="avatar" />
+            )}
+            <div>
+              <h1 className="name">{site.name}</h1>
+              <p className="role">{site.role}</p>
+            </div>
+          </div>
           <div className="bio">
             {site.bio.map((p) => (
               <p key={p}>{p}</p>
@@ -59,6 +68,7 @@ export default function Home() {
             href: job.href,
             meta: job.period,
             sub: [job.role, ...(job.description ? [job.description] : [])],
+            logo: job.logo,
           }))}
         />
 
@@ -74,19 +84,7 @@ export default function Home() {
           }))}
         />
 
-        {posts.length > 0 && (
-          <Section
-            title="Mindspace"
-            tone="accent"
-            index={3}
-            items={posts.map((post) => ({
-              title: post.title,
-              href: `/mindspace/${post.slug}`,
-              meta: formatShortDate(post.date),
-              sub: [],
-            }))}
-          />
-        )}
+        <BlogRail posts={posts} index={3} />
 
         <footer className="footer fade-up" style={{ '--i': 4 } as React.CSSProperties}>
           <p>

@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: site.url, lastModified: new Date() },
     ...getPosts().map((p) => ({
-      url: `${site.url}/mindspace/${p.slug}`,
+      url: `${site.url}/blog/${p.slug}`,
       lastModified: new Date(`${p.date}T00:00:00Z`),
     })),
   ]

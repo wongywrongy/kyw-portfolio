@@ -316,6 +316,152 @@ a.card:focus-visible {
   gap: 10px;
 }
 
+/* Name with an optional photo beside it. */
+.who {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.avatar {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--card-border-hover);
+}
+
+/* Card with a logo tile on the left (work entries with `logo`). */
+.card-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.card-logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  object-fit: contain;
+  background: var(--bg);
+  border: 1px solid var(--card-border);
+}
+.card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* --- Blog rail ------------------------------------------------------------ */
+
+/* Below 1360px it sits in the column after Projects. From 1360px it moves into
+   the right margin, top-aligned with the name, so the column never shifts. */
+@media (min-width: 1360px) {
+  .rail {
+    position: absolute;
+    top: 4px;
+    left: calc(100% + 104px);
+    width: 248px;
+  }
+}
+/* The rail's heading mirrors the column's: the rule fades in from the left. */
+.section-rule-r {
+  background: linear-gradient(270deg, var(--rule-start), var(--rule-mid) 60%, transparent);
+}
+.posts {
+  display: flex;
+  flex-direction: column;
+}
+.post {
+  display: flex;
+  border-bottom: 1px solid var(--card-border);
+}
+.post-latest {
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 18px;
+}
+.post-row {
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+}
+.post-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.post-title {
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 150ms ease;
+}
+.post-row .post-title {
+  font-size: 14px;
+}
+.post:hover .post-title {
+  text-decoration-color: var(--rule-start);
+}
+.post-summary {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.rail-more {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+/* Post image: the cover if the post has one, else the band's lit squares. */
+.art {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background-color: var(--cell-off);
+  background-image:
+    linear-gradient(90deg, var(--card) 6px, transparent 6px),
+    linear-gradient(var(--card) 6px, transparent 6px);
+  background-size: 10px 10px;
+}
+.art i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: color-mix(in srgb, var(--sq) var(--a), transparent);
+}
+.art-cover {
+  width: 100%;
+  height: 120px;
+  margin-bottom: 10px;
+}
+.art-thumb {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+.art-img {
+  object-fit: cover;
+  background: none;
+}
+/* Tone photos down so they sit in the dark page instead of glaring. */
+.dark .art-img {
+  filter: saturate(0.7) brightness(0.85);
+}
+
 /* GitHub activity: 7 rows × 52 weeks; cells stay square at any width. */
 .activity {
   display: block;

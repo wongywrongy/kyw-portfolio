@@ -1,18 +1,11 @@
+import data from './site.json'
+import { validateImage } from '@/lib/href'
+
+// Edit site.json (or in Pages CMS). Leave a link empty to hide it, and leave
+// `avatar` empty to show no photo.
+validateImage('content/site.json', 'avatar', data.avatar)
+
 export const site = {
-  name: 'Kyle Wong',
-  role: 'SWE, CS @ SJSU',
-  bio: [
-    'Hey there, I study computer science at San Jose State University and studied artificial intelligence abroad at 성균관대학교 in South Korea for a semester.',
-    'I love developing side projects related to my own passions. Which are badminton, books, travelling, and exploring new technologies.',
-  ],
-  // Leave a value empty to hide that link.
-  links: {
-    email: '',
-    github: 'https://github.com/wongywrongy',
-    linkedin: 'https://www.linkedin.com/in/ktwong665/',
-    resume: '', // e.g. '/resume.pdf' with the file in public/
-  },
+  ...data,
   url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://kyle.wongworks.dev').replace(/\/$/, ''),
-  title: 'Kyle’s Portfolio',
-  description: 'Kyle Wong - swe and cs at sjsu',
 }

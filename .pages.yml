@@ -1,0 +1,69 @@
+# Pages CMS (pagescms.org): edit the site's content from the browser.
+# Every save is a commit to this repo; neo picks it up on the next deploy.
+
+media:
+  input: frontend/public/images
+  output: /images
+
+content:
+  - name: posts
+    label: Blog
+    type: collection
+    path: frontend/content/posts
+    filename: '{primary}.mdx'
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: summary, label: Summary, type: string, description: 'One line, shown under the newest post and in link previews.' }
+      - { name: cover, label: Cover image, type: image, description: Optional. Without one the post gets generated square art. }
+      - { name: draft, label: Draft, type: boolean, default: true }
+      - { name: body, label: Body, type: rich-text, options: { format: markdown } }
+
+  - name: site
+    label: Profile
+    type: file
+    path: frontend/content/site.json
+    format: json
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - { name: role, label: Role, type: string }
+      - { name: avatar, label: Photo, type: image, description: Optional. Shown next to your name. }
+      - { name: bio, label: Bio paragraphs, type: text, list: true }
+      - name: links
+        label: Links
+        type: object
+        description: Leave a link empty to hide it.
+        fields:
+          - { name: email, label: Email, type: string }
+          - { name: github, label: GitHub URL, type: string }
+          - { name: linkedin, label: LinkedIn URL, type: string }
+          - { name: resume, label: Resume path, type: string, description: 'e.g. /images/resume.pdf' }
+      - { name: title, label: Browser tab title, type: string }
+      - { name: description, label: Search description, type: string }
+
+  - name: work
+    label: Work
+    type: file
+    path: frontend/content/work.json
+    format: json
+    list: true
+    fields:
+      - { name: company, label: Company, type: string, required: true }
+      - { name: role, label: Role, type: string, required: true }
+      - { name: period, label: Period, type: string, description: 'e.g. Aug 2025 to Mar 2026' }
+      - { name: description, label: Description, type: text }
+      - { name: href, label: Link, type: string, description: 'Empty, a full https:// URL, or a site path like /blog/my-post' }
+      - { name: logo, label: Logo, type: image, description: Optional. Square images look best. }
+
+  - name: projects
+    label: Projects
+    type: file
+    path: frontend/content/projects.json
+    format: json
+    list: true
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - { name: description, label: Description, type: text, required: true }
+      - { name: stack, label: Stack, type: string, list: true }
+      - { name: href, label: Link, type: string, description: 'Empty, a full https:// URL, or a site path like /blog/my-post' }
