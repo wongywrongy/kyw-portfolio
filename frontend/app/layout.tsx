@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-// Newsreader (variable weight + optical size) for blog reading. Self-hosted from
-// npm; the browser only downloads it on pages that use it.
-import '@fontsource-variable/newsreader/opsz.css'
-import '@fontsource-variable/newsreader/opsz-italic.css'
+// IBM Plex Sans for blog reading: an open, highly legible sans (no italics used).
+// Self-hosted from npm; the browser only downloads it on pages that use it.
+import '@fontsource-variable/ibm-plex-sans/wght.css'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { site } from '@/content/site'
 import './globals.css'
