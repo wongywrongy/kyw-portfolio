@@ -10,7 +10,7 @@ draft: false
 
 > "Great things in business are never done by one person. They're done by a team of people." - Steve Jobs
 
-I woke up at 8 a.m. on Friday, picked up my team, and drove to the Palace of Fine Arts in San Francisco. Over the next three days, we built an AI cybersecurity platform, placed 7th in a Scrabble bot tournament with a 29-weight model, and ended up at a Z Fellows meetup through a random QR code.
+I woke up at 8 a.m. on Friday, picked up my team, and drove to the Palace of Fine Arts in San Francisco. Over the next three days, my team built an AI cybersecurity platform, I won a cybersecurity challenge, and we placed 7th in a Scrabble bot tournament with a 29-weight model, and ended up at a Z Fellows meetup through a random QR code.
 
 ![Hackers working inside the Cal Hacks 13.0 venue.](/images/calhacks.jpg)
 
@@ -18,7 +18,7 @@ The venue was amazing, and there were so many great people. I met students from 
 
 It was also great to see a lot of familiar faces at the world's largest collegiate hackathon.
 
-## Building Sudo-KO
+## Our project
 
 We came in with plenty of ideas and left with a swarm of AI agents built to fight other swarms.
 
@@ -34,11 +34,11 @@ The drones were just one example. The same idea applies to any deployed system w
 
 We didn't win, but it was my first submission in a cybersecurity track, so I learned a lot. Talking with the teams at SpacetimeDB, Armadin, and Bitdeer was a highlight too.
 
-## 7th Place With 29 Weights
+## Scrabble models
 
-Our best result of the weekend came from a side event.
+SpacetimeDB ran a Scrabble bot competition alongside the main event.
 
-SpacetimeDB ran a Scrabble bot competition alongside the main event. My team tested four approaches:
+There was so much tense comradery between hundreds of models all using different weights and strategies.  My team tested four approaches:
 
 - A neural net
 - A classical ML hybrid
@@ -63,9 +63,3 @@ On the spot, he also ran a debate on the future of AI with students from Berkele
 
 Later we stopped by the Y Combinator afterparty, but we didn't stay long. My teammates had flights to catch, and we'd already gotten more out of the weekend than we expected.
 
-## Next Steps
-
-- **See the project:** Check out Sudo-KO on [Devpost](LINK).
-- **Going to Cal Hacks next year?** Enter the side competitions. Ours got better results than the main track.
-- **Building a bot or model?** Start with the simplest baseline. It might be the one you ship.
-- **Say yes to the random QR code.** The unplanned stuff was the best part.
