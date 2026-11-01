@@ -68,6 +68,7 @@
   --color-card-border: var(--card-border);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
 }
 
 html {
@@ -331,20 +332,24 @@ a.card:focus-visible {
   border: 1px solid var(--card-border-hover);
 }
 
-/* Card with a logo tile on the left (work entries with `logo`). */
+/* Card with a logo tile on the left (work entries with `logo`). The tile is
+   white like an app icon because most logos are drawn for white; the build
+   trims their whitespace and pads them square (scripts/optimize-images.mjs). */
 .card-row {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 .card-logo {
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   flex-shrink: 0;
-  border-radius: 9px;
+  border-radius: 13px;
   object-fit: contain;
-  background: var(--bg);
-  border: 1px solid var(--card-border);
+  background: #fff;
+  box-shadow:
+    0 0 0 1px var(--card-border),
+    0 1px 2px rgba(0, 0, 0, 0.25);
 }
 .card-body {
   display: flex;
@@ -547,27 +552,70 @@ a.card:focus-visible {
   }
 }
 
-/* Post body */
+/* --- Blog pages ---------------------------------------------------------- */
+
+/* Post and blog index column: same overlap with the band as the homepage. */
+.reading {
+  position: relative;
+  max-width: 640px;
+  margin: -88px auto 0;
+}
+.post-h1 {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  font-optical-sizing: auto;
+  text-wrap: balance;
+}
+@media (max-width: 640px) {
+  .post-h1 {
+    font-size: 32px;
+  }
+}
+.post-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+}
+
+/* Post body: Newsreader for reading, Geist for headings, Geist Mono for code. */
 .prose-post {
-  font-size: 16px;
-  line-height: 1.7;
-  max-width: 62ch;
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.65;
+  font-optical-sizing: auto;
+  color: var(--text-body);
+  max-width: 64ch;
 }
 .prose-post > * + * {
-  margin-top: 1.25em;
+  margin-top: 1.15em;
 }
 .prose-post h2 {
-  font-size: 18px;
+  font-family: var(--font-sans);
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.3;
   margin-top: 2.2em;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  color: var(--text);
 }
 .prose-post h3 {
-  font-size: 16px;
+  font-family: var(--font-sans);
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.4;
   margin-top: 1.8em;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.prose-post strong {
+  font-weight: 600;
+  color: var(--text);
 }
 .prose-post em {
   font-style: italic;
@@ -589,8 +637,11 @@ a.card:focus-visible {
   color: var(--text-3);
 }
 .prose-post blockquote {
-  border-left: 2px solid var(--card-border);
+  border-left: 2px solid var(--accent);
   padding-left: 1em;
+  font-style: italic;
+  font-size: 1.1em;
+  line-height: 1.5;
   color: var(--text-2);
 }
 .prose-post a {
@@ -605,7 +656,7 @@ a.card:focus-visible {
 }
 .prose-post :not(pre) > code {
   font-family: var(--font-mono);
-  font-size: 0.875em;
+  font-size: 0.8em;
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: 6px;
@@ -625,7 +676,8 @@ a.card:focus-visible {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
 }
 .prose-post hr {
   border: 0;

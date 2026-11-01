@@ -25,7 +25,7 @@ export function BlogRail({ posts, index }: { posts: Post[]; index: number }) {
       <ul className="posts">
         <li>
           <Link href={`/blog/${latest.slug}`} className="post post-latest">
-            <PostArt slug={latest.slug} cover={latest.cover} cols={25} rows={12} count={34} className="art-cover" />
+            <PostArt slug={latest.slug} cover={latest.image} cols={25} rows={12} count={34} className="art-cover" />
             <span className="card-meta">
               {formatShortDate(latest.date)} · {latest.readingTime} min read
             </span>
@@ -36,7 +36,7 @@ export function BlogRail({ posts, index }: { posts: Post[]; index: number }) {
         {older.map((post) => (
           <li key={post.slug}>
             <Link href={`/blog/${post.slug}`} className="post post-row">
-              <PostArt slug={post.slug} cover={post.cover} cols={5} rows={5} count={6} className="art-thumb" />
+              <PostArt slug={post.slug} cover={post.image} cols={5} rows={5} count={6} className="art-thumb" />
               <span className="post-text">
                 <span className="card-meta">{formatShortDate(post.date)}</span>
                 <span className="post-title">{post.title}</span>

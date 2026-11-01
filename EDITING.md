@@ -28,7 +28,7 @@ Job, in `content/work.json`:
 }
 ```
 
-`period`, `description`, `href` and `logo` can be empty. A job with a `logo` gets a 40px tile on the left of its card; square images look best.
+`period`, `description`, `href` and `logo` can be empty. A job with a `logo` gets a white app-icon tile on the left of its card. The build trims whitespace around the logo and squares it, so any logo file works.
 
 Project, in `content/projects.json`:
 

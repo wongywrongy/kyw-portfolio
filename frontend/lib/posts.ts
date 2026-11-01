@@ -11,6 +11,7 @@ export type PostMeta = {
   date: string // YYYY-MM-DD
   summary: string
   cover: string // optional image path, '' for none
+  image: string // cover, else the first image in the body, else ''
   draft: boolean
   readingTime: number // minutes
   format: 'md' | 'mdx' // .md is plain Markdown, .mdx allows components
@@ -25,6 +26,16 @@ function normalizeDate(value: unknown, file: string): string {
     throw new Error(`Post "${file}" has an invalid date: ${String(value)}. Use YYYY-MM-DD.`)
   }
   return d.toISOString().slice(0, 10)
+}
+
+/** First image in a post body: Markdown ![alt](src) or an HTML <img src>. */
+function firstImage(content: string): string {
+  const md = content.match(/!\[[^\]]*\]\(\s*<?([^)\s>]+)/)
+  const html = content.match(/<img[^>]+src=["']([^"']+)["']/i)
+  const hits = [md, html].filter((m): m is RegExpMatchArray => m !== null)
+  if (hits.length === 0) return ''
+  hits.sort((a, b) => (a.index ?? 0) - (b.index ?? 0))
+  return hits[0][1]
 }
 
 function readPost(file: string): Post {
@@ -43,6 +54,7 @@ function readPost(file: string): Post {
     date: normalizeDate(data.date, file),
     summary: data.summary ? String(data.summary) : '',
     cover,
+    image: cover || firstImage(content),
     draft: data.draft === true,
     readingTime: Math.max(1, Math.round(words / 220)),
     format: file.endsWith('.mdx') ? 'mdx' : 'md',
