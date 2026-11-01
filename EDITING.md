@@ -1,6 +1,6 @@
 # Editing content
 
-Everything lives in `frontend/content/`. Run `cd frontend && npm run dev` to preview; `git pull && docker compose up -d --build` on neo to publish.
+Everything lives in `frontend/content/`. Run `cd frontend && npm run dev` to preview. Anything that lands on `main` (a Pages CMS save, a merged PR) is live within a few minutes; see [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## From the browser (Pages CMS)
 
@@ -11,7 +11,7 @@ Sign in at [pagescms.org](https://pagescms.org) with GitHub and open this repo. 
 - **Work**: jobs, each with an optional logo (`content/work.json`).
 - **Projects**: `content/projects.json`.
 
-Images you upload land in `frontend/public/images/` and are referenced as `/images/<file>`. Each save is a commit, so the site updates on the next deploy.
+Images you upload land in `frontend/public/images/` and are referenced as `/images/<file>`. Upload whatever you have: the build shrinks big photos (max 1600px wide, re-compressed) in the published site and leaves the originals alone. Each save is a commit to `main` and goes live on the next deploy check, within a few minutes.
 
 ## By hand
 
@@ -43,7 +43,7 @@ Project, in `content/projects.json`:
 
 Profile photo: set `avatar` in `content/site.json` to an image path, or leave it empty for none.
 
-Posts are `content/posts/<slug>.mdx` and show at `/blog/<slug>`; see `content/how-to-write-a-post.mdx`. The homepage shows the newest five in the Blog rail, with an "All posts" link to `/blog` once there are more.
+Posts are `content/posts/<slug>.md` and show at `/blog/<slug>`; see `content/how-to-write-a-post.mdx`. The homepage shows the newest five in the Blog rail, with an "All posts" link to `/blog` once there are more.
 
 ## Link a job or project
 
@@ -67,8 +67,4 @@ content/projects.json: "Ara" href must start with https:// or / (got "ara.dev")
 
 The contribution graph on the homepage is fetched from GitHub when the site builds, using `GITHUB_TOKEN` from the stack's `.env` on neo (see `.env.example`). Without a token the graph renders blank and the build still succeeds.
 
-The graph updates on each deploy that changes the site. A rebuild with no changes reuses Docker's cached build and keeps the old graph, so to refresh it on its own, build without the cache. To keep it current, add a daily cron on neo:
-
-```
-0 6 * * * cd /opt/stacks/wongworks && docker compose build --no-cache && docker compose up -d
-```
+The graph refreshes on every deploy that changes the site, and the auto-deploy setup adds a daily 06:00 rebuild without cache so it stays current even when nothing else changes.

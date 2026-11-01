@@ -13,6 +13,7 @@ export type PostMeta = {
   cover: string // optional image path, '' for none
   draft: boolean
   readingTime: number // minutes
+  format: 'md' | 'mdx' // .md is plain Markdown, .mdx allows components
 }
 
 export type Post = PostMeta & { content: string }
@@ -44,6 +45,7 @@ function readPost(file: string): Post {
     cover,
     draft: data.draft === true,
     readingTime: Math.max(1, Math.round(words / 220)),
+    format: file.endsWith('.mdx') ? 'mdx' : 'md',
     content,
   }
 }

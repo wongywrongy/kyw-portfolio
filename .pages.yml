@@ -10,7 +10,7 @@ content:
     label: Blog
     type: collection
     path: frontend/content/posts
-    filename: '{primary}.mdx'
+    filename: '{primary}.md'
     format: yaml-frontmatter
     fields:
       - { name: title, label: Title, type: string, required: true }

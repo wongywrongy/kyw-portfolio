@@ -5,7 +5,9 @@ summary: The post format, in one page.
 draft: true
 ---
 
-Posts are MDX (or plain `.md`) files in `frontend/content/posts/`. The file name becomes the URL, so `my-post.mdx` is served at `/blog/my-post`. You can also write and edit them in Pages CMS under **Blog**.
+Posts are Markdown files in `frontend/content/posts/`. The file name becomes the URL, so `my-post.md` is served at `/blog/my-post`. The easiest way to write one is Pages CMS, under **Blog**.
+
+Use `.md` (what Pages CMS creates). It is plain Markdown, so any text is safe. `.mdx` also works if a post ever needs React components, but there a stray `{` or `<` in normal text breaks the build.
 
 ## Frontmatter
 
