@@ -43,3 +43,6 @@ yarn-error.log*
 *.tsbuildinfo
 .vercel
 .turbo
+
+# deploy.sh lock file
+.deploy.lock

@@ -4,27 +4,42 @@ The site is one container: nginx serving the files `next build` exports. Compose
 
 ## Deploy
 
-Automatic once set up: a timer on neo checks `main` every 2 minutes and rebuilds when it moved, so a save in Pages CMS or a merged PR goes live in a few minutes. One-time setup, from the repo on neo:
+Automatic once set up: GitHub calls neo on every push to `main` (a Pages CMS save, a merged PR) and neo rebuilds right away, so a change is live in about a minute. Pushes that land during a build are queued into one more run, and on restart the listener catches up on anything it missed.
 
-```bash
-cd /opt/stacks/wongworks
-sudo ./deploy/install-autodeploy.sh
-```
+### Turn it on (once)
 
-That also adds a daily 06:00 rebuild without cache, which refetches the GitHub activity graph.
+1. On neo, from the repo:
 
-To deploy by hand (same script the timer runs):
+   ```bash
+   cd /opt/stacks/wongworks
+   git pull
+   sudo ./deploy/install-autodeploy.sh
+   ```
+
+   This installs `wongworks-webhook` (a small Python listener on `127.0.0.1:9471`, running as you), generates the shared secret in `/etc/wongworks/webhook.env`, adds a daily 06:00 rebuild without cache for the activity graph, and prints the secret.
+
+2. Cloudflare Zero Trust → Networks → Tunnels → neo's tunnel → **Public Hostname → Add**:
+   subdomain `hooks`, domain `wongworks.dev`, no path, service **HTTP** `localhost:9471`.
+
+3. GitHub → repo **Settings → Webhooks → Add webhook**:
+   payload URL `https://hooks.wongworks.dev/github`, content type `application/json`, the secret from step 1, **Just the push event**.
+
+GitHub sends a ping when you save the webhook. `journalctl -u wongworks-webhook -f` on neo should print `ping from GitHub: webhook is connected`, and the webhook's **Recent Deliveries** tab should show a green 200.
+
+The listener only accepts POSTs to `/github` signed with the secret; anything else gets 401 or 404. A valid request can only make neo pull `main` and rebuild.
+
+No webhook wanted? `sudo ./deploy/install-autodeploy.sh --poll` checks `main` every 2 minutes instead.
+
+### By hand
+
+Same script the listener runs:
 
 ```bash
 ./deploy/deploy.sh            # pull main and rebuild
 ./deploy/deploy.sh --fresh    # same, without Docker's cache
 ```
 
-A failed build stops before the running container is touched, so the site stays on the previous version. Logs: `journalctl -u wongworks-deploy -n 50`.
-
-The image build runs `npm ci && npm run build`, so a content change is a rebuild, not a restart. `NEXT_PUBLIC_SITE_URL` (default `https://kyle.wongworks.dev`) can be overridden in `.env`; it is compiled into the pages.
-
-`GITHUB_TOKEN` in `.env` feeds the homepage activity graph. It is passed to the build as a BuildKit secret, so it is never stored in the image; see the GitHub activity section of [EDITING.md](../EDITING.md).
+Only one deploy runs at a time; a second one waits for the first. A failed build stops before the running container is touched, so the site stays on the previous version.
 
 ## One-time cleanup (moving from the CMS setup)
 
@@ -54,8 +69,8 @@ curl -sI http://127.0.0.1:8080/work/all      # 301 to /
 ## Logs and rollback
 
 ```bash
-journalctl -u wongworks-deploy -f   # deploys
+journalctl -u wongworks-webhook -f  # webhook deliveries and deploys
 docker compose logs -f web          # nginx
 ```
 
-To roll back, revert the bad commit on GitHub (Revert button on the PR, or `git revert` and push). The timer deploys the revert like any other change. A plain `git checkout <old>` on neo won't stick: the next timer run fast-forwards back to `main`. To pause deploys: `sudo systemctl stop wongworks-deploy.timer`.
+To roll back, revert the bad commit on GitHub (Revert button on the PR, or `git revert` and push). The revert deploys like any other push. A plain `git checkout <old>` on neo won't stick: the next deploy fast-forwards back to `main`. To pause automatic deploys: `sudo systemctl stop wongworks-webhook`.
