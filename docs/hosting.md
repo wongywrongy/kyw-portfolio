@@ -11,4 +11,4 @@ internet -> Cloudflare edge -> tunnel -> neo 127.0.0.1:8080 -> web container (ng
 - `/work/all` and `/projects/all` are 301s to `/`; `/mindspace` and `/mindspace/*` are 301s to `/blog` and `/blog/*` (posts moved). `/admin` and `/api` are 404.
 - If there are no published posts, the build emits a placeholder `/blog/_none` page (the export requires at least one dynamic route). nginx returns 404 for it.
 
-Cloudflare Tunnel ingress for `kyle.wongworks.dev` stays `http://localhost:8080`. Nothing else is needed on the host: no database, no secrets, no second listener.
+Cloudflare Tunnel ingress for `kyle.wongworks.dev` is `http://localhost:8080`. With automatic deploys turned on, `hooks.wongworks.dev` routes to the deploy webhook on `http://localhost:9471` (a systemd service on the host, not a container; see [DEPLOY.md](DEPLOY.md)). No database.

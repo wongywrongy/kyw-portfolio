@@ -1,6 +1,6 @@
 # Editing content
 
-Everything lives in `frontend/content/`. Run `cd frontend && npm run dev` to preview. Anything that lands on `main` (a Pages CMS save, a merged PR) is live within a few minutes; see [docs/DEPLOY.md](docs/DEPLOY.md).
+Everything lives in `frontend/content/`. Run `cd frontend && npm run dev` to preview. Anything that lands on `main` (a Pages CMS save, a merged PR) is live in about a minute once automatic deploys are on; see [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## From the browser (Pages CMS)
 
@@ -11,7 +11,7 @@ Sign in at [pagescms.org](https://pagescms.org) with GitHub and open this repo. 
 - **Work**: jobs, each with an optional logo (`content/work.json`).
 - **Projects**: `content/projects.json`.
 
-Images you upload land in `frontend/public/images/` and are referenced as `/images/<file>`. Upload whatever you have: the build shrinks big photos (max 1600px wide, re-compressed) in the published site and leaves the originals alone. Each save is a commit to `main` and goes live on the next deploy check, within a few minutes.
+Images you upload land in `frontend/public/images/` and are referenced as `/images/<file>`. Upload whatever you have: the build shrinks big photos (max 1600px wide, re-compressed) in the published site and leaves the originals alone. Each save is a commit to `main` and deploys on its own.
 
 ## By hand
 

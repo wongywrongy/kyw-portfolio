@@ -19,11 +19,15 @@ MODE="${1:-}"
 
 log() { printf '%s %s\n' "$(date '+%F %T')" "$*"; }
 
-# One deploy at a time: a timer run that lands mid-build just skips.
-exec 9>"/tmp/wongworks-deploy.lock"
+# One deploy at a time. A run that starts mid-build waits its turn, then
+# fetches again, so a push that lands during a build still gets deployed.
+exec 9>"$REPO/.deploy.lock"
 if ! flock -n 9; then
-  log "another deploy is running; skipping"
-  exit 0
+  log "another deploy is running; waiting for it"
+  if ! flock -w 1800 9; then
+    log "error: still locked after 30 minutes; giving up"
+    exit 1
+  fi
 fi
 
 if ! docker info >/dev/null 2>&1; then
