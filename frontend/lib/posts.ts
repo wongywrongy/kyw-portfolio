@@ -1,9 +1,11 @@
+import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
 import { validateImage } from '@/lib/href'
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'posts')
+const PUBLIC_DIR = path.join(process.cwd(), 'public')
 
 export type PostMeta = {
   slug: string
@@ -12,6 +14,7 @@ export type PostMeta = {
   summary: string
   cover: string // optional image path, '' for none
   image: string // cover, else the first image in the body, else ''
+  coverInBody: boolean // the cover is also in the body, so the post page skips it
   draft: boolean
   readingTime: number // minutes
   format: 'md' | 'mdx' // .md is plain Markdown, .mdx allows components
@@ -28,14 +31,29 @@ function normalizeDate(value: unknown, file: string): string {
   return d.toISOString().slice(0, 10)
 }
 
-/** First image in a post body: Markdown ![alt](src) or an HTML <img src>. */
-function firstImage(content: string): string {
-  const md = content.match(/!\[[^\]]*\]\(\s*<?([^)\s>]+)/)
-  const html = content.match(/<img[^>]+src=["']([^"']+)["']/i)
-  const hits = [md, html].filter((m): m is RegExpMatchArray => m !== null)
-  if (hits.length === 0) return ''
-  hits.sort((a, b) => (a.index ?? 0) - (b.index ?? 0))
-  return hits[0][1]
+/** Image sources in a post body, in order: Markdown ![alt](src) and HTML <img src>. */
+function bodyImages(content: string): string[] {
+  const found: { at: number; src: string }[] = []
+  for (const m of content.matchAll(/!\[[^\]]*\]\(\s*<?([^)\s>]+)/g)) found.push({ at: m.index ?? 0, src: m[1] })
+  for (const m of content.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)) found.push({ at: m.index ?? 0, src: m[1] })
+  return found.sort((a, b) => a.at - b.at).map((f) => f.src)
+}
+
+/** Content hash of a site image (/images/x.jpg), so a re-upload under another name still matches. */
+function imageHash(src: string): string | null {
+  if (!src.startsWith('/') || src.startsWith('//')) return null
+  try {
+    const file = path.join(PUBLIC_DIR, decodeURIComponent(src.split(/[?#]/)[0]))
+    return crypto.createHash('sha1').update(fs.readFileSync(file)).digest('hex')
+  } catch {
+    return null
+  }
+}
+
+function sameImage(a: string, b: string): boolean {
+  if (a === b) return true
+  const ha = imageHash(a)
+  return ha !== null && ha === imageHash(b)
 }
 
 function readPost(file: string): Post {
@@ -47,6 +65,7 @@ function readPost(file: string): Post {
   const cover = data.cover ? String(data.cover) : ''
   validateImage(`post "${file}"`, 'cover', cover)
 
+  const images = bodyImages(content)
   const words = content.trim().split(/\s+/).filter(Boolean).length
   return {
     slug: file.replace(/\.mdx?$/, ''),
@@ -54,7 +73,8 @@ function readPost(file: string): Post {
     date: normalizeDate(data.date, file),
     summary: data.summary ? String(data.summary) : '',
     cover,
-    image: cover || firstImage(content),
+    image: cover || images[0] || '',
+    coverInBody: cover !== '' && images.some((src) => sameImage(cover, src)),
     draft: data.draft === true,
     readingTime: Math.max(1, Math.round(words / 220)),
     format: file.endsWith('.mdx') ? 'mdx' : 'md',
