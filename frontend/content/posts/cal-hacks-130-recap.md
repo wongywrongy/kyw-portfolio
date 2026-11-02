@@ -26,8 +26,6 @@ We'd all followed the Hugging Face attack and the major PHP vulnerabilities, whi
 
 Major incidents are already more frequent every year. So what if security teams had swarms of their own, actively defending a platform instead of relying only on precautions and best practices?
 
-![Our early sketch of the Sudo-KO idea, with attacker agents on one side and defender agents on the other.](/images/sudoko-idea.png)
-
 That became Sudo-KO. In our demo, an attacking swarm targets a fleet of 200 drones while defender agents identify, isolate, and eliminate vulnerabilities.
 
 The drones were just one example. The same idea applies to any deployed system where an attack can spread from server to server or user to user.
