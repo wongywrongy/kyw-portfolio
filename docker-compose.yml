@@ -1,7 +1,13 @@
-# Runs on neo. nginx serves the exported site; the Cloudflare Tunnel points at
-# the loopback port below.
+# Runs on neo. A stock nginx container serves the static site from
+# ./releases/current; the Cloudflare Tunnel points at the loopback port below.
 #
-#   docker compose up -d --build
+# The site itself is not built here. ./deploy/deploy.sh builds it with Docker
+# into ./releases/<id>/ and flips ./releases/current to the new build, then
+# reloads nginx gracefully. The container keeps running through a deploy, so
+# there is no window where the tunnel gets a 502.
+#
+#   ./deploy/deploy.sh         build, switch, reload
+#   docker compose up -d       start nginx (deploy.sh does this too)
 
 # Pinned so project resources are named `wongworks_*` whatever the checkout
 # directory is called.
@@ -9,22 +15,14 @@ name: wongworks
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-      args:
-        # Compiled into the pages. Changing it needs a rebuild, not a restart.
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://kyle.wongworks.dev}
-      # Build-time only, mounted for `npm run build` and not kept in the image.
-      secrets:
-        - github_token
+    image: nginx:1.27-alpine
     restart: unless-stopped
+    volumes:
+      # Folders, not single files: git replaces files on pull, and a
+      # single-file mount would keep serving the old copy.
+      - ./deploy/nginx:/etc/nginx/conf.d:ro
+      - ./releases:/srv/site:ro
     ports:
       # Loopback only. `8080:8080` would publish it on every interface and
       # bypass the tunnel.
       - '127.0.0.1:8080:8080'
-
-secrets:
-  github_token:
-    # GITHUB_TOKEN from .env or the shell; see .env.example.
-    environment: GITHUB_TOKEN

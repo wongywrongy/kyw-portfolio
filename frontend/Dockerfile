@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
-# Build context is the repo root (see docker-compose.yml) so the nginx conf in
-# deploy/ can be copied into the final image.
+# Build context is the repo root. Built by deploy/deploy.sh, which exports the
+# static site to releases/ on the host; nginx serves it from there.
 
 # --- build: next build exports plain files to out/ --------------------------
 FROM node:22-bookworm-slim AS build
@@ -22,8 +22,10 @@ ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 # graph renders empty.
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN npm run build
 
-# --- serve: nginx with the exported site ------------------------------------
-FROM nginx:1.27-alpine
-COPY deploy/nginx/kyle.wongworks.dev.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/out /usr/share/nginx/html
-EXPOSE 8080
+# --- export: just the static files -------------------------------------------
+# deploy/deploy.sh builds this stage with `docker build --output` straight into
+# releases/<id>/ on the host, then points releases/current at it. The nginx
+# container (docker-compose.yml) keeps running the whole time, so a deploy
+# never has a moment with nothing serving.
+FROM scratch AS export
+COPY --from=build /app/out /
