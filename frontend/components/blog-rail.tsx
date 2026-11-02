@@ -6,7 +6,7 @@ const RAIL_SHOWN = 5
 const STRIP_SHOWN = 6
 
 /** One post as a card: same-size image, date, title, optional summary. */
-function PostCard({ post, summary }: { post: Post; summary: boolean }) {
+export function PostCard({ post, summary }: { post: Post; summary: boolean }) {
   return (
     <Link href={`/blog/${post.slug}`} className="post-card">
       <PostArt slug={post.slug} cover={post.image} cols={25} rows={14} count={30} className="art-card" />

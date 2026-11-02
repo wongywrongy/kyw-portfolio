@@ -6,6 +6,7 @@
 // - Re-encodes JPEG/WebP at quality 80 and PNG losslessly.
 // - Keeps the original bytes whenever the result isn't smaller.
 // - SVG and GIF are left alone.
+// - The profile photo (`avatar` in content/site.json) is cropped to a small square.
 // - Work logos (the `logo` paths in content/work.json) are trimmed of their
 //   surrounding whitespace and padded to a square, so a wordmark fills its
 //   tile instead of floating small in the middle.
@@ -19,6 +20,19 @@ const MAX_WIDTH = 1600
 const WARN_BYTES = 1024 * 1024
 const LOGO_SIZE = 256 // px; tiles show at 56px, so this covers 3x screens
 const LOGO_PAD = 0.08 // margin around the trimmed logo, as a share of the tile
+
+const AVATAR_SIZE = 256 // px; shown at 64px
+
+/** The profile photo (content/site.json `avatar`), cropped square and shrunk. */
+async function avatarPath() {
+  try {
+    const site = JSON.parse(await fs.readFile(path.join(process.cwd(), 'content', 'site.json'), 'utf8'))
+    const a = typeof site.avatar === 'string' ? site.avatar : ''
+    return a.startsWith('/images/') ? path.join(process.cwd(), 'out', decodeURIComponent(a)) : ''
+  } catch {
+    return ''
+  }
+}
 
 async function logoPaths() {
   try {
@@ -73,6 +87,18 @@ async function optimize(file, logos) {
   if (!['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) return null
 
   const input = await fs.readFile(file)
+  if (file === avatar) {
+    let img = sharp(input, { failOn: 'none' }).rotate().resize(AVATAR_SIZE, AVATAR_SIZE, { fit: 'cover' })
+    img =
+      ext === '.png'
+        ? img.png({ compressionLevel: 9 })
+        : ext === '.webp'
+          ? img.webp({ quality: 85 })
+          : img.jpeg({ quality: 85, mozjpeg: true })
+    const output = await img.toBuffer()
+    await fs.writeFile(file, output)
+    return { file, before: input.length, after: output.length, avatar: true }
+  }
   if (logos.has(file)) {
     const output = await squareLogo(input, ext)
     await fs.writeFile(file, output)
@@ -101,6 +127,7 @@ try {
 }
 
 const logos = await logoPaths()
+const avatar = await avatarPath()
 let saved = 0
 for await (const file of walk(DIR)) {
   try {
@@ -108,7 +135,9 @@ for await (const file of walk(DIR)) {
     if (!r) continue
     saved += r.before - r.after
     const rel = path.relative(path.join(process.cwd(), 'out'), file)
-    if (r.logo) console.log(`images: ${rel} trimmed to a ${LOGO_SIZE}px square logo`)
+    if (r.avatar)
+      console.log(`images: ${rel} cropped to a ${AVATAR_SIZE}px avatar (${kb(r.before)} -> ${kb(r.after)})`)
+    else if (r.logo) console.log(`images: ${rel} trimmed to a ${LOGO_SIZE}px square logo`)
     else if (r.after < r.before) console.log(`images: ${rel} ${kb(r.before)} -> ${kb(r.after)}`)
     if (r.after > WARN_BYTES)
       console.warn(`images: ${rel} is still ${kb(r.after)}; consider a smaller upload`)

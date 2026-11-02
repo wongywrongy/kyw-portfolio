@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { site } from '@/content/site'
 import { work } from '@/content/work'
 import { projects } from '@/content/projects'
@@ -90,6 +91,16 @@ export default function Home() {
           <p>
             © {new Date().getFullYear()} {site.name}
           </p>
+          <nav aria-label="Footer">
+            {posts.length > 0 && <Link href="/blog">Blog</Link>}
+            {links
+              .filter((l) => !l.href.startsWith('mailto:'))
+              .map((l) => (
+                <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer">
+                  {l.label}
+                </a>
+              ))}
+          </nav>
         </footer>
       </div>
     </div>
