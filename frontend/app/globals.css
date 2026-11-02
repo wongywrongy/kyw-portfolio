@@ -359,22 +359,110 @@ a.card:focus-visible {
   min-width: 0;
 }
 
-/* --- Blog rail ------------------------------------------------------------ */
+/* --- Blog rail (desktop) and strip (phones, tablets) ----------------------- */
 
-/* Below 1360px it sits in the column after Projects. From 1360px it moves into
-   the right margin, top-aligned with the name, so the column never shifts. */
+/* From 1360px the rail sits in the right margin, top-aligned with the name,
+   so the column never shifts. Below that it is hidden and the strip under the
+   links takes over. */
+.rail {
+  display: none;
+}
 @media (min-width: 1360px) {
   .rail {
+    display: block;
     position: absolute;
     top: 4px;
     left: calc(100% + 104px);
     width: 248px;
+  }
+  .blog-strip {
+    display: none;
   }
 }
 /* The rail's heading mirrors the column's: the rule fades in from the left. */
 .section-rule-r {
   background: linear-gradient(270deg, var(--rule-start), var(--rule-mid) 60%, transparent);
 }
+.rail-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.rail-more {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+/* A post card: every post gets the same image size. */
+.post-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.post-title {
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 150ms ease;
+}
+.post-card:hover .post-title,
+.post:hover .post-title {
+  text-decoration-color: var(--rule-start);
+}
+.post-summary {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+/* Strip: full-bleed through the page padding, snaps card by card. */
+.blog-strip {
+  margin-top: 28px;
+}
+.strip-head {
+  margin-bottom: 12px;
+}
+.strip-all {
+  flex-shrink: 0;
+  padding: 10px 0 10px 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+}
+.strip-all:hover {
+  color: var(--text-2);
+}
+.strip {
+  display: flex;
+  gap: 12px;
+  margin: 0 -24px;
+  padding: 0 24px 4px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 24px;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.strip::-webkit-scrollbar {
+  display: none;
+}
+.strip > li {
+  flex: 0 0 236px;
+  scroll-snap-align: start;
+}
+.strip .post-title {
+  font-size: 14px;
+}
+
+/* /blog index rows. */
 .posts {
   display: flex;
   flex-direction: column;
@@ -382,11 +470,6 @@ a.card:focus-visible {
 .post {
   display: flex;
   border-bottom: 1px solid var(--card-border);
-}
-.post-latest {
-  flex-direction: column;
-  gap: 4px;
-  padding-bottom: 18px;
 }
 .post-row {
   align-items: center;
@@ -399,34 +482,8 @@ a.card:focus-visible {
   gap: 2px;
   min-width: 0;
 }
-.post-title {
-  font-weight: 500;
-  line-height: 1.35;
-  color: var(--text);
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  text-decoration-color: transparent;
-  transition: text-decoration-color 150ms ease;
-}
 .post-row .post-title {
   font-size: 14px;
-}
-.post:hover .post-title {
-  text-decoration-color: var(--rule-start);
-}
-.post-summary {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text-2);
-}
-.rail-more {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 10px 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-3);
 }
 
 /* Post image: the cover if the post has one, else the band's lit squares. */
@@ -448,10 +505,10 @@ a.card:focus-visible {
   height: 4px;
   background: color-mix(in srgb, var(--sq) var(--a), transparent);
 }
-.art-cover {
+.art-card {
   width: 100%;
-  height: 120px;
-  margin-bottom: 10px;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 8px;
 }
 .art-thumb {
   width: 56px;

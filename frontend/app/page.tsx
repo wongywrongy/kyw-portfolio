@@ -5,7 +5,7 @@ import { getPosts } from '@/lib/posts'
 import { Backdrop } from '@/components/backdrop'
 import { ActivityCard } from '@/components/activity'
 import { Section } from '@/components/section'
-import { BlogRail } from '@/components/blog-rail'
+import { BlogRail, BlogStrip } from '@/components/blog-rail'
 
 export default function Home() {
   const posts = getPosts()
@@ -53,6 +53,8 @@ export default function Home() {
               ))}
             </nav>
           )}
+
+          <BlogStrip posts={posts} />
 
           <ActivityCard />
         </header>

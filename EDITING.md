@@ -43,7 +43,7 @@ Project, in `content/projects.json`:
 
 Profile photo: set `avatar` in `content/site.json` to an image path, or leave it empty for none.
 
-Posts are `content/posts/<slug>.md` and show at `/blog/<slug>`; see `content/how-to-write-a-post.mdx`. The homepage shows the newest five in the Blog rail, with an "All posts" link to `/blog` once there are more.
+Posts are `content/posts/<slug>.md` and show at `/blog/<slug>`; see `content/how-to-write-a-post.mdx`. On desktop the homepage shows the newest five in the right-hand Blog rail; on phones and tablets they appear as a swipeable row under the links. Both link to `/blog` for the full list.
 
 ## Link a job or project
 
