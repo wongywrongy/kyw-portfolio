@@ -572,14 +572,6 @@ a.card:focus-visible {
     font-size: 30px;
   }
 }
-.post-cover {
-  display: block;
-  width: 100%;
-  aspect-ratio: 2 / 1;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid var(--card-border);
-}
 
 /* Post body: IBM Plex Sans for reading, Geist for headings,
    Geist Mono for code. Nothing is set in italics. */
