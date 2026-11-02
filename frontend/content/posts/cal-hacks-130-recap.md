@@ -10,7 +10,7 @@ draft: false
 
 > "Great things in business are never done by one person. They're done by a team of people." - Steve Jobs
 
-I woke up at 8 a.m. on Friday, picked up my team, and drove to the Palace of Fine Arts in San Francisco. Over the next three days, my team built an AI cybersecurity platform, I won a cybersecurity challenge, and we placed 7th in a Scrabble bot tournament with a 29-weight model, and ended up at a Z Fellows meetup through a random QR code.
+I woke up at 8 a.m. on Friday, picked up my team, and drove to the Palace of Fine Arts in San Francisco. Over the next three days, my team built an AI cybersecurity platform, I won a cybersecurity challenge, and we placed 7th in a Scrabble bot tournament, and ended up at a Z Fellows meetup with Cory Levy.
 
 ![Hackers working inside the Cal Hacks 13.0 venue.](/images/calhacks.jpg)
 
