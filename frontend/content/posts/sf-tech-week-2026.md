@@ -3,7 +3,7 @@ title: SF Tech Week 2026
 date: 2026-10-23
 summary: Great events, great people
 cover: /images/cover.jpg
-draft: true
+draft: false
 ---
 ## Nebius x NVIDIA Builders & Brews
 
