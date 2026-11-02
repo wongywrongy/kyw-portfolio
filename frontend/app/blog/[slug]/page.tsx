@@ -55,7 +55,7 @@ export default async function PostPage({ params }: Props) {
             {formatLongDate(post.date)} · {post.readingTime} min read
           </p>
         </header>
-        {post.cover && (
+        {post.cover && !post.coverInBody && (
           // eslint-disable-next-line @next/next/no-img-element -- static export, images are unoptimized anyway
           <img
             src={post.cover}
