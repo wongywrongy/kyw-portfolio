@@ -1,6 +1,6 @@
 ---
 title: Cal Hacks 13.0 Recap
-date: 2026-10-31
+date: 2026-11-01
 summary: Drones, scrabble, and algorithms
 cover: /images/palace.jpg
 draft: false
