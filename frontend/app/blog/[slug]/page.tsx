@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url,
       type: 'article',
       publishedTime: post.date,
+      ...(post.image ? { images: [post.image] } : {}),
     },
   }
 }
@@ -55,15 +56,6 @@ export default async function PostPage({ params }: Props) {
             {formatLongDate(post.date)} · {post.readingTime} min read
           </p>
         </header>
-        {post.cover && !post.coverInBody && (
-          // eslint-disable-next-line @next/next/no-img-element -- static export, images are unoptimized anyway
-          <img
-            src={post.cover}
-            alt=""
-            className="post-cover fade-up mt-10"
-            style={{ '--i': 1 } as React.CSSProperties}
-          />
-        )}
         <div className="fade-up prose-post mt-10" style={{ '--i': 1 } as React.CSSProperties}>
           <Mdx source={post.content} format={post.format} />
         </div>
