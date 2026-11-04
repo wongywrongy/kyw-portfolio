@@ -5,7 +5,7 @@ summary: Drones, scrabble, and algorithms
 cover: /images/palace.jpg
 draft: false
 ---
-# Cal Hacks 13.0
+## Cal Hacks 13.0
 
 > "Great things in business are never done by one person. They're done by a team of people." - Steve Jobs
 
@@ -19,7 +19,7 @@ The venue was amazing, and there were so many great people. I met students from 
 
 It was also great to see a lot of familiar faces at the world's largest collegiate hackathon.
 
-# Our project
+## Our project
 
 > "In the age of AI, time is the enemy of enterprise cybersecurity; the old assumption that organizations have time to detect and address vulnerabilities is now obsolete." - McKinsey & Company
 
@@ -29,7 +29,7 @@ That became Sudo-KO. In our demo, an attacking swarm targets a fleet of 200 dron
 
 We didn't win, but it was my first submission in a cybersecurity related track. Talking with the teams at SpacetimeDB, Armadin, and Bitdeer was a highlight too as they really appreciated the relevance in our submission.
 
-# Scrabble algorithms
+## Scrabble algorithms
 
 SpacetimeDB ran a Scrabble bot competition alongside the main event. There was so much tense comradery and we made friends from other teams just talking about mixed strategies. My team tested four approaches:
 
@@ -40,7 +40,7 @@ SpacetimeDB ran a Scrabble bot competition alongside the main event. There was s
 
 Linear regression performed best, so we shipped two models, Triplo and Doppio. They placed 7th out of a few hundred in the final tournament. Our result was surprising. Many of the teams near the top trained statistical models on DGX Sparks and GPU clusters, while our best model had only 29 weights with iterative training.
 
-# Z Fellows Meetup
+## Z Fellows Meetup
 
 Yet, the best conversation of the weekend wasn't even on the schedule.
 
