@@ -48,7 +48,7 @@
     "name": "Yunavero",
     "description": "Tournament operations software for badminton, used for events between SJSU, UC Berkeley, UCSC and Stanford.",
     "stack": [
-      "OR-Tools ",
+      "OR-Tools",
       "FastAPI",
       "React",
       "Python",
