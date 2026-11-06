@@ -1,6 +1,6 @@
 # Deploying
 
-The site is one container: nginx serving the files `next build` exports. Compose runs it on neo and the Cloudflare Tunnel points at `127.0.0.1:8080`.
+`next build` exports plain files. `deploy/deploy.sh` builds them with Docker into `releases/<timestamp>-<commit>/` and flips the `releases/current` symlink to the new build in one rename. A stock nginx container (compose service `web`) serves `releases/current` the whole time and gets a graceful reload, so a deploy never has a moment with nothing serving: no 502s through the Cloudflare Tunnel. The tunnel points at `127.0.0.1:8080`.
 
 ## Deploy
 
@@ -39,24 +39,31 @@ Same script the listener runs:
 ./deploy/deploy.sh --fresh    # same, without Docker's cache
 ```
 
-Only one deploy runs at a time; a second one waits for the first. A failed build stops before the running container is touched, so the site stays on the previous version.
+Only one deploy runs at a time; a second one waits for the first. A failed build never touches `releases/current`, so the site stays on the previous version. The newest five builds are kept.
 
-## One-time cleanup (moving from the CMS setup)
-
-Before the first `up` on the new version, remove the old containers:
+### Roll back
 
 ```bash
-docker compose down --remove-orphans
-docker compose up -d --build
+./deploy/deploy.sh --rollback   # previous build; run again to go further back
 ```
 
-Once the new site is confirmed, drop the old database volume. It held no real content:
+Instant, no rebuild. The next push to `main` deploys normally again; to stay on the old version, revert the bad commit on GitHub instead.
+
+## One-time switch to zero-downtime deploys
+
+The first deploy of this setup has to run the new `deploy.sh` by hand (the webhook would still be running the old one when it pulls the change):
 
 ```bash
-docker volume rm wongworks_mongo-data
+sudo systemctl stop wongworks-webhook
+# merge the PR on GitHub, then:
+cd /opt/stacks/wongworks
+git pull
+./deploy/deploy.sh
+sudo systemctl start wongworks-webhook
+docker image rm wongworks-web 2>/dev/null || true   # the old site image, no longer used
 ```
 
-The old `.env` values `PAYLOAD_SECRET` and `TAILNET_IP` are no longer read and can be deleted. The tailnet-only admin listener on 8081 is gone.
+That deploy recreates the `web` container once (a second of downtime, the last one). Every deploy after it is a symlink swap plus a graceful reload.
 
 ## Check it
 
@@ -73,4 +80,4 @@ journalctl -u wongworks-webhook -f  # webhook deliveries and deploys
 docker compose logs -f web          # nginx
 ```
 
-To roll back, revert the bad commit on GitHub (Revert button on the PR, or `git revert` and push). The revert deploys like any other push. A plain `git checkout <old>` on neo won't stick: the next deploy fast-forwards back to `main`. To pause automatic deploys: `sudo systemctl stop wongworks-webhook`.
+For a quick rollback use `./deploy/deploy.sh --rollback` (above). For a lasting one, revert the bad commit on GitHub; the revert deploys like any other push. To pause automatic deploys: `sudo systemctl stop wongworks-webhook`.
