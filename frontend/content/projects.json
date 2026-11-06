@@ -24,11 +24,25 @@
   },
   {
     "name": "SpecCheck (Nebius x NVIDIA Global AI Hackathon)",
-    "description": "AI submittal reviewer that checks construction product sheets against the spec and tells you what to send instead."
+    "description": "AI submittal reviewer that checks construction product sheets against the spec and tells you what to send instead.",
+    "stack": [
+      "Python",
+      "React",
+      "NVIDIA Nemotron",
+      "Nebius AI Cloud",
+      "Tavily"
+    ]
   },
   {
     "name": "Rally (PayPal AI Hackathon)",
-    "description": "A marketplace where AI shop agents bid for your order, capped at the price you approved in PayPal."
+    "description": "A marketplace where AI shop agents bid for your order, capped at the price you approved in PayPal.",
+    "stack": [
+      "Python",
+      "React",
+      "Paypal API",
+      "Render",
+      "Multi Agent Systems"
+    ]
   },
   {
     "name": "Yunavero",
