@@ -23,6 +23,14 @@
     "href": "https://sfhacks26.vercel.app/"
   },
   {
+    "name": "SpecCheck (Nebius x NVIDIA Global AI Hackathon)",
+    "description": "AI submittal reviewer that checks construction product sheets against the spec and tells you what to send instead."
+  },
+  {
+    "name": "Rally (PayPal AI Hackathon)",
+    "description": "A marketplace where AI shop agents bid for your order, capped at the price you approved in PayPal."
+  },
+  {
     "name": "Yunavero",
     "description": "Tournament operations software for badminton, used for events between SJSU, UC Berkeley, UCSC and Stanford.",
     "stack": [
