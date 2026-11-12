@@ -6,15 +6,15 @@
     "logo": "/images/build.jpg"
   },
   {
-    "company": "JK Baker Construction",
-    "role": "Software Engineer Intern",
-    "period": "Jun 2024 to Aug 2024",
-    "logo": "/images/jkbconstruction.png"
-  },
-  {
     "company": "Spartan Racing",
     "role": "Junior Software Engineer",
     "period": "Aug 2025 to Mar 2026",
     "logo": "/images/spartanracing.png"
+  },
+  {
+    "company": "JK Baker Construction",
+    "role": "Software Engineer Intern",
+    "period": "Jun 2024 to Aug 2024",
+    "logo": "/images/jkbconstruction.png"
   }
 ]

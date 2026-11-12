@@ -10,10 +10,11 @@
   --text-3: #737373;
   --card: #fafafa;
   --card-border: #ebebeb;
-  --card-border-hover: #d4d4d4;
   /* Glass surface for every card: translucent over the dot field, hairline
      border, a lit top edge and a soft drop shadow. */
   --surface: rgba(255, 255, 255, 0.72);
+  /* Cards sit on the page, so they get the opaque equivalent and skip the blur. */
+  --surface-solid: #ffffff;
   --surface-border: rgba(0, 0, 0, 0.07);
   --surface-border-hover: rgba(0, 0, 0, 0.14);
   --surface-shadow:
@@ -25,6 +26,7 @@
   --rule-mid: #e5e5e5;
   --dot: rgba(0, 0, 0, 0.05);
   --accent: #3b7ddd;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --warm: #c98a2e;
 
   --sh-class: #1d6f8f;
@@ -49,8 +51,8 @@
   --text-3: #8b8b8b;
   --card: #0c0c0c;
   --card-border: #1a1a1a;
-  --card-border-hover: #2a2a2a;
   --surface: rgba(255, 255, 255, 0.03);
+  --surface-solid: #111111;
   --surface-border: rgba(255, 255, 255, 0.08);
   --surface-border-hover: rgba(255, 255, 255, 0.16);
   --surface-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 16px 40px -20px rgba(0, 0, 0, 0.7);
@@ -87,6 +89,22 @@
 html {
   background: var(--bg);
   -webkit-text-size-adjust: 100%;
+  /* Press feedback comes from the :active states below, not the browser's flash. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+/* Set for one frame by the theme toggle so the whole page switches at once
+   instead of some parts easing behind the rest. */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
 }
 
 body {
@@ -127,7 +145,7 @@ body {
   text-decoration-color: var(--rule-start);
   transition: text-decoration-color 150ms ease;
 }
-.link:hover {
+.link:active {
   text-decoration-color: var(--text);
 }
 
@@ -149,11 +167,18 @@ body {
   color: var(--text-2);
   transition:
     color 150ms ease,
-    border-color 150ms ease;
+    border-color 150ms ease,
+    transform 160ms var(--ease-out);
 }
-.theme-toggle:hover {
-  color: var(--text);
-  border-color: var(--surface-border-hover);
+/* Invisible hitbox: the button draws at 36px but takes taps at 44px. */
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+}
+.theme-toggle:active {
+  transform: scale(0.97);
 }
 
 /* --- Homepage ------------------------------------------------------------ */
@@ -198,6 +223,28 @@ body {
   height: 4px;
   background: color-mix(in srgb, var(--sq) var(--a), transparent);
   animation: flick 4s steps(1, end) infinite;
+}
+/* The band is laid out 3200px wide. Squares past the viewport are removed
+   (display: none also stops their animation) instead of animating clipped. */
+.sq-b1,
+.sq-b2,
+.sq-b3 {
+  display: none;
+}
+@media (min-width: 640px) {
+  .sq-b1 {
+    display: block;
+  }
+}
+@media (min-width: 1280px) {
+  .sq-b2 {
+    display: block;
+  }
+}
+@media (min-width: 1920px) {
+  .sq-b3 {
+    display: block;
+  }
 }
 .sq-accent {
   --sq: var(--accent);
@@ -260,13 +307,13 @@ body {
   padding: 16px 18px;
   border: 1px solid var(--surface-border);
   border-radius: var(--radius);
-  background: var(--surface);
+  position: relative;
+  isolation: isolate;
+  background: var(--surface-solid);
   box-shadow: var(--surface-shadow);
-  -webkit-backdrop-filter: blur(8px) saturate(1.2);
-  backdrop-filter: blur(8px) saturate(1.2);
   transition:
     border-color 200ms ease,
-    transform 200ms ease;
+    transform 160ms var(--ease-out);
   --x: 50%;
   --y: 50%;
 }
@@ -276,16 +323,25 @@ body {
 .card-warm {
   --tint: var(--warm);
 }
-/* Spotlight: --x/--y come from the pointer (components/card.tsx). */
-@media (hover: hover) {
-  .card-accent:hover,
-  .card-warm:hover {
-    background:
-      radial-gradient(260px circle at var(--x) var(--y), color-mix(in srgb, var(--tint) 15%, transparent), transparent 70%),
-      var(--surface);
-    border-color: var(--surface-border-hover);
-    transform: translateY(-1px);
-  }
+/* Only linked cards react. Spotlight: --x/--y come from the pointer
+   (components/card.tsx); it sits on its own layer so it can fade in and out. */
+a.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: calc(var(--radius) - 1px);
+  background: radial-gradient(
+    260px circle at var(--x) var(--y),
+    color-mix(in srgb, var(--tint) 15%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+a.card:active {
+  transform: scale(0.98);
 }
 a.card:focus-visible {
   outline: 2px solid var(--accent);
@@ -431,6 +487,10 @@ a.card:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: transform 160ms var(--ease-out);
+}
+.post-card:active {
+  transform: scale(0.98);
 }
 .post-title {
   font-weight: 500;
@@ -441,10 +501,6 @@ a.card:focus-visible {
   text-underline-offset: 4px;
   text-decoration-color: transparent;
   transition: text-decoration-color 150ms ease;
-}
-.post-card:hover .post-title,
-.post:hover .post-title {
-  text-decoration-color: var(--rule-start);
 }
 .post-summary {
   font-size: 13px;
@@ -466,9 +522,6 @@ a.card:focus-visible {
   font-size: 11px;
   color: var(--text-3);
 }
-.strip-all:hover {
-  color: var(--text-2);
-}
 .strip {
   display: flex;
   gap: 12px;
@@ -488,30 +541,6 @@ a.card:focus-visible {
   scroll-snap-align: start;
 }
 .strip .post-title {
-  font-size: 14px;
-}
-
-/* /blog index rows. */
-.posts {
-  display: flex;
-  flex-direction: column;
-}
-.post {
-  display: flex;
-  border-bottom: 1px solid var(--card-border);
-}
-.post-row {
-  align-items: center;
-  gap: 14px;
-  padding: 12px 0;
-}
-.post-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.post-row .post-title {
   font-size: 14px;
 }
 
@@ -540,11 +569,6 @@ a.card:focus-visible {
   aspect-ratio: 16 / 9;
   margin-bottom: 8px;
 }
-.art-thumb {
-  width: 56px;
-  height: 56px;
-  flex-shrink: 0;
-}
 .art-img {
   object-fit: cover;
   background: none;
@@ -554,9 +578,7 @@ a.card:focus-visible {
   filter: saturate(0.8) brightness(0.88);
 }
 /* Photos come up to full colour when their post is hovered or focused. */
-.dark .post-card:hover .art-img,
-.dark .post-card:focus-visible .art-img,
-.dark .post:hover .art-img {
+.dark .post-card:focus-visible .art-img {
   filter: none;
 }
 
@@ -626,9 +648,6 @@ a.card:focus-visible {
   display: flex;
   gap: 18px;
 }
-.footer a:hover {
-  color: var(--text);
-}
 
 /* /blog: the same cards as the homepage rail, in a grid. */
 .post-grid {
@@ -651,6 +670,49 @@ a.card:focus-visible {
 .fade-up {
   animation: fade-up 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* After the first load (components/entered.tsx) in-site navigation shows
+   pages straight away instead of replaying the entrance. */
+.entered .fade-up {
+  animation: none;
+}
+
+/* Hover styles only where there is a real pointer; on touch they stick after
+   a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    text-decoration-color: var(--text);
+  }
+  .theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--surface-border-hover);
+  }
+  a.card:hover {
+    border-color: var(--surface-border-hover);
+    transform: translateY(-1px);
+  }
+  a.card:hover::before {
+    opacity: 1;
+  }
+  a.card:active {
+    transform: scale(0.98);
+  }
+  .post-card:hover .post-title {
+    text-decoration-color: var(--rule-start);
+  }
+  .dark .post-card:hover .art-img {
+    filter: none;
+  }
+  .strip-all:hover {
+    color: var(--text-2);
+  }
+  .footer a:hover {
+    color: var(--text);
+  }
+  .prose-post a:hover {
+    text-decoration-color: var(--text);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -754,9 +816,6 @@ a.card:focus-visible {
   text-underline-offset: 4px;
   text-decoration-color: var(--text-3);
   transition: text-decoration-color 150ms ease;
-}
-.prose-post a:hover {
-  text-decoration-color: var(--text);
 }
 .prose-post :not(pre) > code {
   font-family: var(--font-mono);

@@ -19,6 +19,8 @@ function squares() {
     out.push({
       left: col * 10 + 6,
       top: row * 10 + 6,
+      // Which viewport width first shows this square (see .sq-b* in globals.css).
+      tier: col < 64 ? 0 : col < 128 ? 1 : col < 192 ? 2 : 3,
       warm: rand() < 0.18,
       alpha: ALPHAS[Math.floor(rand() * ALPHAS.length)],
       duration: (2 + rand() * 4).toFixed(2),
@@ -34,7 +36,7 @@ export function FlickerBand() {
       {squares().map((s) => (
         <span
           key={`${s.left}-${s.top}`}
-          className={`sq ${s.warm ? 'sq-warm' : 'sq-accent'}`}
+          className={`sq sq-b${s.tier} ${s.warm ? 'sq-warm' : 'sq-accent'}`}
           style={
             {
               left: s.left,

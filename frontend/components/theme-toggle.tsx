@@ -1,10 +1,28 @@
 'use client'
 
+import { useEffect } from 'react'
+
+// The browser chrome / status bar colour follows the page background.
+const THEME_COLOR = { dark: '#0a0a0a', light: '#ffffff' }
+
+function syncThemeColor() {
+  const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOR[theme])
+}
+
 export function ThemeToggle() {
+  // The meta tag is rendered for dark; fix it up if the visitor saved light.
+  useEffect(syncThemeColor, [])
+
   function toggle() {
     const root = document.documentElement
     const next = root.classList.contains('dark') ? 'light' : 'dark'
+    // Switch everything in one frame: transitions off, flip, flush, back on.
+    root.classList.add('theme-switching')
     root.classList.toggle('dark', next === 'dark')
+    syncThemeColor()
+    void window.getComputedStyle(root).opacity
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('theme-switching')))
     try {
       localStorage.setItem('theme', next)
     } catch {}
