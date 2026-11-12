@@ -6,6 +6,8 @@
 // - Re-encodes JPEG/WebP at quality 80 and PNG losslessly.
 // - Keeps the original bytes whenever the result isn't smaller.
 // - SVG and GIF are left alone.
+// - Every other image also gets a THUMB_WIDTH copy, name.thumb.ext, which post
+//   cards use (lib/images.ts) instead of the full-size file.
 // - The profile photo (`avatar` in content/site.json) is cropped to a small square.
 // - Work logos (the `logo` paths in content/work.json) are trimmed of their
 //   surrounding whitespace and padded to a square, so a wordmark fills its
@@ -17,6 +19,7 @@ import sharp from 'sharp'
 
 const DIR = path.join(process.cwd(), 'out', 'images')
 const MAX_WIDTH = 1600
+const THUMB_WIDTH = 640 // post cards show at 236-430px
 const WARN_BYTES = 1024 * 1024
 const LOGO_SIZE = 256 // px; tiles show at 56px, so this covers 3x screens
 const LOGO_PAD = 0.08 // margin around the trimmed logo, as a share of the tile
@@ -82,9 +85,25 @@ async function* walk(dir) {
   }
 }
 
+/** name.thumb.ext beside the image. Falls back to a plain copy so the path always exists. */
+async function writeThumb(file, input, ext) {
+  const out = file.replace(/\.(jpe?g|png|webp)$/i, '.thumb.$1')
+  try {
+    let img = sharp(input, { failOn: 'none' }).rotate().resize({ width: THUMB_WIDTH, withoutEnlargement: true })
+    if (ext === '.png') img = img.png({ compressionLevel: 9, effort: 8 })
+    else if (ext === '.webp') img = img.webp({ quality: 78 })
+    else img = img.jpeg({ quality: 78, mozjpeg: true })
+    const output = await img.toBuffer()
+    await fs.writeFile(out, output.length < input.length ? output : input)
+  } catch {
+    await fs.writeFile(out, input)
+  }
+}
+
 async function optimize(file, logos) {
   const ext = path.extname(file).toLowerCase()
   if (!['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) return null
+  if (/\.thumb\.[a-z]+$/i.test(file)) return null
 
   const input = await fs.readFile(file)
   if (file === avatar) {
@@ -104,6 +123,7 @@ async function optimize(file, logos) {
     await fs.writeFile(file, output)
     return { file, before: input.length, after: output.length, logo: true }
   }
+  await writeThumb(file, input, ext)
   let img = sharp(input, { failOn: 'none' }).rotate() // apply EXIF orientation
   const { width = 0 } = await img.metadata()
   if (width > MAX_WIDTH) img = img.resize({ width: MAX_WIDTH, withoutEnlargement: true })

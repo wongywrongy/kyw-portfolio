@@ -1,5 +1,6 @@
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { highlight } from 'sugar-high'
+import { imageSize } from '@/lib/images'
 
 function Code({ className, children, ...props }: React.ComponentProps<'code'>) {
   // Fenced blocks arrive with a language-* class; inline code does not.
@@ -18,9 +19,12 @@ function Code({ className, children, ...props }: React.ComponentProps<'code'>) {
   )
 }
 
-function Img({ alt, ...props }: React.ComponentProps<'img'>) {
+async function Img({ alt, src, ...props }: React.ComponentProps<'img'>) {
+  // Width and height let the browser hold the image's space, so the text
+  // below doesn't jump when it loads.
+  const size = typeof src === 'string' ? await imageSize(src) : undefined
   // eslint-disable-next-line @next/next/no-img-element
-  return <img alt={alt ?? ''} loading="lazy" {...props} />
+  return <img alt={alt ?? ''} src={src} loading="lazy" decoding="async" {...size} {...props} />
 }
 
 /**

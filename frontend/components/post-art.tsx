@@ -1,4 +1,5 @@
 import { prng, hash } from '@/lib/prng'
+import { thumb } from '@/lib/images'
 
 const ALPHAS = ['25%', '45%', '70%', '100%']
 
@@ -25,7 +26,7 @@ export function PostArt({
   if (cover) {
     return (
       // eslint-disable-next-line @next/next/no-img-element -- static export, images are unoptimized anyway
-      <img src={cover} alt="" loading="lazy" className={`art art-img ${className}`} />
+      <img src={thumb(cover)} alt="" loading="lazy" decoding="async" className={`art art-img ${className}`} />
     )
   }
 

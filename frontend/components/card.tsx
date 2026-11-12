@@ -11,7 +11,8 @@ function onPointerMove(e: React.PointerEvent<HTMLElement>) {
 
 /**
  * A work or project card. With `href` the whole card is a link; paths stay in
- * the tab, full URLs open a new one. Without one it is a plain block.
+ * the tab, full URLs open a new one. Without one it is a plain block with no
+ * hover or press response, so it doesn't look clickable.
  */
 export function Card({
   href,
@@ -22,8 +23,9 @@ export function Card({
   tone: 'accent' | 'warm'
   children: React.ReactNode
 }) {
-  const props = { className: `card card-${tone}`, onPointerMove }
-  if (!href) return <div {...props}>{children}</div>
+  const className = `card card-${tone}`
+  if (!href) return <div className={className}>{children}</div>
+  const props = { className, onPointerMove }
   if (href.startsWith('/')) {
     return (
       <Link href={href} {...props}>

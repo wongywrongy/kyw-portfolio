@@ -5,6 +5,7 @@ import { GeistMono } from 'geist/font/mono'
 // Self-hosted from npm; the browser only downloads it on pages that use it.
 import '@fontsource-variable/ibm-plex-sans/wght.css'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Entered } from '@/components/entered'
 import { site } from '@/content/site'
 import './globals.css'
 
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeToggle />
+        <Entered />
         <main>{children}</main>
       </body>
     </html>
