@@ -1,6 +1,8 @@
-# Builds the site image and pushes it to GitHub's container registry, for the
-# K3s cluster. Separate from the webhook deploy in deploy/, which rebuilds on
-# the host itself and does not use this image.
+# Builds the site image and pushes it to GitHub's container registry, then
+# deploys it to the K3s cluster (portfolio-staging.avlis.dev) by committing the
+# new tag to wongywrongy/homelab-ansible, where Argo CD picks it up. Separate
+# from the webhook deploy in deploy/, which rebuilds on the host itself and does
+# not use this image.
 name: image
 
 on:
@@ -46,3 +48,39 @@ jobs:
           # stored in an image layer.
           secrets: |
             github_token=${{ secrets.GITHUB_TOKEN }}
+
+      # Deploy: point kubernetes/portfolio/deployment.yaml in homelab-ansible at
+      # this image. Argo CD rolls it out. The key is a deploy key with write
+      # access to that repo only (create-deploy-key.sh there). To roll back,
+      # revert the commit this makes in homelab-ansible.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: wongywrongy/homelab-ansible
+          ssh-key: ${{ secrets.HOMELAB_ANSIBLE_DEPLOY_KEY }}
+          path: homelab-ansible
+          persist-credentials: true
+
+      - name: Commit the new image tag to homelab-ansible
+        working-directory: homelab-ansible
+        env:
+          IMAGE: ghcr.io/wongywrongy/kyw-portfolio:${{ github.sha }}
+          SHA: ${{ github.sha }}
+        run: |
+          file=kubernetes/portfolio/deployment.yaml
+          sed -i -E "s#(image: )ghcr\.io/wongywrongy/kyw-portfolio:[0-9a-f]{40}#\1${IMAGE}#" "$file"
+          if git diff --quiet; then
+            echo "Already on ${IMAGE}; nothing to commit."
+            exit 0
+          fi
+          # Exactly one line may change.
+          [ "$(git diff --numstat | awk '{print $1+$2}')" = 2 ]
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -qam "Deploy portfolio ${SHA:0:12}" \
+            -m "https://github.com/wongywrongy/kyw-portfolio/commit/${SHA}"
+          for i in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull -q --rebase origin main
+          done
+          exit 1
+
