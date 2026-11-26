@@ -89,7 +89,7 @@ export default function Home() {
 
         <footer className="footer fade-up" style={{ '--i': 4 } as React.CSSProperties}>
           <p>
-            © {new Date().getFullYear()} {site.name} · Deployed by Argo CD
+            © {new Date().getFullYear()} {site.name}
           </p>
           <nav aria-label="Footer">
             {posts.length > 0 && <Link href="/blog">Blog</Link>}
